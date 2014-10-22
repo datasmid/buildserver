@@ -1,0 +1,26 @@
+---
+- name: 'list plugins'
+  sudo: yes
+  shell: java -jar {{jenkins_cli}} -s http://localhost:8080 list-plugins | cut -f 1 -d ' '
+  when: plugins is defined
+  register: plugins_installed
+
+- name: 'install/update plugins'
+  sudo: yes
+  command: java -jar {{jenkins_cli}}  -s http://localhost:8080 install-plugin {{ item }}
+  when: plugins_installed.changed and plugins_installed.stdout.find('{{ item }}') == -1
+  with_items: plugins
+  notify:
+    - 'restart jenkins'
+
+- name: 'list plugins to be updated'
+  sudo: yes
+  shell: java -jar {{jenkins_cli}}  -s http://localhost:8080 list-plugins | grep ')$' | cut -f 1 -d ' ' | sed ':a;N;$!ba;s/\n/ /g'
+  register: plugins_updates
+
+- name: 'update plugins'
+  sudo: yes
+  command: java -jar {{jenkins_cli}}  -s http://localhost:8080 install-plugin {{ plugins_updates.stdout }}
+  when: plugins_updates.stdout != ''
+  notify:
+    - 'restart jenkins'

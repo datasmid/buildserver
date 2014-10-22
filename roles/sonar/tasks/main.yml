@@ -1,0 +1,12 @@
+---
+# Add sonar repository
+- include: repo.yml
+
+# Install dependencies
+- include: dependencies.yml
+
+# Install/update jenkins plugins
+- include: plugins.yml
+
+# Run configuration
+- include: config.yml

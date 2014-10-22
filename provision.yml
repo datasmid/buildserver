@@ -1,0 +1,19 @@
+---
+- name: Install 
+  hosts: all
+  user: root
+  remote_user: vagrant
+  sudo: yes
+
+  roles:
+    - common
+
+#    - mysql
+    - postgres
+
+    - gitblit
+
+    - jenkins 
+
+    - sonar
+

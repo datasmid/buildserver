@@ -1,0 +1,46 @@
+---
+features:
+  maven: True
+  gradle: True
+  ant: True
+  gitblit: True
+  system_auth: False
+
+plugins:
+  - 'analysis-collector'
+  - 'analysis-core' # for findbugs
+  - 'artifactory'
+  - 'checkstyle'
+  - 'dry'
+  - 'findbugs'
+  - 'git-client'
+  - 'jacoco'
+  - 'jobConfigHistory'
+  - 'pmd'
+  - 'violations'
+
+maven_tarfile: apache-maven-3.2.3-bin.tar.gz
+maven_url: http://ftp.nluug.nl/internet/apache/maven/maven-3/3.2.3/binaries/{{maven_tarfile}}
+maven_home: /opt/maven/apache-maven-3.2.3
+
+gradle_zipfile: gradle-2.1-all.zip
+gradle_url: https://services.gradle.org/distributions/{{gradle_zipfile}}
+
+ant_tarfile: apache-ant-1.9.4-bin.tar.gz
+ant_url: http://ftp.tudelft.nl/apache/ant/binaries/{{ant_tarfile}}
+
+jenkins_base_url: 'http://pkg.jenkins-ci.org/redhat'
+jenkins_data: "/data/jenkins"
+jenkins_home: "/var/lib/jenkins"
+jenkins_cli: '{{ jenkins_data }}/jenkins-cli.jar' # Jenkins CLI execulable
+updates_dest: '{{ jenkins_data }}/updates_jenkins.json' # Jenkins updates
+jenkins_repo: "jenkins.repo"
+jenkins_pubkey: "{{jenkins_base_url}}/jenkins-ci.org.key"
+jenkins_phrase: "ask_devops"
+
+rpm_dependencies:
+  - 'java-1.7.0-openjdk'
+  - 'jenkins'
+  - 'curl'
+  - 'unzip'
+

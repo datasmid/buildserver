@@ -1,0 +1,20 @@
+---
+- name: 'make sure directory exists for gitblit'
+  file: dest=/opt/gitblit state=directory mode=0755
+  when: features.gitblit
+  
+- name: 'download gitblit'
+  get_url: url={{gitblit_url}} dest=/tmp
+  retries: 3
+  when: features.gitblit
+
+- name: 'untar gitblit'
+  command: tar xfz /tmp/{{gitblit_tarfile}} -C /opt/gitblit 
+  when: features.gitblit
+
+- name: 'make sure gitblit directory is absent'
+  file: dest=/opt/gitblit state=absent
+  when: not features.gitblit
+
+- name: 'cleanup gitblit download'
+  file: dest=/tmp/{{gitblit_tarfile}} state=absent

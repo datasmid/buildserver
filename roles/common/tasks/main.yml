@@ -1,0 +1,12 @@
+---
+# Allow managing under SELinux
+- name: 'Add EPEL yum repo'
+  yum: state=present 
+       name=http://mirror.i3d.net/pub/fedora-epel/6/i386/epel-release-6-8.noarch.rpm
+       
+- name: 'Install python packages for Ansible'
+  yum: name={{ item }} state=present
+  with_items:
+   - libselinux-python
+   - libsemanage-python
+   - python-httplib2

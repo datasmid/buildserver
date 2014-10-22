@@ -1,0 +1,9 @@
+---
+mysql_packages:
+  - mysql
+  - perl-DBD-MySQL
+  - MySQL-python
+  - rsync
+  - mysql-server
+# You shouldn't need to change this.
+mysql_port: 3306

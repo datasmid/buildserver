@@ -1,0 +1,72 @@
+---
+- name: 'make sure rpm_dependencies are installed'
+  yum: name={{item}} state=installed
+  when: ansible_os_family == "RedHat"
+  register: installed
+  retries: 3
+  with_items: rpm_dependencies
+
+- name: 'install software group "Development tools"'
+  yum: name="@Development tools" state=present
+  retries: 3
+  when: ansible_os_family == "RedHat"
+
+- name: 'make sure directory exists for maven'
+  file: dest=/opt/maven state=directory mode=0755
+  when: features.maven
+  
+- name: 'download maven'
+  get_url: url={{maven_url}} dest=/tmp
+  retries: 3
+  when: features.maven
+
+- name: 'untar maven'
+  command: tar xfz /tmp/{{maven_tarfile}} -C /opt/maven 
+  when: features.maven
+
+- name: 'make sure maven directory is absent'
+  file: dest=/opt/maven state=absent
+  when: not features.maven
+
+- name: 'cleanup maven download'
+  file: dest=/tmp/{{maven_tarfile}} state=absent
+
+- name: 'make sure directory exists for Gradle'
+  file: dest=/opt/gradle state=directory mode=0755
+  when: features.gradle
+  
+- name: 'download Gradle'
+  get_url: url={{gradle_url}} dest=/tmp
+  retries: 3
+  when: features.gradle
+  
+- name: 'unzip Gradle'
+  command: unzip -o  /tmp/{{gradle_zipfile}} -d /opt/gradle creates=/opt/gradle
+  when: features.gradle
+
+- name: 'cleanup Gradle download'
+  file: dest=/tmp/{{gradle_zipfile}} state=absent
+  
+- name: 'make sure Gradle directory is absent'
+  file: dest=/opt/gradle state=absent
+  when: not features.gradle
+
+- name: 'make sure directory exists for Ant'
+  file: dest=/opt/ant state=directory mode=0755
+  when: features.ant
+  
+- name: 'download Ant'
+  get_url: url={{ant_url}} dest=/tmp
+  retries: 3
+  when: features.ant
+  
+- name: 'untar Ant'
+  command: tar xfz /tmp/{{ant_tarfile}} -C /opt/ant creates=/opt/ant
+  when: features.ant
+
+- name: 'cleanup Ant download'
+  file: dest=/tmp/{{ant_tarfile}} state=absent
+  
+- name: 'make sure Ant directory is absent'
+  file: dest=/opt/ant state=absent
+  when: not features.ant

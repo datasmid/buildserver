@@ -1,0 +1,26 @@
+---
+features:
+  mysql: False
+  postgresql: True
+
+sonar_username: 'sonar'
+sonar_password: 'p&55W0^8'
+
+sonar_repo: 'http://downloads.sourceforge.net/project/sonar-pkg/rpm/sonar.repo'
+
+sonar_dependencies:
+  - 'java-1.7.0-openjdk'
+  - 'sonar'
+  - 'python-psycopg2'
+  - 'python-psycopg2-doc'
+
+sonar_plugins:
+  - 'http://repository.codehaus.org/org/codehaus/sonar-plugins/sonar-build-breaker-plugin/1.1/sonar-build-breaker-plugin-1.1.jar'
+  - 'http://repository.codehaus.org/org/codehaus/sonar-plugins/sonar-jira-plugin/1.2/sonar-jira-plugin-1.2.jar'
+  - 'http://repository.codehaus.org/org/codehaus/sonar-plugins/sonar-ldap-plugin/1.4/sonar-ldap-plugin-1.4.jar'
+  - 'http://repository.codehaus.org/org/codehaus/sonar-plugins/sonar-motion-chart-plugin/1.7/sonar-motion-chart-plugin-1.7.jar'
+  - 'http://repository.codehaus.org/org/codehaus/sonar-plugins/sonar-quality-index-plugin/1.1.3/sonar-quality-index-plugin-1.1.3.jar'
+  - 'http://repository.codehaus.org/org/codehaus/sonar-plugins/sonar-technicaldebt-plugin/1.2.1/sonar-technicaldebt-plugin-1.2.1.jar'
+#  - 'http://repository.codehaus.org/org/codehaus/sonar-plugins/sonar-timeline-plugin/1.4/sonar-timeline-plugin-1.4.jar'
+#  - 'http://repository.codehaus.org/org/codehaus/sonar-plugins/sonar-total-quality-plugin/1.1/sonar-total-quality-plugin-1.1.jar'
+#  - 'http://repository.codehaus.org/org/codehaus/sonar-plugins/sonar-useless-code-tracker-plugin/1.0/sonar-useless-code-tracker-plugin-1.0.jar'

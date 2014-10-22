@@ -1,0 +1,18 @@
+---
+- name: 'init postgresql database'
+  command: service postgresql initdb creates=/var/lib/pgsql/data/postgresql.conf
+  when: ansible_os_family == "RedHat"
+
+- name: 'ensure postgresql is running automatically at boot'
+  command: chkconfig postgresql on
+  when: ansible_os_family == "RedHat"
+
+# And on top of that, authentication is needs md5
+- name: 'configure pg_hba.conf'
+  template: src=pg_hba.conf dest=/var/lib/pgsql/data/pg_hba.conf backup=on      
+  notify:
+    - restart postgresql
+  when: ansible_os_family == "RedHat"
+
+- name: 'make sure postgresql is started'
+  service: name=postgresql state=started

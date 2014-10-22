@@ -1,0 +1,19 @@
+---
+
+- name: 'create sonar database'
+  postgresql_db: name=sonar template='template0'
+                 encoding='UTF-8' 
+                 #lc_collate='en_EN.UTF-8' lc_ctype='en_EN.UTF-8'  
+  when: features.postgresql
+
+- name: 'create sonar user'
+  postgresql_user: db=sonar name='{{sonar_username}}' password='{{sonar_password}}'
+  when: features.postgresql
+
+- name: 'configure sonar.properties'
+  template: src=sonar.properties dest=/opt/sonar/conf/sonar.properties mode=644 backup=off      
+  when: ansible_os_family == "RedHat"
+
+- name: '(re)start sonar'
+  sudo: yes
+  service: name=sonar state=restarted
