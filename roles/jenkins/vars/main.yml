@@ -17,17 +17,22 @@ plugins:
   - 'jacoco'
   - 'jobConfigHistory'
   - 'pmd'
+  - 'scm-sync-configuration'
   - 'violations'
 
 maven_tarfile: apache-maven-3.2.3-bin.tar.gz
 maven_url: http://ftp.nluug.nl/internet/apache/maven/maven-3/3.2.3/binaries/{{maven_tarfile}}
 maven_home: /opt/maven/apache-maven-3.2.3
 
-gradle_zipfile: gradle-2.1-all.zip
-gradle_url: https://services.gradle.org/distributions/{{gradle_zipfile}}
-
 ant_tarfile: apache-ant-1.9.4-bin.tar.gz
 ant_url: http://ftp.tudelft.nl/apache/ant/binaries/{{ant_tarfile}}
+ant_home: /opt/ant/apache-ant-1.9.4
+
+gradle_zipfile: gradle-2.1-all.zip
+gradle_url: https://services.gradle.org/distributions/{{gradle_zipfile}}
+gradle_home: /opt/gradle/gradle-2.1
+
+
 
 jenkins_base_url: 'http://pkg.jenkins-ci.org/redhat'
 jenkins_data: "/data/jenkins"

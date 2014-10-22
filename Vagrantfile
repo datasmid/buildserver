@@ -21,6 +21,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
  config.vm.provision "ansible" do |ansible|
+    ansible.inventory_path = "ansible.ini"
     ansible.playbook = "provision.yml"
 #    ansible.verbose = "v"
     ansible.host_key_checking = "false"

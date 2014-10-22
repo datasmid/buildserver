@@ -4,7 +4,7 @@
   when: ansible_os_family == "RedHat"
 
 - name: 'ensure postgresql is running automatically at boot'
-  command: chkconfig postgresql on
+  service: name=postgresql enabled=yes
   when: ansible_os_family == "RedHat"
 
 # And on top of that, authentication is needs md5

@@ -14,15 +14,20 @@
 - name: 'make sure directory exists for maven'
   file: dest=/opt/maven state=directory mode=0755
   when: features.maven
-  
+
+- name: 'verify presence of maven'
+  stat: path={{maven_home}}/bin/mvn
+  register: mvn_installed
+  when: features.maven
+
 - name: 'download maven'
   get_url: url={{maven_url}} dest=/tmp
   retries: 3
-  when: features.maven
+  when: features.maven and not mvn_installed.stat.exists
 
 - name: 'untar maven'
   command: tar xfz /tmp/{{maven_tarfile}} -C /opt/maven 
-  when: features.maven
+  when: features.maven and not mvn_installed.stat.exists
 
 - name: 'make sure maven directory is absent'
   file: dest=/opt/maven state=absent
@@ -35,17 +40,28 @@
   file: dest=/opt/gradle state=directory mode=0755
   when: features.gradle
   
+- name: 'verify presence of Gradle'
+  stat: path={{gradle_home}}/bin/gradle
+  register: gradle_installed
+  when: features.gradle
+
 - name: 'download Gradle'
   get_url: url={{gradle_url}} dest=/tmp
   retries: 3
-  when: features.gradle
+  when: features.gradle and not gradle_installed.stat.exists
   
 - name: 'unzip Gradle'
-  command: unzip -o  /tmp/{{gradle_zipfile}} -d /opt/gradle creates=/opt/gradle
+  command: unzip -o  /tmp/{{gradle_zipfile}} -d /opt/gradle creates={{gradle_home}}
+  when: features.gradle
+
+- name: 'verify presence of Gradle download'
+  stat: path=/tmp/{{gitblit_tarfile}}
+  register: gradle_download
   when: features.gradle
 
 - name: 'cleanup Gradle download'
   file: dest=/tmp/{{gradle_zipfile}} state=absent
+  when: gradle_download.stat.exists
   
 - name: 'make sure Gradle directory is absent'
   file: dest=/opt/gradle state=absent
@@ -61,12 +77,18 @@
   when: features.ant
   
 - name: 'untar Ant'
-  command: tar xfz /tmp/{{ant_tarfile}} -C /opt/ant creates=/opt/ant
+  command: tar xfz /tmp/{{ant_tarfile}} -C /opt/ant creates={{ant_home}}
+  when: features.ant
+
+- name: 'verify presence of Ant download'
+  stat: path=/tmp/{{ant_tarfile}}
+  register: ant_download
   when: features.ant
 
 - name: 'cleanup Ant download'
   file: dest=/tmp/{{ant_tarfile}} state=absent
-  
+  when: ant_download.stat.exists
+
 - name: 'make sure Ant directory is absent'
   file: dest=/opt/ant state=absent
   when: not features.ant
