@@ -1,0 +1,24 @@
+---
+### Ant
+  
+- name: 'download Ant'
+  get_url: url={{ant_url}} dest=/tmp
+  retries: 3
+  when: features.ant
+  
+- name: 'untar Ant'
+  command: tar xfz /tmp/{{ant_tarfile}} -C {{jenkins_tools}} creates={{ant_home}}
+  when: features.ant
+
+- name: 'verify presence of Ant download'
+  stat: path=/tmp/{{ant_tarfile}}
+  register: ant_download
+  when: features.ant
+
+- name: 'cleanup Ant download'
+  file: dest=/tmp/{{ant_tarfile}} state=absent
+  when: ant_download.stat.exists
+
+- name: 'make sure Ant directory is absent'
+  file: dest={{ant_home}} state=absent
+  when: not features.ant

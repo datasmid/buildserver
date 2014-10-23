@@ -1,0 +1,26 @@
+---
+### Maven
+- name: 'verify presence of maven'
+  stat: path={{maven_home}}/bin/mvn
+  register: mvn_installed
+  when: features.maven
+
+- name: 'download maven'
+  get_url: url={{maven_url}} dest=/tmp
+  retries: 3
+  when: features.maven and not mvn_installed.stat.exists
+
+- name: 'untar maven'
+  command: tar xfz /tmp/{{maven_tarfile}} -C {{jenkins_tools}} 
+  when: features.maven and not mvn_installed.stat.exists
+
+- name: 'make sure jenkins ~/.m2 directory exists'
+  file: path={{jenkins_home}}/.m2 owner=jenkins group=jenkins mode=0750 state=directory
+  when: features.maven 
+  
+- name: 'cleanup maven download'
+  file: dest=/tmp/{{maven_tarfile}} state=absent
+
+- name: 'make sure maven directory is absent'
+  file: dest={{maven_home}} state=absent
+  when: not features.maven
