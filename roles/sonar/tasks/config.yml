@@ -14,6 +14,6 @@
   template: src=sonar.properties dest=/opt/sonar/conf/sonar.properties mode=644 backup=off      
   when: ansible_os_family == "RedHat"
 
-- name: '(re)start sonar'
+- name: 'make sure sonar is started'
   sudo: yes
-  service: name=sonar state=restarted
+  service: name=sonar state=started

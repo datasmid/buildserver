@@ -7,6 +7,8 @@ sonar_username: 'sonar'
 sonar_password: 'p&55W0^8'
 
 sonar_repo: 'http://downloads.sourceforge.net/project/sonar-pkg/rpm/sonar.repo'
+sonarrunner_zipfile: 'sonar-runner-dist-2.4.zip'
+sonarrunner_url: 'http://repo1.maven.org/maven2/org/codehaus/sonar/runner/sonar-runner-dist/2.4/sonar-runner-dist-2.4.zip'
 
 sonar_dependencies:
   - 'java-1.7.0-openjdk'

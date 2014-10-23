@@ -5,7 +5,10 @@
 # Install dependencies
 - include: dependencies.yml
 
-# Install/update jenkins plugins
+# Install sonar runner
+- include: runner.yml
+
+# Install sonar plugins
 - include: plugins.yml
 
 # Run configuration
