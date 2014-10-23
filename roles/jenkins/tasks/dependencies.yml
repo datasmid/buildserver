@@ -11,9 +11,11 @@
   retries: 3
   when: ansible_os_family == "RedHat"
 
-- name: 'make sure directory exists for maven'
-  file: dest=/opt/maven state=directory mode=0755
-  when: features.maven
+- name: 'make sure jenkins_data directory exists'
+  file: path={{jenkins_data}} owner=jenkins group=jenkins state=directory
+
+- name: 'make sure jenkins_tools directory exists'
+  file: path={{jenkins_tools}} owner=jenkins group=jenkins mode=0750 state=directory
 
 - name: 'verify presence of maven'
   stat: path={{maven_home}}/bin/mvn
@@ -26,20 +28,20 @@
   when: features.maven and not mvn_installed.stat.exists
 
 - name: 'untar maven'
-  command: tar xfz /tmp/{{maven_tarfile}} -C /opt/maven 
+  command: tar xfz /tmp/{{maven_tarfile}} -C {{jenkins_tools}} 
   when: features.maven and not mvn_installed.stat.exists
 
+- name: 'make sure jenkins ~/.m2 directory exists'
+  file: path={{jenkins_home}}/.m2 owner=jenkins group=jenkins mode=0750 state=directory
+  when: features.maven 
+
 - name: 'make sure maven directory is absent'
-  file: dest=/opt/maven state=absent
+  file: dest={{maven_home}} state=absent
   when: not features.maven
 
 - name: 'cleanup maven download'
   file: dest=/tmp/{{maven_tarfile}} state=absent
-
-- name: 'make sure directory exists for Gradle'
-  file: dest=/opt/gradle state=directory mode=0755
-  when: features.gradle
-  
+ 
 - name: 'verify presence of Gradle'
   stat: path={{gradle_home}}/bin/gradle
   register: gradle_installed
@@ -51,7 +53,7 @@
   when: features.gradle and not gradle_installed.stat.exists
   
 - name: 'unzip Gradle'
-  command: unzip -o  /tmp/{{gradle_zipfile}} -d /opt/gradle creates={{gradle_home}}
+  command: unzip -o  /tmp/{{gradle_zipfile}} -d {{jenkins_tools}} creates={{gradle_home}}
   when: features.gradle
 
 - name: 'verify presence of Gradle download'
@@ -64,12 +66,8 @@
   when: gradle_download.stat.exists
   
 - name: 'make sure Gradle directory is absent'
-  file: dest=/opt/gradle state=absent
+  file: dest={{gradle_home}} state=absent
   when: not features.gradle
-
-- name: 'make sure directory exists for Ant'
-  file: dest=/opt/ant state=directory mode=0755
-  when: features.ant
   
 - name: 'download Ant'
   get_url: url={{ant_url}} dest=/tmp
@@ -77,7 +75,7 @@
   when: features.ant
   
 - name: 'untar Ant'
-  command: tar xfz /tmp/{{ant_tarfile}} -C /opt/ant creates={{ant_home}}
+  command: tar xfz /tmp/{{ant_tarfile}} -C {{jenkins_tools}} creates={{ant_home}}
   when: features.ant
 
 - name: 'verify presence of Ant download'
@@ -90,5 +88,5 @@
   when: ant_download.stat.exists
 
 - name: 'make sure Ant directory is absent'
-  file: dest=/opt/ant state=absent
+  file: dest={{ant_home}} state=absent
   when: not features.ant

@@ -10,13 +10,7 @@
   
 - name: 'make sure /opt is o+rx'
   file: path=/opt mode=0755
-  
-- name: 'check if jenkins_data directory exists'
-  file: path={{jenkins_data}} owner=jenkins group=jenkins state=directory
-  
-- name: 'check if jenkins ~/.m2 directory exists'
-  file: path={{jenkins_home}}/.m2 owner=jenkins group=jenkins mode=0750 state=directory
-   
+    
 - name: 'add jenkins to group root for pam based authorization'
   shell: usermod -G root -a jenkins
   when: ansible_os_family == "RedHat" and features.system_auth
