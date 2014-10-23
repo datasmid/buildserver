@@ -15,7 +15,7 @@
   file: path={{jenkins_data}} owner=jenkins group=jenkins state=directory
 
 - name: 'make sure jenkins_tools directory exists'
-  file: path={{jenkins_tools}} owner=jenkins group=jenkins mode=0750 state=directory
+  file: path={{jenkins_tools}} owner=jenkins group=jenkins mode=0755 state=directory
 
 - name: 'verify presence of maven'
   stat: path={{maven_home}}/bin/mvn

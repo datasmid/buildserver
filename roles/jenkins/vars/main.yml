@@ -13,7 +13,8 @@ plugins:
   - 'checkstyle'
   - 'dry'
   - 'findbugs'
-  - 'git-client'
+  - 'git'
+  - 'gradle'
   - 'jacoco'
   - 'jobConfigHistory'
   - 'pmd'
@@ -36,6 +37,7 @@ jenkins_phrase: "ask_devops"
 
 rpm_dependencies:
   - 'java-1.7.0-openjdk'
+  - 'java-1.7.0-openjdk-devel'
   - 'jenkins'
   - 'curl'
   - 'unzip'

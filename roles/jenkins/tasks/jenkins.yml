@@ -27,5 +27,3 @@
   tags:
     - init
     - config
-  notify:
-    - 'start jenkins'  

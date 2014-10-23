@@ -10,3 +10,30 @@
   tags:
     - config
   when: ansible_os_family == "RedHat"
+
+- name: 'install /etc/profile.d/jdk.sh'
+  template: src=etc-profile-d-jdk-sh.j2 dest=/etc/profile.d/jdk.sh
+          owner=root group=root mode=0644
+  notify:
+  - 'restart jenkins'  
+
+- name: 'install /etc/profile.d/maven.sh'
+  template: src=etc-profile-d-maven-sh.j2 dest=/etc/profile.d/maven.sh
+          owner=root group=root mode=0644
+  when: features.maven
+  notify:
+  - 'restart jenkins'  
+  
+- name: 'install /etc/profile.d/ant.sh'
+  template: src=etc-profile-d-ant-sh.j2 dest=/etc/profile.d/ant.sh
+          owner=root group=root mode=0644
+  when: features.ant
+  notify:
+  - 'restart jenkins'
+  
+- name: 'install /etc/profile.d/gradle.sh'
+  template: src=etc-profile-d-gradle-sh.j2 dest=/etc/profile.d/gradle.sh
+          owner=root group=root mode=0644
+  when: features.gradle
+  notify:
+  - 'restart jenkins'  
