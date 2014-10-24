@@ -15,9 +15,11 @@ plugins:
   - 'git'
   - 'gradle'
   - 'jacoco'
+  - 'jira'
   - 'jobConfigHistory'
   - 'pmd'
   - 'scm-sync-configuration'
+  - 'sonar'
   - 'violations'
 
 jenkins_base_url: 'http://pkg.jenkins-ci.org/redhat'

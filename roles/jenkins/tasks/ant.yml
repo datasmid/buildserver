@@ -1,14 +1,18 @@
 ---
 ### Ant
+- name: 'verify presence of Ant'
+  stat: path={{ant_home}}/bin/ant
+  register: ant_installed
+  when: features.ant
   
 - name: 'download Ant'
   get_url: url={{ant_url}} dest=/tmp
   retries: 3
-  when: features.ant
+  when: features.ant and not ant_installed.stat.exists
   
 - name: 'untar Ant'
   command: tar xfz /tmp/{{ant_tarfile}} -C {{jenkins_tools}} creates={{ant_home}}
-  when: features.ant
+  when: features.ant and not ant_installed.stat.exists
 
 - name: 'verify presence of Ant download'
   stat: path=/tmp/{{ant_tarfile}}

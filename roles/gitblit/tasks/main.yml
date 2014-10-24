@@ -17,6 +17,21 @@
   command: tar xfz /tmp/{{gitblit_tarfile}} -C /opt/gitblit 
   when: features.gitblit and not jarfile.stat.exists
 
+# TODO: service needs proper integration
+#- name: 'verify presence of init script'
+#  stat: path=/etc/init.d/gitblit
+#  register: gitblit
+#  when: features.gitblit
+# 
+#- name: 'install init script if needed'
+#  command: cp /opt/gitblit/service-centos.sh /etc/init.d/gitblit
+#  when: features.gitblit and not gitblit.stat.exists
+# 
+#- name: 'register gitblit as a service'
+#  service: name=gitblit enabled=true
+#  notify: 'restart gitblit'
+#  when: features.gitblit
+
 - name: 'verify presence of gitblit download'
   stat: path=/tmp/{{gitblit_tarfile}}
   register: gitblit_download

@@ -11,7 +11,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # disable guest additions
   config.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: true
+  # Jenkins
   config.vm.network "forwarded_port", guest: 8080, host: 8080, auto_correct: true 
+  # GitBlit
+  config.vm.network "forwarded_port", guest: 8443, host: 8443, auto_correct: true 
+  # Sonar
   config.vm.network "forwarded_port", guest: 9000, host: 9000, auto_correct: true 
   
   config.vm.provider "virtualbox" do |vb|
