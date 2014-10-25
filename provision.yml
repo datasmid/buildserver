@@ -11,7 +11,7 @@
 #    - mysql
     - postgres
 
-    - gitblit
+#    - gitblit
 
     - jenkins 
 
