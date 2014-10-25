@@ -1,13 +1,5 @@
 ---
-  
-- name: 'get the upstream yum repo file and store in /etc/yum.d'
-  get_url: url={{jenkins_base_url}}/{{jenkins_repo}} dest=/etc/yum.repos.d/{{jenkins_repo}} owner=root group=root mode=0700
-  when: ansible_os_family == "RedHat"
-  
-- name: 'authorize jenkins_repo for local rpm installs'
-  command: rpm --import {{jenkins_pubkey}}
-  when: ansible_os_family == "RedHat"
-  
+
 - name: 'make sure /opt is o+rx'
   file: path=/opt mode=0755
     

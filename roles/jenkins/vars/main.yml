@@ -18,8 +18,8 @@ plugins:
   - 'jira'
   - 'jobConfigHistory'
   - 'pmd'
-  - 'scm-sync-configuration'
   - 'sonar'
+  - 'thinBackup'
   - 'violations'
 
 jenkins_base_url: 'http://pkg.jenkins-ci.org/redhat'
@@ -30,7 +30,7 @@ jenkins_tools: "{{jenkins_data}}/tools"
 jenkins_cli: '{{ jenkins_data }}/jenkins-cli.jar' # Jenkins CLI execulable
 updates_dest: '{{ jenkins_data }}/updates_jenkins.json' # Jenkins updates
 jenkins_repo: "jenkins.repo"
-jenkins_pubkey: "{{jenkins_base_url}}/jenkins-ci.org.key"
+jenkins_repo_key: "{{jenkins_base_url}}/jenkins-ci.org.key"
 jenkins_phrase: "ask_devops"
 
 rpm_dependencies:
