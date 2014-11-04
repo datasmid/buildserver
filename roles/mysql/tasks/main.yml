@@ -9,5 +9,5 @@
   notify: 
   - restart mysql
 
-- name: 'start mysqld Service'
+- name: 'start mysqld service'
   service: name=mysqld state=started enabled=true

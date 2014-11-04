@@ -19,9 +19,6 @@
 # Install/update jenkins plugins
 - include: plugins.yml
 
-# Install/update jenkins plugins
-- include: plugins.yml
-
 # Run configuration
 - include: config.yml
 

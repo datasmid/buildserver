@@ -1,10 +1,10 @@
 ---
 # Add Extra Packages for Enterprise Linux
-- name: 'Add EPEL yum repo'
+- name: 'add EPEL yum repo'
   yum: name=epel-release state=present
 
 # Allow managing under SELinux
-- name: 'Install python packages for Ansible'
+- name: 'install python packages for Ansible'
   yum: name={{ item }} state=present
   with_items:
    - libselinux-python
