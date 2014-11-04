@@ -16,3 +16,10 @@
 
 - name: 'make sure jenkins_tools directory exists'
   file: path={{jenkins_tools}} owner=jenkins group=jenkins mode=0755 state=directory
+
+- name: 'copy /etc/sysconfig/jenkins file to set the jenkins_data directory'
+  template: src=jenkins.j2 dest=/etc/sysconfig/jenkins owner=root group=root mode=0644
+  when: ansible_os_family == "RedHat"
+  notify: 'restart jenkins'
+  tags:
+    - config

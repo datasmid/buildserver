@@ -1,9 +1,4 @@
 ---
-- name: 'copy /etc/sysconfig/jenkins file'
-  template: src=jenkins.j2 dest=/etc/sysconfig/jenkins owner=root group=root mode=0644
-  when: ansible_os_family == "RedHat"
-  tags:
-    - config
   
 - name: 'copy settings.xml template'
   template: src=settings_xml.j2 dest=/var/lib/jenkins/.m2/settings.xml owner=jenkins group=jenkins mode=0644
