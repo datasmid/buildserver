@@ -1,2 +1,11 @@
 ---
 # vars file for nexus
+nexus_home: "/data/nexus"
+
+nexus_version: "2.10.0"
+nexus_patch: "02"
+nexus_file: "nexus-{{nexus_version}}-{{nexus_patch}}-bundle.tar.gz"
+nexus_url: "http://download.sonatype.com/nexus/oss/nexus-latest-bundle.tar.gz"
+nexus_dir: "{{nexus_home}}/nexus-{{nexus_version}}-{{nexus_patch}}"
+nexus_work: "{{nexus_home}}/sonatype-work/nexus"
+
