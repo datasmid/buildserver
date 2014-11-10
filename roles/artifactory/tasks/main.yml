@@ -1,3 +1,40 @@
 ---
 
 # download artifactory http://bit.ly/Hqv9aj
+- name: 'make sure directory exists for artifactory'
+  file: dest=/opt/artifactory state=directory mode=0755
+
+  
+- name: 'verify presence of artifactory'
+  stat: path="/opt/artifactory/artifactory-{{artifactory_version}}/webapps/artifactory.war"
+  register: jarfile
+
+- name: 'verify presence of artifactory_file'
+  stat: path=/tmp/{{artifactory_file}}
+  register: download
+
+- name: 'download artifactory'
+  get_url: url={{artifactory_url}} dest=/tmp/{{artifactory_file}}
+  retries: 3
+  when: not download.stat.exists
+
+- name: 'unzip artifactory'
+  command: unzip -o  /tmp/{{artifactory_file}} -d /opt/artifactory
+  when: not jarfile.stat.exists
+
+#- name: 'verify presence of artifactory download'
+#  stat: path=/tmp/{{artifactory_file}}
+#  register: artifactory_download
+
+#- name: 'cleanup artifactory download'
+#  file: dest=/tmp/{{artifactory_file}} state=absent
+#  when: artifactory_download.stat.exists
+
+- name: 'install artifactory as a service'
+  command: "{{artifactory_home}}/bin/installservice.sh creates=/etc/init.d/artifactory"
+
+- name: 'register environment variable ARTIFACTORY_HOME'
+  template: src=etc-opt-jfrog-artifactory-default.j2 dest=/etc/opt/jfrog/artifactory/default
+                owner=root group=root mode=0644
+  notify:
+    - 'restart artifactory'

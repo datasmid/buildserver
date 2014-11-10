@@ -1,1 +1,5 @@
 ---
+artifactory_url: "http://bit.ly/Hqv9aj"
+artifactory_version: "3.4.1"
+artifactory_file: "artifactory-{{artifactory_version}}.zip"
+artifactory_home: "/opt/artifactory/artifactory-{{artifactory_version}}"
