@@ -1,9 +1,19 @@
 ---
+features:
+  mysql: False
+  postgresql: True
+
 artifactory_url: "http://bit.ly/Hqv9aj"
 artifactory_version: "3.4.1"
 artifactory_file: "artifactory-{{artifactory_version}}.zip"
 artifactory_home: "/opt/artifactory/artifactory-{{artifactory_version}}"
 
+artifactory_username: "artifactory"
+artifactory_password: "password"
+
 rpm_dependencies:
   - 'java-1.7.0-openjdk'
   - 'java-1.7.0-openjdk-devel'
+
+postgres_jdbc_url: "http://jdbc.postgresql.org/download/postgresql-9.3-1102.jdbc4.jar"
+
