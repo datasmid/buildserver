@@ -3,3 +3,7 @@ artifactory_url: "http://bit.ly/Hqv9aj"
 artifactory_version: "3.4.1"
 artifactory_file: "artifactory-{{artifactory_version}}.zip"
 artifactory_home: "/opt/artifactory/artifactory-{{artifactory_version}}"
+
+rpm_dependencies:
+  - 'java-1.7.0-openjdk'
+  - 'java-1.7.0-openjdk-devel'
