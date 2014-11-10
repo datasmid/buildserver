@@ -26,7 +26,7 @@
 - name: 'update symlink /usr/local/nexus'
   shell: ln -fs `ls -d /data/nexus/nexus-*|tail -1` /usr/local/nexus
   notify:
-    - 'start nexus'
+    - 'restart nexus'
 
 - name: 'export NEXUS_HOME=/usr/local/nexus'
   template: src=etc-profile-d-nexus-sh.j2 dest=/etc/profile.d/nexus.sh owner=root group=root mode=0644

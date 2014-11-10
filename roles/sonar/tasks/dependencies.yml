@@ -1,4 +1,9 @@
 ---
+
+- name: 'to create sonar the database server needs to be up'
+  service: name=postgresql-9.3 state=started
+  when: features.postgresql
+
 - name: 'make sure sonar packages are installed'
   yum: name={{item}} state=installed
   when: ansible_os_family == "RedHat"

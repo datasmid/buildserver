@@ -4,9 +4,10 @@
   yum: name=epel-release state=present
 
 # Allow managing under SELinux
-- name: 'install python packages for Ansible'
+- name: 'install packages for provisioning'
   yum: name={{ item }} state=present
   with_items:
    - libselinux-python
    - libsemanage-python
    - python-httplib2
+   - unzip

@@ -7,21 +7,24 @@ features:
 
 plugins:
   - 'analysis-collector'
-  - 'analysis-core' # for findbugs
-  - 'artifactory'
-  - 'checkstyle'
-  - 'dry'
-  - 'findbugs'
-  - 'git'
-  - 'gradle'
-  - 'jacoco'
-  - 'jira'
-  - 'jobConfigHistory'
-  - 'pmd'
-  - 'sonar'
-  - 'thinBackup'
-  - 'violations'
-
+  - 'analysis-core'    # for findbugs
+  - 'violations'       #
+  - 'checkstyle'       # source code formatting reports
+  - 'dry'              # don't repeat yourself
+  - 'findbugs'         # common bugs can be squashed
+  - 'pmd'              #
+  - 'sonar'            # source code quality
+  - 'git'              # connect to git
+  - 'gradle'           # build tool
+  - 'jacoco'           # test coverage
+  - 'jira'             # Atlassian Jira API
+  - 'jobConfigHistory' # save changes in job configuration
+  - 'parallel-test-executor' # http://vimeo.com/69631187
+  - 'repository'       # chained parallel test can use artifacts as maven repo
+  - 'remote-terminal-access'
+  - 'artifactory'      # connect to build repository
+  - 'thinBackup'       # backup job configurations
+  
 jenkins_base_url: 'http://pkg.jenkins-ci.org/redhat'
 jenkins_data: "/data/jenkins"
 jenkins_home: "/var/lib/jenkins"
