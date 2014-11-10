@@ -9,3 +9,5 @@ nexus_url: "http://download.sonatype.com/nexus/oss/nexus-latest-bundle.tar.gz"
 nexus_dir: "{{nexus_home}}/nexus-{{nexus_version}}-{{nexus_patch}}"
 nexus_work: "{{nexus_home}}/sonatype-work/nexus"
 
+rpm_dependencies:
+  - 'java-1.7.0-openjdk'

@@ -1,7 +1,10 @@
 ---
-- name: 'make sure package java-1.7.0 is installed'
-  yum: name=java-1.7.0-openjdk state=installed
+- name: 'make sure rpm_dependencies are installed'
+  yum: name={{item}} state=installed
   when: ansible_os_family == "RedHat"
+  register: installed
+  retries: 3
+  with_items: rpm_dependencies
 
 - name: 'install createrepo for nexus-yum-repository-plugin'
   yum: name=createrepo state=installed
