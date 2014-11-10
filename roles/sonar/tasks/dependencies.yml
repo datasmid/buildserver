@@ -7,6 +7,5 @@
 - name: 'make sure sonar packages are installed'
   yum: name={{item}} state=installed
   when: ansible_os_family == "RedHat"
-  register: sonar
   with_items: sonar_dependencies
   notify: restart sonar
