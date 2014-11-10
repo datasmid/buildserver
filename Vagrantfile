@@ -13,10 +13,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: true
   # Jenkins
   config.vm.network "forwarded_port", guest: 8080, host: 8080, auto_correct: true 
-  # Nexus
+  # Artifactory
   config.vm.network "forwarded_port", guest: 8081, host: 8081, auto_correct: true
-
-  config.vm.network "forwarded_port", guest: 8888, host: 8888, auto_correct: true 
+  # Nexus
+  config.vm.network "forwarded_port", guest: 8082, host: 8082, auto_correct: true
   # GitBlit
   config.vm.network "forwarded_port", guest: 8443, host: 8443, auto_correct: true 
   # Sonar

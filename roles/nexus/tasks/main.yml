@@ -35,7 +35,7 @@
   template: src=etc-profile-d-nexus-sh.j2 dest=/etc/profile.d/nexus.sh owner=root group=root mode=0644
 
 - name: 'create /usr/local/nexus/conf/nexus-properties'
-  template: src=nexus-properties.j2 dest=/usr/local/nexus/conf/nexus-properties owner=nexus group=nexus mode=0644
+  template: src=nexus-properties.j2 dest=/usr/local/nexus/conf/nexus.properties owner=nexus group=nexus mode=0644
 
 - name: 'copy the /etc/init.d/nexus file'
   template: src=init-nexus.j2 dest=/etc/init.d/nexus owner=root group=root mode=0755 backup=yes
