@@ -1,7 +1,13 @@
 ---
+
+- name: 'create jenkins M2_HOME'
+  file: state=directory dest={{jenkins_home}}/.m2/ owner=jenkins group=jenkins mode=0700
+  tags:
+    - config
+  when: ansible_os_family == "RedHat"
   
 - name: 'copy settings.xml template'
-  template: src=settings_xml.j2 dest=/var/lib/jenkins/.m2/settings.xml owner=jenkins group=jenkins mode=0644
+  template: src=settings_xml.j2 dest={{jenkins_home}}/.m2/settings.xml owner=jenkins group=jenkins mode=0600
   tags:
     - config
   when: ansible_os_family == "RedHat"
