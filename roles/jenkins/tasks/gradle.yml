@@ -21,7 +21,7 @@
 
 - name: 'cleanup Gradle download'
   file: dest=/tmp/{{gradle_zipfile}} state=absent
-  when: gradle_download.stat.exists
+  when: features.gradle and gradle_download.stat.exists
   
 - name: 'make sure Gradle directory is absent'
   file: dest={{gradle_home}} state=absent

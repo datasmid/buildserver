@@ -21,7 +21,7 @@
 
 - name: 'cleanup Ant download'
   file: dest=/tmp/{{ant_tarfile}} state=absent
-  when: ant_download.stat.exists
+  when: features.ant and ant_download.stat.exists
 
 - name: 'make sure Ant directory is absent'
   file: dest={{ant_home}} state=absent
