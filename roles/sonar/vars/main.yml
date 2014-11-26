@@ -1,10 +1,10 @@
 ---
 features:
-  mysql: False
-  postgresql: True
+  mysql: True
+  postgresql: False
 
 sonar_username: 'sonar'
-sonar_password: 'p&55W0^8'
+sonar_password: 'PGKaeE3Xhp2B1'
 
 sonar_repo: 'http://downloads.sourceforge.net/project/sonar-pkg/rpm/sonar.repo'
 sonarrunner_zipfile: 'sonar-runner-dist-2.4.zip'
@@ -12,12 +12,10 @@ sonarrunner_url: 'http://repo1.maven.org/maven2/org/codehaus/sonar/runner/sonar-
 
 sonar_dependencies:
   - 'java-1.7.0-openjdk'
-  - 'sonar'
-  - 'python-psycopg2'
-  - 'python-psycopg2-doc'
+  - 'sonar-4.5'
 
 sonar_plugins:
-  - 'http://repository.codehaus.org/org/codehaus/sonar-plugins/sonar-build-breaker-plugin/1.1/sonar-build-breaker-plugin-1.1.jar'
+#  - 'http://repository.codehaus.org/org/codehaus/sonar-plugins/sonar-build-breaker-plugin/1.1/sonar-build-breaker-plugin-1.1.jar'
   - 'http://repository.codehaus.org/org/codehaus/sonar-plugins/sonar-jira-plugin/1.2/sonar-jira-plugin-1.2.jar'
 #  - 'http://repository.codehaus.org/org/codehaus/sonar-plugins/sonar-ldap-plugin/1.4/sonar-ldap-plugin-1.4.jar'
 #  - 'http://repository.codehaus.org/org/codehaus/sonar-plugins/sonar-motion-chart-plugin/1.7/sonar-motion-chart-plugin-1.7.jar'
