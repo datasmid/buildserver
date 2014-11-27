@@ -1,4 +1,10 @@
 ---
+
+
+- name: disable selinux
+  action: shell echo 0 >/selinux/enforce
+  
+
 # Add Extra Packages for Enterprise Linux
 - name: 'add EPEL yum repo'
   yum: name=epel-release state=present
@@ -11,3 +17,20 @@
    - libsemanage-python
    - python-httplib2
    - unzip
+   - ksh
+
+- name: set SELinux to permissive
+  action: selinux policy=targeted state=permissive
+  
+
+- name: set hostname
+  hostname: name={{inventory_hostname}}
+- name: persist hostname
+  lineinfile: dest=/etc/sysconfig/network regexp='^HOSTNAME' line='HOSTNAME={{inventory_hostname}}' state=present
+
+# Workaround: dont't use the ipv6 networks
+- name: disable ipv6
+  lineinfile: dest=/etc/sysconfig/network regexp='^NETWORKING_IPV6' line='NETWORKING_IPV6=no' state=present
+- name: add public resolver
+  lineinfile: dest=/etc/resolv.conf regexp='^nameserver' line='nameserver 8.8.8.8' state=present
+  notify: 'restart network'
