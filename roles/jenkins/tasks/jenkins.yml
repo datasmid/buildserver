@@ -1,7 +1,4 @@
 ---
-
-- name: 'make sure /opt is o+rx'
-  file: path=/opt mode=0755
     
 - name: 'add jenkins to group root for pam based authorization'
   shell: usermod -G root -a jenkins

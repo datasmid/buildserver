@@ -17,6 +17,11 @@
 - name: 'make sure jenkins ~/.m2 directory exists'
   file: path={{jenkins_home}}/.m2 owner=jenkins group=jenkins mode=0750 state=directory
   when: features.maven 
+
+- name: 'install /etc/profile.d/maven.sh'
+  template: src=etc-profile-d-maven-sh.j2 dest=/etc/profile.d/maven.sh
+          owner=root group=root mode=0644
+  when: features.maven
   
 - name: 'cleanup maven download'
   file: dest=/tmp/{{maven_tarfile}} state=absent

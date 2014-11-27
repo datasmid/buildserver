@@ -14,6 +14,11 @@
   command: tar xfz /tmp/{{ant_tarfile}} -C {{jenkins_tools}} creates={{ant_home}}
   when: features.ant and not ant_installed.stat.exists
 
+- name: 'install /etc/profile.d/ant.sh'
+  template: src=etc-profile-d-ant-sh.j2 dest=/etc/profile.d/ant.sh
+          owner=root group=root mode=0644
+  when: features.ant
+
 - name: 'verify presence of Ant download'
   stat: path=/tmp/{{ant_tarfile}}
   register: ant_download
