@@ -38,11 +38,11 @@
 #  when: artifactory_download.stat.exists
 
 - name: 'create artifactory database'
-  postgresql_db: name=artifactory template='template0' encoding='UTF-8'
+  postgresql_db: name=artdb template='template0' encoding='UTF-8'
   when: features.postgresql
 
 - name: 'create artifactory database user'
-  postgresql_user: db=artifactory name='{{artifactory_username}}' password='{{artifactory_password}}'
+  postgresql_user: db=artdb name='{{artifactory_username}}' password='{{artifactory_password}}'
   when: features.postgresql
 
 - name: 'download jdbc connector for postgres'
@@ -70,11 +70,11 @@
   when: features.mysql 
 
 - name: 'create artifactory database'
-  mysql_db: name=artifactory state=present 
+  mysql_db: name=artdb state=present 
   when: features.mysql
 
 - name: 'create artifactory user'
-  mysql_user: name={{ artifactory_username }} priv=artifactory.*:ALL
+  mysql_user: name={{ artifactory_username }} priv=artdb.*:ALL
     password={{ artifactory_password }} 
   when: features.mysql
 

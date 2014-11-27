@@ -1,10 +1,14 @@
 ---
+# MariaDB_version is one of 5.5 10.0 10.1
+MariaDB_version: 5.5
+
 mysql_packages:
-  - mysql
+  - MariaDB-common
+  - MariaDB-client
+  - MariaDB-server
   - perl-DBD-MySQL
   - MySQL-python
   - rsync
-  - mysql-server
 
 # You shouldn't need to change this.
 mysql_port: 3306

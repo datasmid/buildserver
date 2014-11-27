@@ -1,13 +1,9 @@
 ---
-- name: 'install mysql packages'
-  yum: name={{ item }} state=present
-  with_items: mysql_packages
-  when: ansible_os_family == "RedHat"
+# Add mariadb repository
+- include: repo.yml
 
-- name: 'create mysqld configuration file'
-  template: src=my.cnf.j2 dest=/etc/my.cnf
-  notify: 
-  - restart mysql
+# Install packages 
+- include: dependencies.yml
 
-- name: 'start mysqld service'
-  service: name=mysqld state=started enabled=true
+# Configure database
+- include: config.yml

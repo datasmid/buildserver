@@ -1,0 +1,10 @@
+---
+
+- name: 'get the MariaDB yum repo file and store in /etc/yum.d'
+  template: src=mariadb.repo dest=/etc/yum.repos.d/mariadb.repo  owner=root group=root mode=0700
+  when: ansible_os_family == "RedHat"
+
+- name: 'authorize MariaDB GPG key for local rpm installs'
+  command: rpm --import https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+  when: ansible_os_family == "RedHat"
+
