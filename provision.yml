@@ -7,13 +7,15 @@
 
   roles:
     - common
-    - nexus
-#    - mysql
-    - postgres
+
+    - mysql
+#    - postgres
 
 #    - gitblit
 
-    - jenkins
+    - artifactory
+    - nexus
+
     - sonar
 
-    - artifactory
+    - jenkins
