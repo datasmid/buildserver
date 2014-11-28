@@ -14,18 +14,22 @@ plugins:
   - 'dashboard-view'
 #  - 'dry'              # don't repeat yourself
 #  - 'findbugs'         # common bugs can be squashed
+  - 'fortify360'
   - 'git'              # connect to git
-#  - 'gradle'           # build tool
-#  - 'jacoco'           # test coverage
-#  - 'jira'             # Atlassian Jira API
+  - 'gradle'           # build tool
+  - 'jacoco'           # test coverage
+  - 'jira'             # Atlassian Jira API
   - 'jobConfigHistory' # save changes in job configuration
   - 'junit'
   - 'ldap'
   - 'mailer'
 #  - 'parallel-test-executor' # http://vimeo.com/69631187
   - 'pmd'              #
+  - 'release'
+  - 'role-strategy'
 #  - 'remote-terminal-access'
 #  - 'repository'       # chained parallel test can use artifacts as maven repo
+  - 'ssh-agent' 
   - 'sonar'            # source code quality
 #  - 'thinBackup'       # backup job configurations
 #  - 'violations'       #
