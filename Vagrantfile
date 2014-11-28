@@ -11,6 +11,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # disable guest additions
   config.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: true
+  # Mysql
+  config.vm.network "forwarded_port", guest: 3306, host: 3306, auto_correct: true 
   # Jenkins
   config.vm.network "forwarded_port", guest: 8080, host: 8080, auto_correct: true 
   # Artifactory
