@@ -50,7 +50,7 @@
   when: features.postgresql
 
 - name: 'verify presence of jdbc connector for mysql'
-  stat: path={{{artifactory_home}}/tomcat/lib/{{mysql_jdbc_base}}-bin.jar
+  stat: path={{artifactory_home}}/tomcat/lib/{{mysql_jdbc_base}}-bin.jar
   register: jdbc_installed
   when: features.mysql
   
