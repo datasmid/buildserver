@@ -10,7 +10,6 @@
 # download artifactory http://bit.ly/Hqv9aj
 - name: 'make sure directory exists for artifactory'
   file: dest=/opt/artifactory state=directory mode=0755
-
   
 - name: 'verify presence of artifactory'
   stat: path="/opt/artifactory/artifactory-{{artifactory_version}}/webapps/artifactory.war"
@@ -73,11 +72,14 @@
   mysql_db: name=artdb state=present 
   when: features.mysql
 
-- name: 'create artifactory user'
+- name: 'create artifactory database user'
   mysql_user: name={{ artifactory_username }} priv=artdb.*:ALL
     password={{ artifactory_password }} 
   when: features.mysql
 
+- name: 'create user to run artifactory'
+  user: name={{artifactory_username}}
+  
 - name: 'create config dir for artifactory'
   file: dest=/etc/opt/jfrog/artifactory state=directory owner=root mode=0755
 
@@ -94,7 +96,7 @@
   when: features.mysql
 
 - name: 'install artifactory as a service'
-  command: "{{artifactory_home}}/bin/installService.sh artifact creates=/etc/init.d/artifactory"
+  command: "{{artifactory_home}}/bin/installService.sh {{artifactory_username}} creates=/etc/init.d/artifactory"
 
 
   notify:
