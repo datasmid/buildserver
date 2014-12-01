@@ -10,7 +10,7 @@
 
 # artifactory & sonar use mysql, postgresql option not finished
     - mysql
-    - postgres
+#    - postgres
 
 # TODO
 #    - gitblit
