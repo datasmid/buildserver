@@ -39,7 +39,7 @@ jenkins_data: "/data/jenkins"
 jenkins_home: "/var/lib/jenkins"
 jenkins_tools: "{{jenkins_data}}/tools"
 jenkins_https: 8443
-jenkins_cli: '{{ jenkins_data }}/jenkins-cli.jar' # Jenkins CLI execulable
+jenkins_cli: '{{ jenkins_data }}/jenkins-cli.jar' # Jenkins CLI executable
 updates_dest: '{{ jenkins_data }}/updates_jenkins.json' # Jenkins updates
 jenkins_repo: "jenkins.repo"
 jenkins_repo_key: "{{jenkins_base_url}}/jenkins-ci.org.key"
