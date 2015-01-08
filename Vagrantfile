@@ -11,30 +11,43 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # disable guest additions
   config.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: true
-  # Mysql
-  config.vm.network "forwarded_port", guest: 3306, host: 3306, auto_correct: true 
-  # Jenkins
-  config.vm.network "forwarded_port", guest: 8080, host: 8080, auto_correct: true 
-  # Artifactory
-  config.vm.network "forwarded_port", guest: 8081, host: 8081, auto_correct: true
-  # Nexus
-  config.vm.network "forwarded_port", guest: 8082, host: 8082, auto_correct: true
-  # GitBlit
-  config.vm.network "forwarded_port", guest: 8443, host: 8443, auto_correct: true 
-  # Sonar
-  config.vm.network "forwarded_port", guest: 9000, host: 9000, auto_correct: true 
+
   
   config.vm.provider "virtualbox" do |vb|
-    vb.customize ["modifyvm", :id, "--memory", 2048]
-    vb.name = "devhost"
+    vb.customize ["modifyvm", :id, "--memory", 8192]
     vb.gui = false
   end
 
  config.vm.provision "ansible" do |ansible|
     ansible.inventory_path = "ansible.ini"
     ansible.playbook = "provision.yml"
-#    ansible.verbose = "v"
+    #ansible.verbose = "vvvv"
     ansible.host_key_checking = "false"
   end
 
+  config.vm.define :dev,  primary: true do |dev_config|
+    dev_config.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2222, auto_correct: true
+    dev_config.vm.network "forwarded_port", guest: 3306, host: 3306, auto_correct: true 
+    # {{jenkins_https}}
+    dev_config.vm.network "forwarded_port", guest: 8443, host: 8443, auto_correct: true 
+    # Artifactory
+    dev_config.vm.network "forwarded_port", guest: 8081, host: 8081, auto_correct: true
+    # Nexus
+    dev_config.vm.network "forwarded_port", guest: 8082, host: 8082, auto_correct: true
+    # GitBlit
+    #dev_config.vm.network "forwarded_port", guest: 8443, host: 8443, auto_correct: true 
+    # Sonar
+    dev_config.vm.network "forwarded_port", guest: 9000, host: 9000, auto_correct: true 
+    dev_config.vm.provider :virtualbox do |v|
+        v.name = "dev"
+    end
+  end
+
+  config.vm.define :test, autostart: false do |test_config|
+    test_config.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2223, auto_correct: true
+    test_config.vm.network "forwarded_port", guest: 8080, host: 8084, auto_correct: true
+    test_config.vm.provider :virtualbox do |v|
+        v.name = "test"
+    end
+  end
 end

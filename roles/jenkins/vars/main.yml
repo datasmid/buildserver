@@ -38,7 +38,7 @@ jenkins_base_url: 'http://pkg.jenkins-ci.org/redhat'
 jenkins_data: "/data/jenkins"
 jenkins_home: "/var/lib/jenkins"
 jenkins_tools: "{{jenkins_data}}/tools"
-
+jenkins_https: 8443
 jenkins_cli: '{{ jenkins_data }}/jenkins-cli.jar' # Jenkins CLI execulable
 updates_dest: '{{ jenkins_data }}/updates_jenkins.json' # Jenkins updates
 jenkins_repo: "jenkins.repo"

@@ -9,10 +9,10 @@
   
 # if jenkins is installed or updated, wait for pulling the jenkins CLI
 - name: "wait for port"
-  wait_for: port=8080 delay=30
+  wait_for: port={{jenkins_https}} delay=30
   
 - name: "wait while starting jenkins"
-  uri: url=http://localhost:8080/jnlpJars/jenkins-cli.jar
+  uri: url=http://localhost:{{jenkins_https}}/jnlpJars/jenkins-cli.jar
        return_content=no timeout=600
   retries: 200
   delay: 10
