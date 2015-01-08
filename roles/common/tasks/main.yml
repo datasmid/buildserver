@@ -25,8 +25,13 @@
 
 - name: set hostname
   hostname: name={{inventory_hostname}}
+
 - name: persist hostname
   lineinfile: dest=/etc/sysconfig/network regexp='^HOSTNAME' line='HOSTNAME={{inventory_hostname}}' state=present
+
+- name: persist in hosts file
+  lineinfile: dest=/etc/hosts regexp='{{inventory_hostname}}' line='{{ansible_default_ipv4.address}}   {{inventory_hostname}}' state=present
+
 
 # Workaround: dont't use the ipv6 networks
 - name: disable ipv6
