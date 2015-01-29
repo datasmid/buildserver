@@ -13,4 +13,4 @@
     - restart httpd
 
 - name: 'start httpd service'
-  service: name=mysql enabled=true
+  service: name=httpd enabled=true
