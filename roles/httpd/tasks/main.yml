@@ -1,0 +1,16 @@
+---
+- name: yum install packages for apache
+  action: yum name={{ item }} state=latest
+  with_items:
+      - httpd
+      - mod_ssl
+      - mod_security
+  when: ansible_os_family == "RedHat"
+
+- name: 'create httpd configuration file'
+  action: template src=httpd-conf.d-proxy.conf.j2 dest=/etc/httpd/conf.d/proxy.conf owner=root group=root mode=0600 backup=yes
+  notify:
+    - restart httpd
+
+- name: 'start httpd service'
+  service: name=mysql enabled=true

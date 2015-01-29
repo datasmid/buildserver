@@ -14,7 +14,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   
   config.vm.provider "virtualbox" do |vb|
-    vb.customize ["modifyvm", :id, "--memory", 8192]
+    vb.customize ["modifyvm", :id, "--memory", 8192, "--natnet1", "172.16.1/24"]
     vb.gui = false
   end
 
@@ -26,16 +26,21 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.define :dev,  primary: true do |dev_config|
+    # To access this host use: 'vagrant ssh dev' 
     dev_config.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2222, auto_correct: true
-    dev_config.vm.network "forwarded_port", guest: 3306, host: 3306, auto_correct: true 
-    # {{jenkins_https}}
+    
+    # This host only network for use of Apache as a reverse proxy.
+    dev_config.vm.network "private_network", ip: "192.168.10.16", :netmask => "255.255.255.0",  auto_config: true
+    
+    # MariaDB
+    # dev_config.vm.network "forwarded_port", guest: 3306, host: 3306, auto_correct: true 
+    
+    # HTTPS for Jenkins
     dev_config.vm.network "forwarded_port", guest: 8443, host: 8443, auto_correct: true 
     # Artifactory
     dev_config.vm.network "forwarded_port", guest: 8081, host: 8081, auto_correct: true
     # Nexus
     dev_config.vm.network "forwarded_port", guest: 8082, host: 8082, auto_correct: true
-    # GitBlit
-    #dev_config.vm.network "forwarded_port", guest: 8443, host: 8443, auto_correct: true 
     # Sonar
     dev_config.vm.network "forwarded_port", guest: 9000, host: 9000, auto_correct: true 
     dev_config.vm.provider :virtualbox do |v|
@@ -44,8 +49,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.define :test, autostart: false do |test_config|
+    test_config.vm.network "private_network", ip: "192.168.10.18", :netmask => "255.255.255.0",  auto_config: true
     test_config.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2223, auto_correct: true
-    test_config.vm.network "forwarded_port", guest: 8080, host: 8084, auto_correct: true
+    test_config.vm.network "forwarded_port", guest: 8080, host: 8080, auto_correct: true
     test_config.vm.provider :virtualbox do |v|
         v.name = "test"
     end

@@ -1,13 +1,13 @@
 ---
 - name: 'list plugins'
   sudo: yes
-  shell: java -jar {{jenkins_cli}} -noCertificateCheck -s https://localhost:{{jenkins_https}} list-plugins | cut -f 1 -d ' '
+  shell: java -jar {{jenkins_cli}} -s http://localhost:8080/jenkins list-plugins | cut -f 1 -d ' '
   when: plugins is defined
   register: plugins_installed
 
 - name: 'install/update plugins'
   sudo: yes
-  command: java -jar {{jenkins_cli}} -noCertificateCheck -s https://localhost:{{jenkins_https}} install-plugin {{ item }}
+  command: java -jar {{jenkins_cli}} -s http://localhost:8080/jenkins install-plugin {{ item }}
   when: plugins_installed.changed and plugins_installed.stdout.find('{{ item }}') == -1
   with_items: plugins
   notify:
@@ -15,12 +15,12 @@
 
 - name: 'list plugins to be updated'
   sudo: yes
-  shell: java -jar {{jenkins_cli}} -noCertificateCheck -s https://localhost:{{jenkins_https}} list-plugins | grep ')$' | cut -f 1 -d ' ' | sed ':a;N;$!ba;s/\n/ /g'
+  shell: java -jar {{jenkins_cli}} -s http://localhost:8080/jenkins list-plugins | grep ')$' | cut -f 1 -d ' ' | sed ':a;N;$!ba;s/\n/ /g'
   register: plugins_updates
 
 - name: 'update plugins'
   sudo: yes
-  command: java -jar {{jenkins_cli}} -noCertificateCheck -s https://localhost:{{jenkins_https}} install-plugin {{ plugins_updates.stdout }}
+  command: java -jar {{jenkins_cli}} -s http://localhost:8080/jenkins install-plugin {{ plugins_updates.stdout }}
   when: plugins_updates.stdout != ''
   notify:
     - 'restart jenkins'
