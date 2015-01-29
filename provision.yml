@@ -9,16 +9,16 @@
     - common
     
 # artifactory & sonar use mysql, postgresql option not finished
-#    - mysql
+    - mysql
 #    - postgres
 
 # nexus and artifactory can be used as library and/or build repository
-#    - artifactory
-#    - nexus
+    - artifactory
+    - nexus
 
 # Use Jenkins to build, so SonarQube can be used for reports
     - jenkins
-#    - sonar    
+    - sonar    
     - httpd
 
 # TODO
@@ -32,6 +32,6 @@
 
   roles:
     - common
-    - mysql
+#    - mysql
     - postgres
-    - docker
+#    - docker
