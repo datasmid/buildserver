@@ -1,4 +1,6 @@
 
+
+
 ProxyRequests Off
 ProxyVia Off
 ProxyPreserveHost On
@@ -15,3 +17,7 @@ ProxyPassreverse /nexus http://localhost:8082/nexus
 
 ProxyPass /sonar http://localhost:9000/sonar
 ProxyPassreverse /sonar http://localhost:9000/sonar
+
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
