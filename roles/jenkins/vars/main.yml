@@ -54,10 +54,16 @@ rpm_dependencies:
   - 'curl'
   - 'unzip'
 
+<<<<<<< HEAD
 maven_name: "apache-maven-{{maven_version}}"
 maven_tarfile: "{{maven_name}}-bin.tar.gz"
 maven_url: http://ftp.nluug.nl/internet/apache/maven/maven-3/{{maven_version}}/binaries/{{maven_tarfile}}
 maven_home: "{{jenkins_tools}}/hudson.tasks.Maven_MavenInstallation/{{maven_name}}"
+=======
+maven_tarfile: apache-maven-3.2.5-bin.tar.gz
+maven_url: http://ftp.nluug.nl/internet/apache/maven/maven-3/3.2.5/binaries/{{maven_tarfile}}
+maven_home: "{{jenkins_tools}}/apache-maven-3.2.3"
+>>>>>>> c7b2dd71a619de5bb568e352fa6207f173e6b8fe
 
 ant_name: "apache-ant-{{ant_version}}"
 ant_tarfile: "{{ant_name}}-bin.tar.gz"
