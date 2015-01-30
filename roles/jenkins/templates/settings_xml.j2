@@ -10,12 +10,12 @@
         <mirror>
             <id>nexus-snapshot</id>
             <mirrorOf>snapshots</mirrorOf>
-            <url>https://localhost/nexus/content/groups/public-snapshots</url>
+            <url>https://{{ansible_eth1.ipv4.address}}/nexus/content/groups/public-snapshots</url>
         </mirror>
         <mirror>
             <id>nexus</id>
             <mirrorOf>*,!snapshots</mirrorOf>
-            <url>https://localhost/nexus/content/groups/public</url>
+            <url>https://{{ansible_eth1.ipv4.address}}/nexus/content/groups/public</url>
         </mirror>
     </mirrors>
 
@@ -25,13 +25,13 @@
             <pluginRepositories>
                 <pluginRepository>
                     <id>snapshots</id>
-                    <url>https://localhost/nexus</url>
+                    <url>https://{{ansible_eth1.ipv4.address}}/nexus</url>
                     <releases><enabled>false</enabled></releases>
                     <snapshots><enabled>true</enabled></snapshots>
                 </pluginRepository>
                 <pluginRepository>
                     <id>central</id>
-                    <url>https://localhost/nexus</url>
+                    <url>https://{{ansible_eth1.ipv4.address}}/nexus</url>
                     <releases><enabled>true</enabled></releases>
                     <snapshots><enabled>false</enabled></snapshots>
                 </pluginRepository>
@@ -39,13 +39,13 @@
             <repositories>
                 <repository>
                     <id>snapshots</id>
-                    <url>https://localhost/nexus</url>
+                    <url>https://{{ansible_eth1.ipv4.address}}/nexus</url>
                     <releases><enabled>false</enabled></releases>
                     <snapshots><enabled>true</enabled></snapshots>
                 </repository>
                 <repository>
                     <id>central</id>
-                    <url>https://localhost/nexus/url>
+                    <url>https://{{ansible_eth1.ipv4.address}}/nexus</url>
                     <releases><enabled>true</enabled></releases>
                     <snapshots><enabled>false</enabled></snapshots>
                 </repository>
@@ -59,13 +59,13 @@
 			  </snapshots>
 			  <id>central</id>
 			  <name>libs-release</name>
-			  <url>https://localhost/artifactory/libs-release</url>
+			  <url>https://{{ansible_eth1.ipv4.address}}/artifactory/libs-release</url>
 			</repository>
 			<repository>
 			  <snapshots />
 			  <id>snapshots</id>
 			  <name>libs-snapshot</name>
-			  <url>https://localhost/artifactory/libs-snapshot</url>
+			  <url>https://{{ansible_eth1.ipv4.address}}/artifactory/libs-snapshot</url>
 			</repository>
 		  </repositories>
 		  <pluginRepositories>
@@ -75,13 +75,13 @@
 			  </snapshots>
 			  <id>central</id>
 			  <name>plugins-release</name>
-			  <url>https://localhost/artifactory/plugins-release</url>
+			  <url>https://{{ansible_eth1.ipv4.address}}/artifactory/plugins-release</url>
 			</pluginRepository>
 			<pluginRepository>
 			  <snapshots />
 			  <id>snapshots</id>
 			  <name>plugins-snapshot</name>
-			  <url>https://localhost/artifactory/plugins-snapshot</url>
+			  <url>https://{{ansible_eth1.ipv4.address}}/artifactory/plugins-snapshot</url>
 			</pluginRepository>
 		  </pluginRepositories>
 		  <id>artifactory</id>
