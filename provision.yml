@@ -1,24 +1,40 @@
 ---
-- name: Install 
-  hosts: all
+- name: Build Server 
+  hosts: dev
   user: root
   remote_user: vagrant
   sudo: yes
 
   roles:
     - common
+    - httpd
+    
+# Use Jenkins to build
+    - jenkins
 
+# nexus can be used as library and/or build repository
+    - nexus
 # artifactory & sonar use mysql, postgresql option not finished
     - mysql
 #    - postgres
 
+# SonarQube can be used for reports
+    - sonar   
+
+# Artifactory can be used as library and/or build repository
+    - artifactory
+
 # TODO
 #    - gitblit
+#    - gitlab
 
-# nexus and artifactory can be used as library and/or build repository
-    - artifactory
-    - nexus
 
-# Use Jenkins to build, so SonarQube can be used for reports
-    - jenkins
-    - sonar
+- name: Test server 
+  hosts: test
+  user: root
+  remote_user: vagrant
+  sudo: yes
+
+  roles:
+    - common
+    - docker

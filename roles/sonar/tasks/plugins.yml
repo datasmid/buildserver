@@ -4,3 +4,5 @@
              owner=sonar group=sonar mode=0644
              dest=/opt/sonar/extensions/plugins
   with_items: sonar_plugins
+  notify:
+  - 'restart sonar'

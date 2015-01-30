@@ -5,6 +5,11 @@ features:
   gradle: False
   system_auth: False
 
+ant_version: 1.9.4
+maven_version: 3.2.5
+gradle_version: 2.2.1
+
+
 plugins:
   - 'analysis-collector'
   - 'analysis-core'    # for findbugs
@@ -23,12 +28,9 @@ plugins:
   - 'junit'
   - 'ldap'
   - 'mailer'
-#  - 'parallel-test-executor' # http://vimeo.com/69631187
   - 'pmd'              #
   - 'release'
   - 'role-strategy'
-#  - 'remote-terminal-access'
-#  - 'repository'       # chained parallel test can use artifacts as maven repo
   - 'ssh-agent' 
   - 'sonar'            # source code quality
 #  - 'thinBackup'       # backup job configurations
@@ -38,8 +40,8 @@ jenkins_base_url: 'http://pkg.jenkins-ci.org/redhat'
 jenkins_data: "/data/jenkins"
 jenkins_home: "/var/lib/jenkins"
 jenkins_tools: "{{jenkins_data}}/tools"
-
-jenkins_cli: '{{ jenkins_data }}/jenkins-cli.jar' # Jenkins CLI execulable
+jenkins_https: 8443
+jenkins_cli: '{{ jenkins_data }}/jenkins-cli.jar' # Jenkins CLI executable
 updates_dest: '{{ jenkins_data }}/updates_jenkins.json' # Jenkins updates
 jenkins_repo: "jenkins.repo"
 jenkins_repo_key: "{{jenkins_base_url}}/jenkins-ci.org.key"
@@ -52,14 +54,54 @@ rpm_dependencies:
   - 'curl'
   - 'unzip'
 
+<<<<<<< HEAD
+maven_name: "apache-maven-{{maven_version}}"
+maven_tarfile: "{{maven_name}}-bin.tar.gz"
+maven_url: http://ftp.nluug.nl/internet/apache/maven/maven-3/{{maven_version}}/binaries/{{maven_tarfile}}
+maven_home: "{{jenkins_tools}}/hudson.tasks.Maven_MavenInstallation/{{maven_name}}"
+=======
 maven_tarfile: apache-maven-3.2.5-bin.tar.gz
 maven_url: http://ftp.nluug.nl/internet/apache/maven/maven-3/3.2.5/binaries/{{maven_tarfile}}
 maven_home: "{{jenkins_tools}}/apache-maven-3.2.3"
+>>>>>>> c7b2dd71a619de5bb568e352fa6207f173e6b8fe
 
-ant_tarfile: apache-ant-1.9.4-bin.tar.gz
+ant_name: "apache-ant-{{ant_version}}"
+ant_tarfile: "{{ant_name}}-bin.tar.gz"
 ant_url: http://ftp.tudelft.nl/apache/ant/binaries/{{ant_tarfile}}
-ant_home: "{{jenkins_tools}}/apache-ant-1.9.4"
+ant_home: "{{jenkins_tools}}/hudson.tasks.Ant_AntInstallation/{{ant_name}}"
 
-gradle_zipfile: gradle-2.1-all.zip
+gradle_name: "gradle-{{gradle_version}}"
+gradle_zipfile: "{{gradle_name}}-all.zip"
 gradle_url: https://services.gradle.org/distributions/{{gradle_zipfile}}
-gradle_home: "{{jenkins_tools}}/gradle-2.1"
+gradle_home: "{{jenkins_tools}}/hudson.plugins.gradle.GradleInstallation/{{gradle_name}}"
+
+jenkins_configs:
+  - 'config.xml'
+  - 'hudson.maven.MavenModuleSet.xml'
+  - 'hudson.model.UpdateCenter.xml'
+  - 'hudson.plugins.analysis.core.GlobalSettings.xml'
+  - 'hudson.plugins.git.GitSCM.xml'
+  - 'hudson.plugins.git.GitTool.xml'
+  - 'hudson.plugins.gradle.Gradle.xml'
+  - 'hudson.plugins.jira.JiraProjectProperty.xml'
+  - 'hudson.plugins.sonar.SonarPublisher.xml'
+  - 'hudson.plugins.sonar.SonarRunnerInstallation.xml'
+  - 'hudson.scm.CVSSCM.xml'
+  - 'hudson.scm.SubversionSCM.xml'
+  - 'hudson.tasks.Ant.xml'
+  - 'hudson.tasks.Mailer.xml'
+  - 'hudson.tasks.Maven.xml'
+  - 'hudson.tasks.Shell.xml'
+  - 'hudson.triggers.SCMTrigger.xml'
+  - 'jenkins.model.ArtifactManagerConfiguration.xml'
+  - 'jenkins.model.DownloadSettings.xml'
+  - 'jenkins.model.JenkinsLocationConfiguration.xml'
+  - 'jenkins.mvn.GlobalMavenConfig.xml'
+  - 'jobConfigHistory.xml'
+  - 'nodeMonitors.xml'
+  - 'org.jenkinsci.plugins.gitclient.JGitTool.xml'
+  - 'org.jfrog.hudson.ArtifactoryBuilder.xml'
+  - 'org.jvnet.hudson.plugins.fortify360.FPRPublisher.xml'
+  - 'sonar.xml'
+
+

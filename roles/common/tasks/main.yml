@@ -18,6 +18,7 @@
    - python-httplib2
    - unzip
    - ksh
+   - acpid
 
 - name: set SELinux to permissive
   action: selinux policy=targeted state=permissive
@@ -25,8 +26,13 @@
 
 - name: set hostname
   hostname: name={{inventory_hostname}}
+
 - name: persist hostname
   lineinfile: dest=/etc/sysconfig/network regexp='^HOSTNAME' line='HOSTNAME={{inventory_hostname}}' state=present
+
+- name: persist in hosts file
+  lineinfile: dest=/etc/hosts regexp='{{inventory_hostname}}' line='{{ansible_default_ipv4.address}}   {{inventory_hostname}}' state=present
+
 
 # Workaround: dont't use the ipv6 networks
 - name: disable ipv6
@@ -34,3 +40,7 @@
 - name: add public resolver
   lineinfile: dest=/etc/resolv.conf regexp='^nameserver' line='nameserver 8.8.8.8' state=present
   notify: 'restart network'
+
+- name: 'enable ACPI shutdown'
+  service: name=acpid enabled=true
+  notify: 'restart acpid'

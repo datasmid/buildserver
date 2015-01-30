@@ -97,7 +97,5 @@
 
 - name: 'install artifactory as a service'
   command: "{{artifactory_home}}/bin/installService.sh {{artifactory_username}} creates=/etc/init.d/artifactory"
-
-
   notify:
     - 'restart artifactory'
