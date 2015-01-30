@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<hudson.plugins.sonar.SonarPublisher_-DescriptorImpl plugin="sonar@2.1">
+  <installations>
+    <hudson.plugins.sonar.SonarInstallation>
+      <name>SONAR</name>
+      <disabled>false</disabled>
+      <serverUrl></serverUrl>
+      <mojoVersion></mojoVersion>
+      <databaseUrl>jdbc:mysql://localhost:3306/sonar?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=utf8</databaseUrl>
+      <databaseDriver>com.mysql.jdbc.Driver</databaseDriver>
+      <databaseLogin>sonar</databaseLogin>
+      <databasePassword>UEdLYWVFM1hocDJCMQ==</databasePassword>
+      <additionalProperties></additionalProperties>
+      <triggers>
+        <skipScmCause>false</skipScmCause>
+        <skipUpstreamCause>false</skipUpstreamCause>
+        <envVar></envVar>
+      </triggers>
+      <sonarLogin>sonar</sonarLogin>
+      <sonarPassword>UEdLYWVFM1hocDJCMQ==</sonarPassword>
+    </hudson.plugins.sonar.SonarInstallation>
+  </installations>
+</hudson.plugins.sonar.SonarPublisher_-DescriptorImpl>

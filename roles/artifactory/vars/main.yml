@@ -3,7 +3,7 @@ features:
   mysql: True
   postgresql: False
 
-artifactory_url: "http://bit.ly/Hqv9aj"
+artifactory_url: "https://bintray.com/artifact/download/jfrog/artifactory/artifactory-3.4.2.zip"
 artifactory_version: "3.4.2"
 artifactory_file: "artifactory-{{artifactory_version}}.zip"
 artifactory_home: "/opt/artifactory/artifactory-{{artifactory_version}}"

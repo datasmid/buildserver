@@ -1,9 +1,14 @@
 ---
 features:
-  ant: False
-  maven: False
+  ant: True
+  maven: True
   gradle: False
   system_auth: False
+
+ant_version: 1.9.4
+maven_version: 3.2.5
+gradle_version: 2.2.1
+
 
 plugins:
   - 'analysis-collector'
@@ -23,12 +28,9 @@ plugins:
   - 'junit'
   - 'ldap'
   - 'mailer'
-#  - 'parallel-test-executor' # http://vimeo.com/69631187
   - 'pmd'              #
   - 'release'
   - 'role-strategy'
-#  - 'remote-terminal-access'
-#  - 'repository'       # chained parallel test can use artifacts as maven repo
   - 'ssh-agent' 
   - 'sonar'            # source code quality
 #  - 'thinBackup'       # backup job configurations
@@ -51,6 +53,21 @@ rpm_dependencies:
   - 'jenkins'
   - 'curl'
   - 'unzip'
+
+maven_name: "apache-maven-{{maven_version}}"
+maven_tarfile: "{{maven_name}}-bin.tar.gz"
+maven_url: http://ftp.nluug.nl/internet/apache/maven/maven-3/{{maven_version}}/binaries/{{maven_tarfile}}
+maven_home: "{{jenkins_tools}}/hudson.tasks.Maven_MavenInstallation/{{maven_name}}"
+
+ant_name: "apache-ant-{{ant_version}}"
+ant_tarfile: "{{ant_name}}-bin.tar.gz"
+ant_url: http://ftp.tudelft.nl/apache/ant/binaries/{{ant_tarfile}}
+ant_home: "{{jenkins_tools}}/hudson.tasks.Ant_AntInstallation/{{ant_name}}"
+
+gradle_name: "gradle-{{gradle_version}}"
+gradle_zipfile: "{{gradle_name}}-all.zip"
+gradle_url: https://services.gradle.org/distributions/{{gradle_zipfile}}
+gradle_home: "{{jenkins_tools}}/hudson.plugins.gradle.GradleInstallation/{{gradle_name}}"
 
 jenkins_configs:
   - 'config.xml'
@@ -79,16 +96,6 @@ jenkins_configs:
   - 'org.jenkinsci.plugins.gitclient.JGitTool.xml'
   - 'org.jfrog.hudson.ArtifactoryBuilder.xml'
   - 'org.jvnet.hudson.plugins.fortify360.FPRPublisher.xml'
+  - 'sonar.xml'
 
 
-maven_tarfile: apache-maven-3.2.2-bin.tar.gz
-maven_url: http://ftp.nluug.nl/internet/apache/maven/maven-3/3.2.2/binaries/{{maven_tarfile}}
-maven_home: "{{jenkins_tools}}/hudson.tasks.Maven_MavenInstallation/apache-maven-3.2.2"
-
-ant_tarfile: apache-ant-1.9.4-bin.tar.gz
-ant_url: http://ftp.tudelft.nl/apache/ant/binaries/{{ant_tarfile}}
-ant_home: "{{jenkins_tools}}/hudson.tasks.Ant_AntInstallation/apache-ant-1.9.4"
-
-gradle_zipfile: gradle-2.1-all.zip
-gradle_url: https://services.gradle.org/distributions/{{gradle_zipfile}}
-gradle_home: "{{jenkins_tools}}/hudson.plugins.gradle.GradleInstallation/gradle-2.1"
