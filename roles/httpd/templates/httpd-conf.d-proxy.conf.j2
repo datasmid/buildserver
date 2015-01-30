@@ -14,9 +14,12 @@ ProxyPassreverse /artifactory http://localhost:8081/artifactory
 
 ProxyPass /nexus http://localhost:8082/nexus
 ProxyPassreverse /nexus http://localhost:8082/nexus
+ProxyPassReverseCookiePath / /nexus
 
 ProxyPass /sonar http://localhost:9000/sonar
 ProxyPassreverse /sonar http://localhost:9000/sonar
+
+RequestHeader set X-Forwarded-Proto "https"
 
 RewriteEngine On
 RewriteCond %{HTTPS} off

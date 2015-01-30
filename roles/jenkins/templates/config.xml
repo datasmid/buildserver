@@ -37,6 +37,20 @@
   <slaveAgentPort>0</slaveAgentPort>
   <label></label>
   <nodeProperties/>
-  <globalNodeProperties/>
+  <globalNodeProperties>
+    <hudson.slaves.EnvironmentVariablesNodeProperty>
+      <envVars serialization="custom">
+        <unserializable-parents/>
+        <tree-map>
+          <default>
+            <comparator class="hudson.util.CaseInsensitiveComparator"/>
+          </default>
+          <int>1</int>
+          <string>PATH</string>
+          <string>/bin:/usr/bin:/usr/lib/jvm/java-1.7.0:/data/jenkins/tools/hudson.tasks.Ant_AntInstallation/apache-ant-1.9.4/bin:/data/jenkins/tools/hudson.tasks.Maven_MavenInstallation/apache-maven-3.2.5/bin</string>
+        </tree-map>
+      </envVars>
+    </hudson.slaves.EnvironmentVariablesNodeProperty>
+  </globalNodeProperties>
   <noUsageStatistics>true</noUsageStatistics>
 </hudson>

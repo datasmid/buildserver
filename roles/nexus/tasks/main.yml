@@ -37,6 +37,9 @@
 - name: 'create /usr/local/nexus/conf/nexus-properties'
   template: src=nexus-properties.j2 dest=/usr/local/nexus/conf/nexus.properties owner=nexus group=nexus mode=0644
 
+- name: 'force base url for proxy'
+  lineinfile: dest={{nexus_work}}/conf/nexus.xml regexp='forceBaseUrl' line='<forceBaseUrl>true</forceBaseUrl>' state=present
+
 - name: 'copy the /etc/init.d/nexus file'
   template: src=init-nexus.j2 dest=/etc/init.d/nexus owner=root group=root mode=0755 backup=yes
   notify:

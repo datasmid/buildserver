@@ -12,7 +12,7 @@
 # Use Jenkins to build
     - jenkins
 
-# nexus can be used as library and/or build repository
+# nexus can be used as library repository
     - nexus
 # artifactory & sonar use mysql, postgresql option not finished
     - mysql
@@ -21,7 +21,7 @@
 # SonarQube can be used for reports
     - sonar   
 
-# Artifactory can be used as library and/or build repository
+# Artifactory can be used as build repository
     - artifactory
 
 # TODO
