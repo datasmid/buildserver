@@ -1,5 +1,9 @@
 ---
 ### Maven
+- name: 'make sure directory for Maven exists'
+  file: dest={{maven_home}} state=directory owner=root group=root mode=0755
+  
+  
 - name: 'verify presence of maven'
   stat: path={{maven_home}}/bin/mvn
   register: mvn_installed
@@ -11,7 +15,7 @@
   when: features.maven and not mvn_installed.stat.exists
 
 - name: 'untar maven'
-  command: tar xfz /tmp/{{maven_tarfile}} -C {{jenkins_tools}} 
+  command: tar xfz /tmp/{{maven_tarfile}} -C {{jenkins_tools}}/hudson.tasks.Maven_MavenInstallation
   when: features.maven and not mvn_installed.stat.exists
 
 - name: 'make sure jenkins ~/.m2 directory exists'

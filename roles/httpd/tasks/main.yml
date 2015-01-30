@@ -1,0 +1,7 @@
+---
+
+# Configure webserver
+- include: config.yml
+
+# Install files in document root 
+- include: site.yml

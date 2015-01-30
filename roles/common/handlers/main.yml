@@ -1,3 +1,6 @@
 ---
 - name: 'restart network'
   service: name=network state=restarted
+
+- name: 'restart acpid'
+  service: name=acpid state=restarted

@@ -62,7 +62,7 @@ JENKINS_LISTEN_ADDRESS=""
 # HTTPS port Jenkins is listening on.
 # Default is disabled.
 #
-JENKINS_HTTPS_PORT="8443"
+JENKINS_HTTPS_PORT="{{jenkins_https}}"
 
 ## Type:        string
 ## Default:     ""
@@ -89,7 +89,7 @@ JENKINS_AJP_PORT="8009"
 # IP address Jenkins listens on for Ajp13 requests.
 # Default is all interfaces (0.0.0.0).
 #
-JENKINS_AJP_LISTEN_ADDRESS=""
+JENKINS_AJP_LISTEN_ADDRESS="127.0.0.1"
 
 ## Type:        integer(1:9)
 ## Default:     5
@@ -130,5 +130,5 @@ JENKINS_HANDLER_IDLE="20"
 #
 # Pass arbitrary arguments to Jenkins.
 # Full option list: java -jar jenkins.war --help
-#
-JENKINS_ARGS=""
+# (prefix is added to have Apache as a reverse proxy)
+JENKINS_ARGS="--prefix=/jenkins"
