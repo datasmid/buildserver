@@ -38,11 +38,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # HTTPS for Jenkins
     dev_config.vm.network "forwarded_port", guest: 8443, host: 8443, auto_correct: true 
     # Artifactory
-    dev_config.vm.network "forwarded_port", guest: 8081, host: 8081, auto_correct: true
+    # dev_config.vm.network "forwarded_port", guest: 8081, host: 8081, auto_correct: true
     # Nexus
-    dev_config.vm.network "forwarded_port", guest: 8082, host: 8082, auto_correct: true
+    # dev_config.vm.network "forwarded_port", guest: 8082, host: 8082, auto_correct: true
     # Sonar
-    dev_config.vm.network "forwarded_port", guest: 9000, host: 9000, auto_correct: true 
+    # dev_config.vm.network "forwarded_port", guest: 9000, host: 9000, auto_correct: true 
+    
     dev_config.vm.provider :virtualbox do |v|
         v.name = "dev"
     end
