@@ -18,7 +18,7 @@ plugins:
   - 'cobertura'
   - 'dashboard-view'
 #  - 'dry'              # don't repeat yourself
-#  - 'findbugs'         # common bugs can be squashed
+  - 'findbugs'          # common bugs can be squashed
   - 'fortify360'
   - 'git'              # connect to git
   - 'gradle'           # build tool
