@@ -6,7 +6,7 @@
     - config
 
 - name: 'create game-of-life config.xml'
-  copy: src=game-of-life/config.xml dest={{jenkins_data}}/jobs/game-of-life/config.xml owner=jenkins group=jenkins mode=0600
+  template: src=game-of-life/config.xml dest={{jenkins_data}}/jobs/game-of-life/config.xml owner=jenkins group=jenkins mode=0600
   with_items: jenkins_configs
   tags:
     - config
