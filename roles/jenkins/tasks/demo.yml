@@ -1,0 +1,24 @@
+---
+
+- name: 'Install demo job: game-of-life'
+  file: state=directory dest={{jenkins_data}}/jobs/game-of-life/builds owner=jenkins group=jenkins
+  tags:
+    - config
+
+- name: 'create game-of-life config.xml'
+  copy: src=game-of-life/config.xml dest={{jenkins_data}}/jobs/game-of-life/config.xml owner=jenkins group=jenkins mode=0600
+  with_items: jenkins_configs
+  tags:
+    - config
+
+- name: 'create legacyIds for demo job'
+  file: state=touch dest={{jenkins_data}}/jobs/game-of-life/builds/legacyIds owner=jenkins group=jenkins
+  
+- name: 'create symlinks for demo job'
+  file: state=link force=yes src=-1 dest={{jenkins_data}}/jobs/game-of-life/builds/{{item}} owner=jenkins group=jenkins
+  with_items:
+    - lastFailedBuild
+    - lastStableBuild
+    - lastSuccessfulBuild
+    - lastUnstableBuild
+    - lastUnsuccessfulBuild
