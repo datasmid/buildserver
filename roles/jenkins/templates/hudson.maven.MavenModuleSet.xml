@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <hudson.maven.MavenModuleSet_-DescriptorImpl plugin="maven-plugin@2.8">
-  <globalMavenOpts>/data/jenkins/repository</globalMavenOpts>
+  <globalMavenOpts></globalMavenOpts>
   <mavenValidationLevels class="linked-hash-map">
     <entry>
       <string>DEFAULT</string>
@@ -29,3 +29,4 @@
   </mavenValidationLevels>
   <localRepository class="hudson.maven.local_repo.DefaultLocalRepositoryLocator"/>
 </hudson.maven.MavenModuleSet_-DescriptorImpl>
+

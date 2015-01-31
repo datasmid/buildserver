@@ -3,6 +3,8 @@
 - name: 'make sure directory for Maven exists'
   file: dest={{maven_home}} state=directory owner=root group=root mode=0755
   
+- name: 'make sure directory for Maven local repository exists'
+  file: dest={{jenkins_data}}/repository state=directory owner=jenkins group=jenkins mode=0755
   
 - name: 'verify presence of maven'
   stat: path={{maven_home}}/bin/mvn
