@@ -29,17 +29,16 @@
 
 - name: persist hostname
   lineinfile: dest=/etc/sysconfig/network regexp='^HOSTNAME' line='HOSTNAME={{inventory_hostname}}' state=present
+  notify: 'restart network'
 
 - name: persist in hosts file
-  lineinfile: dest=/etc/hosts regexp='{{inventory_hostname}}' line='{{ansible_default_ipv4.address}}   {{inventory_hostname}}' state=present
-
+  lineinfile: dest=/etc/hosts regexp='{{inventory_hostname}}' line='{{ansible_eth1.ipv4.address}}   {{inventory_hostname}}' state=present
 
 # Workaround: dont't use the ipv6 networks
 - name: disable ipv6
   lineinfile: dest=/etc/sysconfig/network regexp='^NETWORKING_IPV6' line='NETWORKING_IPV6=no' state=present
 - name: add public resolver
   lineinfile: dest=/etc/resolv.conf regexp='^nameserver' line='nameserver 8.8.8.8' state=present
-  notify: 'restart network'
 
 - name: 'enable ACPI shutdown'
   service: name=acpid enabled=true

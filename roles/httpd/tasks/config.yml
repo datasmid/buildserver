@@ -8,14 +8,14 @@
   when: ansible_os_family == "RedHat"
 
 - name: 'create proxy configuration file'
-  action: template src=httpd-conf.d-proxy.conf.j2 dest=/etc/httpd/conf.d/proxy.conf owner=root group=root mode=0600 backup=yes
+  template: src=httpd-conf.d-proxy.conf.j2 dest=/etc/httpd/conf.d/proxy.conf owner=root group=root mode=0600 backup=yes
   notify:
-    - restart httpd
+    - start httpd
     
 - name: 'create ssl configuration file'
-  action: template src=httpd-conf.d-ssl.conf.j2 dest=/etc/httpd/conf.d/ssl.conf owner=root group=root mode=0600 backup=yes
+  template: src=httpd-conf.d-ssl.conf.j2 dest=/etc/httpd/conf.d/ssl.conf owner=root group=root mode=0600 backup=yes
   notify:
-    - restart httpd
+    - start httpd
 
 - name: 'start httpd service'
   service: name=httpd enabled=true

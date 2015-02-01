@@ -28,8 +28,6 @@
 
 - name: 'update symlink /usr/local/nexus'
   shell: ln -fs `ls -d /data/nexus/nexus-*|tail -1` /usr/local/nexus
-  notify:
-    - 'restart nexus'
 
 - name: 'export NEXUS_HOME=/usr/local/nexus'
   template: src=etc-profile-d-nexus-sh.j2 dest=/etc/profile.d/nexus.sh owner=root group=root mode=0644
@@ -40,7 +38,7 @@
 #- name: 'force base url for proxy'
 #  lineinfile: dest={{nexus_work}}/conf/nexus.xml regexp='forceBaseUrl' line='<forceBaseUrl>true</forceBaseUrl>' state=present
 
-#- name: 'force base url for proxy'
+#- name: 'force checksumPolicy'
 #  lineinfile: dest={{nexus_work}}/conf/nexus.xml regexp='checksumPolicy' line='<checksumPolicy>STRICT</checksumPolicy>' state=present
 
 - name: 'copy the /etc/init.d/nexus file'
