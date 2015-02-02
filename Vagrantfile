@@ -7,14 +7,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "chef/centos-6.5"
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
-  config.vm.box_url = "https://vagrantcloud.com/chef/centos-6.5"
+  config.vm.box_url = "https://atlas.hashicorp.com/chef/boxes/centos-6.5"
+  config.vm.box_check_update = false
 
   # disable guest additions
   config.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: true
 
   
   config.vm.provider "virtualbox" do |vb|
-    vb.customize ["modifyvm", :id, "--memory", 2028, "--natnet1", "172.16.1/24"]
+    vb.customize ["modifyvm", :id, "--memory", 4096, "--natnet1", "172.16.1/24"]
     vb.gui = false
   end
 
@@ -38,9 +39,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # HTTPS for reverse proxy
     dev_config.vm.network "forwarded_port", guest: 443, host: 8443, auto_correct: true 
     # Artifactory
-    dev_config.vm.network "forwarded_port", guest: 8081, host: 8081, auto_correct: true
+    #dev_config.vm.network "forwarded_port", guest: 8081, host: 8081, auto_correct: true
     # Nexus
-    dev_config.vm.network "forwarded_port", guest: 8082, host: 8082, auto_correct: true
+    #dev_config.vm.network "forwarded_port", guest: 8082, host: 8082, auto_correct: true
     # Sonar
     # dev_config.vm.network "forwarded_port", guest: 9000, host: 9000, auto_correct: true 
     
