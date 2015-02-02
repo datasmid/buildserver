@@ -2,7 +2,7 @@
 - name: 'create directories'
   file: dest=/var/www/html/rw_common/themes/ideal/images state=directory owner=apache mode=0750
   
-- name: 'create website directories'
+- name: 'create website home page'
   copy: src={{item}} dest=/var/www/html/{{item}} owner=apache mode=0640
   with_items: 
     - index.html
