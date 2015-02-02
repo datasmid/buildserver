@@ -10,6 +10,10 @@
   template: src=etc-profile-d-jdk-sh.j2 dest=/etc/profile.d/jdk.sh
           owner=root group=root mode=0644
           
+- name: "import buildserverCA root cert in Java trust store"
+  command: "keytool -importcert -trustcacerts -file /var/www/html/buildserverCA.cer -storepass changeit -noprompt -alias {{inventory_hostname}} -keystore /usr/lib/jvm/java/jre/lib/security/cacerts"
+  when: ansible_os_family == "RedHat"
+  
 - name: 'install software group "Development tools"'
   yum: name="@Development tools" state=present
   retries: 3
