@@ -1,6 +1,0 @@
----
-features:
-  gitblit: True
-
-gitblit_tarfile: gitblit-1.6.0.tar.gz
-gitblit_url: http://dl.bintray.com/gitblit/releases/{{gitblit_tarfile}}
