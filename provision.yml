@@ -24,8 +24,7 @@
 # Artifactory can be used as build repository
     - artifactory
 
-# TODO
-#    - gitblit
+# Git server
 #    - gitlab
 
 
@@ -37,4 +36,3 @@
 
   roles:
     - common
-    - docker

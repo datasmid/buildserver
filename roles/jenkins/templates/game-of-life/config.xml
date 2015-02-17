@@ -143,6 +143,27 @@
       <keepAll>false</keepAll>
     </hudson.tasks.JavadocArchiver>
   </publishers>
-  <buildWrappers/>
+  <buildWrappers>
+    <org.jfrog.hudson.generic.ArtifactoryGenericConfigurator plugin="artifactory@2.2.7">
+      <details>
+        <artifactoryName>1370808660@1424157802485</artifactoryName>
+        <repositoryKey>ext-snapshot-local</repositoryKey>
+        <snapshotsRepositoryKey>ext-snapshot-local</snapshotsRepositoryKey>
+        <artifactoryUrl>https://dev/artifactory</artifactoryUrl>
+        <stagingPlugin/>
+      </details>
+      <deployPattern>**/target/*.war</deployPattern>
+      <resolvePattern></resolvePattern>
+      <matrixParams></matrixParams>
+      <deployBuildInfo>true</deployBuildInfo>
+      <includeEnvVars>false</includeEnvVars>
+      <envVarsPatterns>
+        <includePatterns></includePatterns>
+        <excludePatterns>*password*,*secret*</excludePatterns>
+      </envVarsPatterns>
+      <discardOldBuilds>false</discardOldBuilds>
+      <discardBuildArtifacts>true</discardBuildArtifacts>
+      <multiConfProject>false</multiConfProject>
+    </org.jfrog.hudson.generic.ArtifactoryGenericConfigurator>
+  </buildWrappers>
 </project>
-    
