@@ -4,10 +4,10 @@
 VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   
-  config.vm.box = "chef/centos-6.5"
+  config.vm.box = "chef/centos-6.6"
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
-  config.vm.box_url = "https://atlas.hashicorp.com/chef/boxes/centos-6.5"
+  config.vm.box_url = "https://atlas.hashicorp.com/chef/boxes/centos-6.6"
   config.vm.box_check_update = false
 
   # disable guest additions
@@ -27,6 +27,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.define :dev,  primary: true do |dev_config|
+    dev_config.vm.provider "virtualbox" do |vb|
+      vb.customize ["modifyvm", :id, "--memory", 4096, "--natnet1", "172.16.1/24"]
+      vb.customize ["modifyvm", :id, "--ioapic", "on"  ]
+      vb.name = "dev"
+      vb.gui = false
+    end
     # To access this host use: 'vagrant ssh dev' 
     dev_config.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2222, auto_correct: true
     
@@ -44,13 +50,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     #dev_config.vm.network "forwarded_port", guest: 8082, host: 8082, auto_correct: true
     # Sonar
     # dev_config.vm.network "forwarded_port", guest: 9000, host: 9000, auto_correct: true 
-    
-    dev_config.vm.provider :virtualbox do |v|
-        v.name = "dev"
-    end
   end
 
   config.vm.define :test, autostart: false do |test_config|
+    test_config.vm.provider "virtualbox" do |vb|
+      vb.customize ["modifyvm", :id, "--memory", 4096, "--natnet1", "172.16.1/24"]
+      vb.gui = false
+    end
     test_config.vm.network "private_network", ip: "192.168.10.18", :netmask => "255.255.255.0",  auto_config: true
     test_config.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2223, auto_correct: true
     test_config.vm.network "forwarded_port", guest: 8080, host: 8080, auto_correct: true
