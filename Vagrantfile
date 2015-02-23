@@ -4,6 +4,10 @@
 VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   
+  # Prefer VirtualBox before VMware Fusion
+  config.vm.provider "virtualbox"
+  config.vm.provider "vmware_fusion"
+
   config.vm.box = "chef/centos-6.6"
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
@@ -32,6 +36,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       vb.customize ["modifyvm", :id, "--ioapic", "on"  ]
       vb.name = "dev"
       vb.gui = false
+    end
+    
+    dev_config.vm.provider "vmware_fusion" do |vmware|
+      vmware.gui = false
+      vmware.vmx["memsize"] = "4096"
+      vmware.vmx["numvcpus"] = "2"
     end
     # To access this host use: 'vagrant ssh dev' 
     dev_config.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2222, auto_correct: true
