@@ -6,17 +6,18 @@
   sudo: yes
 
   roles:
-    - common
+    - bbaassssiiee.commoncentos
     - httpd
     
 # Use Jenkins to build
     - jenkins
 
 # nexus can be used as library repository
-    - nexus
+    - hullufred.nexus
+
 # artifactory & sonar use mysql, postgresql option not finished
+#    - pcextreme.mariadb
     - mysql
-#    - postgres
 
 # SonarQube can be used for reports
     - sonar   
@@ -35,4 +36,7 @@
   sudo: yes
 
   roles:
-    - common
+    - bbaassssiiee.commoncentos
+    - geerlingguy.java
+    - hudecof.tomcat
+

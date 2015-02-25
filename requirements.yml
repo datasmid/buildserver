@@ -5,8 +5,12 @@
 - src: hullufred.nexus
   path: roles/
 
-- src: rothgar.tomcat_and_java
+- src: geerlingguy.java
+  path: roles/
+
+- src: hudecof.tomcat
   path: roles
 
 - src: pcextreme.mariadb
   path: roles/
+
