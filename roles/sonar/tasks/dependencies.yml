@@ -17,13 +17,19 @@
     - database
     - postgresql
 
+- name: 'Install MySQL-python when sonar needs it'
+  yum: name=MySQL-python state=installed
+  when: features.mysql
+  tags:
+    - database
+    - mysql
+
 - name: 'sonar could use either postgresql or mysql'
   service: name=mysql state=started
   when: features.mysql
   tags:
     - database
     - mysql
-
 
 - name: 'make sure sonar packages are installed'
   yum: name={{item}} state=installed

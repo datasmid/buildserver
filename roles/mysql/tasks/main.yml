@@ -1,9 +1,0 @@
----
-# Add mariadb repository
-- include: repo.yml
-
-# Install packages 
-- include: dependencies.yml
-
-# Configure database
-- include: config.yml

@@ -15,9 +15,8 @@
 # nexus can be used as library repository
     - hullufred.nexus
 
-# artifactory & sonar use mysql, postgresql option not finished
-#    - pcextreme.mariadb
-    - mysql
+# artifactory & sonar use mariadb
+    - pcextreme.mariadb
 
 # SonarQube can be used for reports
     - sonar   
