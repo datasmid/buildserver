@@ -1,0 +1,12 @@
+---
+- src: bbaassssiiee.commoncentos
+  path: roles/
+
+- src: hullufred.nexus
+  path: roles/
+
+- src: rothgar.tomcat_and_java
+  path: roles
+
+- src: pcextreme.mariadb
+  path: roles/
