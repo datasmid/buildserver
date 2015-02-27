@@ -65,7 +65,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.define :test, autostart: true do |test_config|
     test_config.vm.provider "virtualbox" do |vb|
-      vb.customize ["modifyvm", :id, "--memory", 4096, "--natnet1", "172.16.1/24"]
+      vb.customize ["modifyvm", :id, "--memory", 2048, "--natnet1", "172.16.1/24"]
       vb.gui = false
     end
     test_config.vm.network "private_network", ip: "192.168.10.18", :netmask => "255.255.255.0",  auto_config: true
