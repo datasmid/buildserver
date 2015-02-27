@@ -1,0 +1,8 @@
+- name: Test server 
+  hosts: test
+  user: root
+  remote_user: vagrant
+  sudo: yes
+
+  tasks:
+    - include: tasks/deploy.yml

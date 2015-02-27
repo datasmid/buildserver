@@ -11,3 +11,6 @@ clean:
 up:
 	vagrant halt
 	vagrant up --provision
+
+deploy:
+	ansible-playbook -vv -i ansible.ini -l test deploy.yml
