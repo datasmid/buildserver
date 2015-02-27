@@ -30,9 +30,13 @@
   user: root
   remote_user: vagrant
   sudo: yes
+  vars:
+    homedir: "{{ lookup('env','HOME') }}"
 
   roles:
     - bbaassssiiee.commoncentos
     - geerlingguy.java
     - hudecof.tomcat
 
+  tasks:
+    - include: tasks/settings.yml

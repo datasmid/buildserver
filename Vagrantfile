@@ -63,7 +63,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # dev_config.vm.network "forwarded_port", guest: 9000, host: 9000, auto_correct: true 
   end
 
-  config.vm.define :test, autostart: true do |test_config|
+  config.vm.define :test, autostart: false do |test_config|
     test_config.vm.provider "virtualbox" do |vb|
       vb.customize ["modifyvm", :id, "--memory", 2048, "--natnet1", "172.16.1/24"]
       vb.gui = false

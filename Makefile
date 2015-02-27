@@ -3,6 +3,7 @@ install:
 
 clean:
 	rm -rf roles/bbaassssiiee.commoncentos/
+	rm -rf roles/bbaassssiiee.artifactory/
 	rm -rf roles/geerlingguy.java/
 	rm -rf roles/hudecof.tomcat/
 	rm -rf roles/hullufred.nexus/
@@ -12,5 +13,11 @@ up:
 	vagrant halt
 	vagrant up --provision
 
-deploy:
+deploy: install
 	ansible-playbook -vv -i ansible.ini -l test deploy.yml
+
+setup:
+	vagrant destroy -f test
+	vagrant up --provision test
+
+test: clean install setup deploy
