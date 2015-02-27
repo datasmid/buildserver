@@ -2,6 +2,9 @@
 - src: bbaassssiiee.commoncentos
   path: roles/
 
+- src: bbaassssiiee.artifactory
+  path: roles/
+
 - src: hullufred.nexus
   path: roles/
 
