@@ -1,19 +1,19 @@
 ---
 - src: bbaassssiiee.commoncentos
-  path: roles/
+  path: ./roles/
 
 - src: bbaassssiiee.artifactory
-  path: roles/
+  path: ./roles/
 
 - src: hullufred.nexus
-  path: roles/
+  path: ./roles/
 
 - src: geerlingguy.java
-  path: roles/
+  path: ./roles/
 
 - src: hudecof.tomcat
-  path: roles
+  path: ./roles
 
 - src: pcextreme.mariadb
-  path: roles/
+  path: ./roles/
 
