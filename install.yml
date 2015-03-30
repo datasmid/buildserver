@@ -6,5 +6,27 @@
   gather_facts: False
 
   tasks:
+
+
+    - name: 'make sure directory for TLS certificates exists'
+      file: name=pki state=directory mode=0700
+      
+    - name: 'generate CA key'
+      command: "openssl genrsa -out pki/buildserverCA.key 1024 creates=pki/buildserverCA.key"
+  
+    - name: 'self-sign CA key'
+      command: "openssl req -x509 -new -nodes -key pki/buildserverCA.key -days 1024 -out pki/buildserverCA.pem -subj '/C=AA/ST=NN/L=Ansible/O=localroot/CN=Buildserver CA' creates=pki/buildserverCA.pem"
+
+    - name: 'convert pem to der for webserver'
+      command: "openssl x509 -in pki/buildserverCA.pem -outform der -out pki/buildserverCA.cer creates=pki/buildserverCA.cer"
+      
+    - name: "check network"
+      uri: url=https://galaxy.ansible.com 
+           method=HEAD
+           return_content=no
+           status_code=200 
+           timeout=60 
+           follow_redirects=all
+
     - name: "ansible-galaxy install --force -r requirements.yml"
       command: ansible-galaxy install --force -r requirements.yml 
