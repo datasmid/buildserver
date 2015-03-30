@@ -5,22 +5,28 @@
   when: ansible_os_family == "RedHat"
   
 - name: 'generate CA key'
-  command: "openssl genrsa -out /etc/pki/CA/private/buildserverCA.key 2048 creates=/etc/pki/CA/private/buildserverCA.key"
+  command: "openssl genrsa -out /etc/pki/CA/private/buildserverCA.key 1024 creates=/etc/pki/CA/private/buildserverCA.key"
   
 - name: 'self-sign CA key'
   command: "openssl req -x509 -new -nodes -key /etc/pki/CA/private/buildserverCA.key -days 1024 -out /etc/pki/CA/certs/buildserverCA.pem -subj '/C=AA/ST=NN/L=Ansible/O=localroot/CN=Buildserver CA' creates=/etc/pki/CA/certs/buildserverCA.pem"
 
 - name: 'serve buildserverCA.crt from webserver'
   command: "openssl x509 -in /etc/pki/CA/certs/buildserverCA.pem -outform der -out /var/www/html/buildserverCA.cer creates=/var/www/html/buildserverCA.cer"
-  
+
 - name: 'generate buildserver key'
-  command: "openssl genrsa -out /etc/pki/tls/private/{{inventory_hostname}}.key 2048 creates=/etc/pki/tls/private/{{inventory_hostname}}.key"
+  command: "openssl genrsa -out /etc/pki/tls/private/{{inventory_hostname}}.key 1024 creates=/etc/pki/tls/private/{{inventory_hostname}}.key"
 
 - name: 'generate certificate signing request'
   command: "openssl req -new -key /etc/pki/tls/private/{{inventory_hostname}}.key -out {{inventory_hostname}}.csr -subj '/C=AA/ST=NN/L=Ansible/O=localhost/CN={{inventory_hostname}}'"
 
 - name: 'CA-sign buildserver key'
   command: "openssl x509 -req -in {{inventory_hostname}}.csr -CA /etc/pki/CA/certs/buildserverCA.pem -CAkey /etc/pki/CA/private/buildserverCA.key -CAcreateserial -out /etc/pki/tls/certs/{{inventory_hostname}}.crt -days 180 creates=/etc/pki/tls/certs/{{inventory_hostname}}.crt"
+  
+- name: 'copy dh_parameters.txt to webserver'
+  copy: src=dh_parameters.txt dest=/etc/pki/tls/dh_parameters.txt
+
+- name: 'concatenate dh_parameters.txt to webserver'
+  shell: "cat /etc/pki/tls/dh_parameters.txt >> /etc/pki/tls/certs/{{inventory_hostname}}.crt"
   notify:
     - restart httpd
 
