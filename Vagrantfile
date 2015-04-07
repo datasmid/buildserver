@@ -5,8 +5,8 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   
   # The ordering of these 2 lines expresses a preference for a hypervisor
-  config.vm.provider "vmware_fusion"
   config.vm.provider "virtualbox"
+  config.vm.provider "vmware_fusion"
   
   # Use the Ansible playbook provision.yml to setup the virtual machines.
   config.vm.provision "ansible" do |ansible|
