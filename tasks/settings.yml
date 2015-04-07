@@ -1,15 +1,9 @@
-    - name: "ensure vagrant has user's ssh key if present"
-      copy: dest=/home/vagrant/.ssh/authorized_keys
-            owner=vagrant group=vagrant mode=0600
-            src={{ item }}
-      with_first_found:
-      - files:
-         - id_rsa.pub
-         - id_dsa.pub
-        paths:
-         - "{{ homedir }}/.ssh"
-
     - name: 'add "dev" in /etc/hosts file'
-      lineinfile: dest=/etc/hosts regexp='{{inventory_hostname}}'
+      lineinfile: dest=/etc/hosts regexp='192.168.10.16*'
               line='192.168.10.16   dev' 
+              state=present
+
+    - name: 'add "test" in /etc/hosts file'
+      lineinfile: dest=/etc/hosts regexp='192.168.10.18*'
+              line='192.168.10.16   test' 
               state=present

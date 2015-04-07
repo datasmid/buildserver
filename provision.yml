@@ -23,6 +23,8 @@
 
 # Artifactory can be used as build repository
     - bbaassssiiee.artifactory
+  tasks:
+    - include: tasks/settings.yml
 
 
 - name: Test server 
@@ -37,6 +39,7 @@
     - bbaassssiiee.commoncentos
     - geerlingguy.java
     - hudecof.tomcat
+#    - Ginsys.omnibus-gitlab
 
   tasks:
     - include: tasks/settings.yml
