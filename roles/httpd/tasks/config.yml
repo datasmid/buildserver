@@ -17,5 +17,9 @@
   notify:
     - restart httpd
 
+- name: 'configure ServerName'
+  lineinfile: dest=/etc/httpd/conf/httpd.conf regexp='^ServerName'
+              line='ServerName {{inventory_hostname}}' state=present
+
 - name: 'start httpd service'
   service: name=httpd enabled=true

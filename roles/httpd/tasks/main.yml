@@ -2,8 +2,8 @@
 # Configure webserver
 - include: config.yml
 
-# Configure certificates
-- include: certificates.yml
-
 # Install files in document root 
 - include: site.yml
+
+# Configure certificates
+- include: certificates.yml

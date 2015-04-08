@@ -3,7 +3,7 @@
   sudo: yes
   service: name=jenkins state=started
 
-- name: "create jenkins CLI destination directory: ${jenkins.dest}"
+- name: "create jenkins CLI destination directory"
   sudo: yes
   file: path={{ jenkins_data }} state=directory
   
