@@ -5,7 +5,21 @@
   connection: local
   gather_facts: False
 
+  vars:
+    java_home: "{{ lookup('env','JAVA_HOME') }}"
+
   tasks:
+
+    - name: "check network"
+      uri: url=https://galaxy.ansible.com 
+           method=HEAD
+           return_content=no
+           status_code=200 
+           timeout=60 
+           follow_redirects=all
+
+    - name: "ansible-galaxy install --force -r requirements.yml"
+      command: ansible-galaxy install --force -r requirements.yml 
 
 
     - name: 'make sure directory for TLS certificates exists'
@@ -19,14 +33,14 @@
 
     - name: 'convert pem to der for webserver'
       command: "openssl x509 -in pki/buildserverCA.pem -outform der -out pki/buildserverCA.cer creates=pki/buildserverCA.cer"
-      
-    - name: "check network"
-      uri: url=https://galaxy.ansible.com 
-           method=HEAD
-           return_content=no
-           status_code=200 
-           timeout=60 
-           follow_redirects=all
 
-    - name: "ansible-galaxy install --force -r requirements.yml"
-      command: ansible-galaxy install --force -r requirements.yml 
+    - name: 'print red letters if import needed of CA root cert in Java trust store'
+      command: "keytool -list -alias dev -keystore {{java_home}}/jre/lib/security/cacerts -storepass changeit -noprompt"
+      ignore_errors: yes
+      register: devkey
+      
+    - name: "import buildserverCA root cert in Java trust store"
+      sudo: yes
+      command: "keytool -importcert -trustcacerts -file pki/buildserverCA.cer -storepass changeit -noprompt -alias dev -keystore {{java_home}}/jre/lib/security/cacerts"
+      when: devkey.rc == 1
+  

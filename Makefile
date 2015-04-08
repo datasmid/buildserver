@@ -1,5 +1,5 @@
 install:
-	ansible-playbook -v -i ansible.ini -l local install.yml
+	ansible-playbook -K -v -i ansible.ini -l local install.yml
 
 clean:
 	rm -rf roles/bbaassssiiee.commoncentos/
