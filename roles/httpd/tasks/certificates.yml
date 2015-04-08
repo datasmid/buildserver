@@ -13,7 +13,7 @@
 - name: 'generate certificate signing request'
   command: "openssl req -new -key /etc/pki/tls/private/{{inventory_hostname}}.key -out {{inventory_hostname}}.csr -subj '/C=AA/ST=NN/L=Ansible/O=localhost/CN={{inventory_hostname}}'"
 
-- name: 'fetch cerficate signing request'
+- name: 'fetch certficate signing request'
   fetch: src={{inventory_hostname}}.csr dest=pki/{{inventory_hostname}}.csr flat=yes
   
 - name: 'CA-sign buildserver key in a way to avoid https://github.com/mitchellh/vagrant/issues/2646'
