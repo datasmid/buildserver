@@ -25,3 +25,5 @@ setup:
 	vagrant up --provision test
 
 test: clean install setup deploy
+
+all: clean install up setup deploy
