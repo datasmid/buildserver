@@ -5,10 +5,10 @@ java_packages:
 nexus_port: 8082
 
 tomcat_java_home: /usr/lib/jvm/jre
-tomcat_download_prefix: "http://apache.cs.uu.nl/tomcat/tomcat-7/v7.0.59/bin/"
-tomcat_version: v7.0.59
+tomcat_version: v7.0.61
+tomcat_download_prefix: "http://apache.cs.uu.nl/tomcat/tomcat-7/v7.0.61/bin/"
 tomcat_list:
-  v7.0.59:
-    filename: 'apache-tomcat-7.0.59.tar.gz'
-    dirname: 'apache-tomcat-7.0.59'
+  v7.0.61:
+    filename: 'apache-tomcat-7.0.61.tar.gz'
+    dirname: 'apache-tomcat-7.0.61'
 tomcat_apps_dir: "/opt/{{ tomcat_list[tomcat_version]['dirname'] }}"
