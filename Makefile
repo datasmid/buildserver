@@ -8,7 +8,7 @@ clean:
 	rm -rf roles/geerlingguy.java/
 	rm -rf roles/hudecof.tomcat/
 	rm -rf roles/hullufred.nexus/
-	rm -rf roles/pcextreme.mariadb/i
+	rm -rf roles/pcextreme.mariadb/
 	rm -rf roles/Ginsys.omnibus-gitlab/
 
 up:
