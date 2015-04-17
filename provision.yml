@@ -19,7 +19,7 @@
     - pcextreme.mariadb
 
 # SonarQube can be used for reports
-    - sonar
+    - bbaassssiiee.sonar
 
 # Artifactory can be used as build repository
     - bbaassssiiee.artifactory

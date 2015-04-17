@@ -8,6 +8,9 @@
 - src: bbaassssiiee.artifactory
   path: ./roles/
 
+- src: bbaassssiiee.sonar
+  path: ./roles/
+
 - src: hullufred.nexus
   path: ./roles/
 
