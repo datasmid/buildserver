@@ -1,0 +1,19 @@
+---
+- name: 'init postgresql database'
+  command: service postgresql-9.3 initdb creates=/var/lib/pgsql/9.3/data/postgresql.conf
+  notify:
+    - start postgresql-9.3
+  when: ansible_os_family == "RedHat"
+
+- name: 'ensure postgresql is running automatically at boot'
+  service: name=postgresql-9.3 enabled=yes
+  when: ansible_os_family == "RedHat"
+
+# And on top of that, authentication is needs md5
+- name: 'configure pg_hba.conf'
+  template: src=pg_hba.conf dest=/var/lib/pgsql/9.3/data/pg_hba.conf backup=on
+  notify:
+    - start postgresql-9.3
+  when: ansible_os_family == "RedHat"
+
+
