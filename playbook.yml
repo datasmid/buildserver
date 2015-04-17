@@ -1,0 +1,15 @@
+---
+- name: 'run ad-hoc tasks on vagrant box'
+  hosts: all
+  user: root
+  remote_user: vagrant
+  sudo: yes
+  gather_facts: yes
+
+  roles:
+    - jenkins
+    - bbaassssiiee.artifactory
+
+  tasks:
+    - include: tasks/settings.yml
+
