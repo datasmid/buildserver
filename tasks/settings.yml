@@ -1,9 +1,12 @@
+    - name: 'fix "dev" in /etc/hosts file'
+      lineinfile: dest=/etc/hosts regexp='172.16.1.15*' state=absent
+
     - name: 'add "dev" in /etc/hosts file'
-      lineinfile: dest=/etc/hosts regexp='192.168.10.16*'
+      lineinfile: dest=/etc/hosts regexp='192.168.10.16'
               line='192.168.10.16   dev' 
               state=present
 
     - name: 'add "test" in /etc/hosts file'
-      lineinfile: dest=/etc/hosts regexp='192.168.10.18*'
-              line='192.168.10.16   test' 
+      lineinfile: dest=/etc/hosts regexp='192.168.10.18'
+              line='192.168.10.18   test' 
               state=present

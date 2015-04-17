@@ -6,21 +6,21 @@ ProxyPreserveHost On
 # TODO: ajp
 ProxyPass /jenkins http://localhost:8080/jenkins nocanon
 ProxyPassReverse /jenkins/ http://localhost:8080/jenkins/
-ProxyPassReverse  /jenkins/  http://{{ansible_eth1.ipv4.address}}:8080/jenkins/
+ProxyPassReverse  /jenkins/  http://{{inventory_hostname}}:8080/jenkins/
 ProxyPassReverseCookiePath /jenkins /jenkins
 
 ProxyPass /artifactory http://localhost:8081/artifactory
 ProxyPassreverse /artifactory http://localhost:8081/artifactory
-ProxyPassReverse  /artifactory  http://{{ansible_eth1.ipv4.address}}:8081/artifactory
+ProxyPassReverse  /artifactory  http://{{inventory_hostname}}:8081/artifactory
 
 ProxyPass /nexus http://localhost:8082/nexus
 ProxyPassreverse /nexus http://localhost:8082/nexus
-ProxyPassReverse  /nexus  http://{{ansible_eth1.ipv4.address}}:8082/nexus/
+ProxyPassReverse  /nexus  http://{{inventory_hostname}}:8082/nexus/
 ProxyPassReverseCookiePath /nexus /nexus
 
 ProxyPass /sonar http://localhost:9000/sonar
 ProxyPassreverse /sonar http://localhost:9000/sonar
-ProxyPassReverse  /sonar  http://{{ansible_eth1.ipv4.address}}:9000/sonar
+ProxyPassReverse  /sonar  http://{{inventory_hostname}}:9000/sonar
 
 RequestHeader set X-Forwarded-Proto "https"
 RequestHeader set X-Forwarded-Port "443"
