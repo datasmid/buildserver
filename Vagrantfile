@@ -65,4 +65,26 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       vmware.vmx["numvcpus"] = 2
     end
   end
+  
+  config.vm.define :ubuntu, autostart: false do |ubuntu_config|
+    ubuntu_config.vm.box = "chef/ubuntu-14.04"  # to delete: 'vagrant destroy; box remove chef/ubuntu-14.04'
+    ubuntu_config.vm.box_url = "https://atlas.hashicorp.com/chef/boxes/ubuntu-14.04"
+    ubuntu_config.vm.network "private_network", ip: "192.168.10.20", :netmask => "255.255.255.0",  auto_config: true
+    ubuntu_config.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2224, auto_correct: true
+    
+    ubuntu_config.vm.provider "vmware_fusion" do |vmware|
+      vmware.vmx["memsize"] = "4096"
+      vmware.vmx["numvcpus"] = "2"
+    end
+    ubuntu_config.vm.provider "virtualbox" do |vb|
+      vb.customize ["modifyvm", :id, "--memory", 4096, "--natnet1", "172.16.1/24"]
+      vb.gui = false
+      vb.name = "client"
+    end
+    ubuntu_config.vm.provider "vmware_fusion" do |vmware|
+      vmware.gui = false
+      vmware.vmx["memsize"] = 4096
+      vmware.vmx["numvcpus"] = 2
+    end
+  end
 end

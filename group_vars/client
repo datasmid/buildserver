@@ -1,0 +1,6 @@
+---
+java_packages:
+  - default-jdk
+
+eclipse_plugins_m2e_enabled: yes
+

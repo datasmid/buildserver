@@ -43,3 +43,19 @@
 
   tasks:
     - include: tasks/settings.yml
+
+- name: Ubuntu Client
+  hosts: ubuntu
+  user: root
+  remote_user: vagrant
+  sudo: yes
+  gather_facts: yes
+
+  roles:
+    - geerlingguy.java
+    - briancoca.oracle_java7
+    - briancoca.selenium
+    - alban.andrieu.eclipse
+
+  tasks:
+    - include: tasks/client_setup.yml

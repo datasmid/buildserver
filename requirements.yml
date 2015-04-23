@@ -5,6 +5,12 @@
 - src: Ginsys.omnibus-gitlab
   path: ./roles/
 
+- src: hudecof.tomcat
+  path: ./roles
+
+- src: pcextreme.mariadb
+  path: ./roles/
+
 - src: bbaassssiiee.artifactory
   path: ./roles/
 
@@ -17,9 +23,14 @@
 - src: geerlingguy.java
   path: ./roles/
 
-- src: hudecof.tomcat
+- src: briancoca.oracle_java7
   path: ./roles
 
-- src: pcextreme.mariadb
+- src: groover.maven
   path: ./roles/
 
+- src: briancoca.selenium
+  path: ./roles
+
+- src: alban.andrieu.eclipse
+  path: ./roles
