@@ -1,0 +1,26 @@
+    - name: 'add "dev" in /etc/hosts file'
+      lineinfile: dest=/etc/hosts regexp='192.168.10.16'
+              line='192.168.10.16   dev' 
+              state=present
+
+    - name: 'add "test" in /etc/hosts file'
+      lineinfile: dest=/etc/hosts regexp='192.168.10.18'
+              line='192.168.10.18   test' 
+              state=present
+
+    - name: 'install ubuntu-desktop (GUI)'
+      apt: install_recommends=no name=ubuntu-desktop state=present
+
+    - name: 'install ubuntu stuff'
+      apt: name={{ item }} state=present
+      with_items:
+        - virtualbox-guest-dkms
+
+    - name: 'remove guest login'
+      lineinfile: dest=/usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf regexp='^allow-guest'
+              line='allow-guest=false' 
+              state=present
+
+    - name: 'reboot system if required'
+      command: shutdown -r now 'Rebooting to complete system upgrade'
+               removes=/var/run/reboot-required

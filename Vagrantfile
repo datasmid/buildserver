@@ -78,7 +78,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
     ubuntu_config.vm.provider "virtualbox" do |vb|
       vb.customize ["modifyvm", :id, "--memory", 4096, "--natnet1", "172.16.1/24"]
-      vb.gui = false
+      vb.gui = true
       vb.name = "client"
     end
     ubuntu_config.vm.provider "vmware_fusion" do |vmware|

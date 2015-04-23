@@ -4,3 +4,5 @@ java_packages:
 
 eclipse_plugins_m2e_enabled: yes
 
+user: vagrant
+
