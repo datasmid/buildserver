@@ -15,7 +15,12 @@
       apt: name={{ item }} state=present
       with_items:
         - virtualbox-guest-dkms
+        - flashplugin-installer
         - git
+
+    - name: 'checkout OASIS'
+      git: dest=/home/vagrant/OASIS
+           repo=https://github.com/jguglielmi/OASIS-Maven.git
 
     - name: 'remove guest login'
       lineinfile: dest=/usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf regexp='^allow-guest'
