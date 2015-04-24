@@ -26,11 +26,11 @@
 - src: briancoca.oracle_java7
   path: ./roles
 
-- src: groover.maven
+- src: https://github.com/bbaassssiiee/ansible-maven
   path: ./roles/
 
 - src: briancoca.selenium
   path: ./roles
 
-- src: alban.andrieu.eclipse
+- src: https://github.com/AlbanAndrieu/ansible-eclipse.git
   path: ./roles

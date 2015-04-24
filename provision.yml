@@ -53,9 +53,10 @@
 
   roles:
     - geerlingguy.java
+    - ansible-maven
     - briancoca.oracle_java7
     - briancoca.selenium
-    - alban.andrieu.eclipse
+    - ansible-eclipse
 
   tasks:
     - include: tasks/client_setup.yml

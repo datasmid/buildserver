@@ -2,7 +2,10 @@
 java_packages:
   - default-jdk
 
+# for alban.andrieu.eclipse
 eclipse_plugins_m2e_enabled: yes
-
+eclipse_Xmx: "2048m"
 user: vagrant
 
+# for groover.maven
+local_ansible_data_path: /tmp/data

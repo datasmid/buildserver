@@ -4,7 +4,6 @@ python: "2.7"
 env:
   - ANSIBLE_VERSION=1.8
 before_install:
-  - sudo apt-get update -qq
   - sudo apt-get install -qq python-apt python-pycurl
 install:
   # Install Ansible.
@@ -14,7 +13,7 @@ install:
   - git clone https://github.com/bbaassssiiee/commoncentos.git roles/bbaassssiiee.commoncentos
   - git clone https://github.com/bbaassssiiee/artifactory.git roles/bbaassssiiee.artifactory
   - git clone https://github.com/bbaassssiiee/sonar.git roles/bbaassssiiee.sonar
-  - git clone https://github.com/bbaassssiiee/ansible-eclipse.git roles/ansible-eclipse
+  - git clone https://github.com/AlbanAndrieu/ansible-eclipse.git roles/ansible-eclipse
   - git clone https://github.com/bbaassssiiee/ansible-maven.git roles/ansible-maven
   - git clone https://github.com/geerlingguy/ansible-role-java.git roles/geerlingguy.java
 
