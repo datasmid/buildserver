@@ -15,6 +15,7 @@
       apt: name={{ item }} state=present
       with_items:
         - virtualbox-guest-dkms
+        - git
 
     - name: 'remove guest login'
       lineinfile: dest=/usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf regexp='^allow-guest'
@@ -24,3 +25,4 @@
     - name: 'reboot system if required'
       command: shutdown -r now 'Rebooting to complete system upgrade'
                removes=/var/run/reboot-required
+
