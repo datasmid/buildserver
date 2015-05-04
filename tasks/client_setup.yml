@@ -11,6 +11,11 @@
     - name: 'install ubuntu-desktop (GUI)'
       apt: install_recommends=no name=ubuntu-desktop state=present
 
+    - name: 'remove guest login'
+      lineinfile: dest=/usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf regexp='^allow-guest'
+              line='allow-guest=false' 
+              state=present
+
     - name: 'install ubuntu stuff'
       apt: name={{ item }} state=present
       with_items:
@@ -19,13 +24,13 @@
         - git
 
     - name: 'checkout OASIS'
+      sudo: no
       git: dest=/home/vagrant/OASIS
            repo=https://github.com/jguglielmi/OASIS-Maven.git
 
-    - name: 'remove guest login'
-      lineinfile: dest=/usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf regexp='^allow-guest'
-              line='allow-guest=false' 
-              state=present
+    - name: 'mvn install files for OASIS'
+      sudo: no
+      shell: "(cd /home/vagrant/OASIS && bash ./install.sh)"
 
     - name: 'reboot system if required'
       command: shutdown -r now 'Rebooting to complete system upgrade'
