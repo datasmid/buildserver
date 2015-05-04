@@ -6,6 +6,7 @@ java_packages:
 eclipse_plugins_m2e_enabled: yes
 eclipse_Xmx: "2048m"
 user: vagrant
+eclipse_owner_home: /home/vagrant
 
 # for groover.maven
 local_ansible_data_path: /tmp/data
