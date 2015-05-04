@@ -55,8 +55,8 @@
     - geerlingguy.java
     - ansible-maven
     - briancoca.oracle_java7
-    - briancoca.selenium
     - ansible-eclipse
+#    - briancoca.selenium
 
   tasks:
     - include: tasks/client_setup.yml

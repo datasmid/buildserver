@@ -71,7 +71,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     ubuntu_config.vm.box_url = "https://atlas.hashicorp.com/chef/boxes/ubuntu-14.04"
     ubuntu_config.vm.network "private_network", ip: "192.168.10.20", :netmask => "255.255.255.0",  auto_config: true
     ubuntu_config.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2224, auto_correct: true
-    ubuntu_config.vm.network :forwarded_port, guest:4444, host:4444
+    ubuntu_config.vm.network :forwarded_port, guest:8000, host:8000
     ubuntu_config.vm.provider "vmware_fusion" do |vmware|
       vmware.vmx["memsize"] = "4096"
       vmware.vmx["numvcpus"] = "2"
