@@ -2,6 +2,8 @@
 java_packages:
   - default-jdk
 
+java_home: /usr/lib/jvm/default-java
+
 # for alban.andrieu.eclipse
 eclipse_plugins_m2e_enabled: yes
 eclipse_Xmx: "2048m"

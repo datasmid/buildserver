@@ -1,27 +1,24 @@
-    - name: 'add "dev" in /etc/hosts file'
-      lineinfile: dest=/etc/hosts regexp='192.168.10.16'
-              line='192.168.10.16   dev' 
-              state=present
 
-    - name: 'add "test" in /etc/hosts file'
-      lineinfile: dest=/etc/hosts regexp='192.168.10.18'
-              line='192.168.10.18   test' 
-              state=present
+    - name: 'verify presence of Nexus'
+      get_url: url=https://dev/nexus validate_certs=no dest=/tmp/nexus
 
-    - name: 'install ubuntu-desktop (GUI)'
-      apt: install_recommends=no name=ubuntu-desktop state=present
+    - name: 'download CA root cert'
+      get_url: url=https://dev/buildserverCA.cer dest=/tmp/buildserverCA.cer validate_certs=no 
 
-    - name: 'remove guest login'
-      lineinfile: dest=/usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf regexp='^allow-guest'
-              line='allow-guest=false' 
-              state=present
+    - name: 'print red letters if import needed of CA root cert in Java trust store'
+      command: "keytool -list -alias dev -keystore {{java_home}}/jre/lib/security/cacerts -storepass changeit -noprompt"
+      ignore_errors: yes
+      register: devkey
 
-    - name: 'install ubuntu stuff'
-      apt: name={{ item }} state=present
-      with_items:
-        - virtualbox-guest-dkms
-        - flashplugin-installer
-        - git
+    - name: "import buildserverCA root cert in Java trust store"
+      command: "keytool -importcert -trustcacerts -file /tmp/buildserverCA.cer -storepass changeit -noprompt -alias dev -keystore {{java_home}}/jre/lib/security/cacerts"
+      when: devkey.rc == 1
+
+    - name: 'make sure ~/.m2 directory exists'
+      file: path=/home/vagrant/.m2 owner=vagrant group=vagrant mode=0750 state=directory
+
+    - name: 'create maven settings.xml'
+      template: src=../roles/jenkins/templates/settings_xml.j2 dest=/home/vagrant/.m2/settings.xml owner=vagrant group=vagrant mode=0600
 
     - name: 'checkout OASIS'
       sudo: no
@@ -35,4 +32,3 @@
     - name: 'reboot system if required'
       command: shutdown -r now 'Rebooting to complete system upgrade'
                removes=/var/run/reboot-required
-

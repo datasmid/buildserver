@@ -10,28 +10,28 @@
         <mirror>
             <id>nexus-snapshot</id>
             <mirrorOf>snapshots</mirrorOf>
-            <url>http://127.0.0.1:8082/nexus/content/groups/public-snapshots</url>
+            <url>{{ mvn_proxy_url }}/content/groups/public-snapshots</url>
         </mirror>
         <mirror>
             <id>nexus</id>
             <mirrorOf>*,!snapshots</mirrorOf>
-            <url>http://127.0.0.1:8082/nexus/content/groups/public</url>
+            <url>{{ mvn_proxy_url }}/content/groups/public</url>
         </mirror>
     </mirrors>
-    <localRepository>{{jenkins_data}}/repository/</localRepository>
+    <localRepository>${user.home}/.m2/repository/</localRepository>
     <profiles>
         <profile>
             <id>nexus</id>
             <pluginRepositories>
                 <pluginRepository>
                     <id>snapshots</id>
-                    <url>http://127.0.0.1:8082/nexus</url>
+                    <url>{{ mvn_proxy_url }}</url>
                     <releases><enabled>false</enabled></releases>
                     <snapshots><enabled>true</enabled></snapshots>
                 </pluginRepository>
                 <pluginRepository>
                     <id>central</id>
-                    <url>http://127.0.0.1:8082/nexus</url>
+                    <url>{{ mvn_proxy_url }}</url>
                     <releases><enabled>true</enabled></releases>
                     <snapshots><enabled>false</enabled></snapshots>
                 </pluginRepository>
@@ -39,13 +39,13 @@
             <repositories>
                 <repository>
                     <id>snapshots</id>
-                    <url>http://127.0.0.1:8082/nexus</url>
+                    <url>{{ mvn_proxy_url }}</url>
                     <releases><enabled>false</enabled></releases>
                     <snapshots><enabled>true</enabled></snapshots>
                 </repository>
                 <repository>
                     <id>central</id>
-                    <url>http://127.0.0.1:8082/nexus</url>
+                    <url>{{ mvn_proxy_url }}</url>
                     <releases><enabled>true</enabled></releases>
                     <snapshots><enabled>false</enabled></snapshots>
                 </repository>
@@ -59,13 +59,13 @@
 			  </snapshots>
 			  <id>central</id>
 			  <name>libs-release</name>
-			  <url>http://127.0.0.1:8081/artifactory/libs-release</url>
+			  <url>{{ mvn_deploy_url }}/libs-release</url>
 			</repository>
 			<repository>
 			  <snapshots />
 			  <id>snapshots</id>
 			  <name>libs-snapshot</name>
-			  <url>http://127.0.0.1:8081/artifactory/libs-snapshot</url>
+			  <url>{{ mvn_deploy_url }}/libs-snapshot</url>
 			</repository>
 		  </repositories>
 		  <pluginRepositories>
@@ -75,13 +75,13 @@
 			  </snapshots>
 			  <id>central</id>
 			  <name>plugins-release</name>
-			  <url>http://127.0.0.1:8081/artifactory/plugins-release</url>
+			  <url>{{ mvn_deploy_url }}/plugins-release</url>
 			</pluginRepository>
 			<pluginRepository>
 			  <snapshots />
 			  <id>snapshots</id>
 			  <name>plugins-snapshot</name>
-			  <url>http://127.0.0.1:8081/artifactory/plugins-snapshot</url>
+			  <url>{{ mvn_deploy_url }}/plugins-snapshot</url>
 			</pluginRepository>
 		  </pluginRepositories>
 		  <id>artifactory</id>

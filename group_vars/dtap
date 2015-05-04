@@ -2,8 +2,6 @@
 java_packages:
   - java-1.7.0-openjdk
 
-nexus_port: 8082
-
 tomcat_java_home: /usr/lib/jvm/jre
 tomcat_version: v7.0.61
 tomcat_download_prefix: "http://apache.cs.uu.nl/tomcat/tomcat-7/v7.0.61/bin/"
