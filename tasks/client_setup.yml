@@ -20,10 +20,10 @@
     - name: 'create maven settings.xml'
       template: src=../roles/jenkins/templates/settings_xml.j2 dest=/home/vagrant/.m2/settings.xml owner=vagrant group=vagrant mode=0600
 
-    - name: 'checkout OASIS'
+    - name: 'checkout fork of OASIS until PR11 is merged'
       sudo: no
       git: dest=/home/vagrant/OASIS
-           repo=https://github.com/jguglielmi/OASIS-Maven.git
+           repo=https://github.com/bbaassssiiee/OASIS-Maven.git
 
     - name: 'mvn install files for OASIS'
       sudo: no
