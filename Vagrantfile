@@ -67,8 +67,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
   
   config.vm.define :ubuntu, autostart: false do |ubuntu_config|
-    ubuntu_config.vm.box = "chef/ubuntu-14.04"  # to delete: 'vagrant destroy; box remove chef/ubuntu-14.04'
-    ubuntu_config.vm.box_url = "https://atlas.hashicorp.com/chef/boxes/ubuntu-14.04"
+    ubuntu_config.vm.box = "ubuntu14"
+    ubuntu_config.vm.box_url = "https://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box"
     ubuntu_config.vm.network "private_network", ip: "192.168.10.20", :netmask => "255.255.255.0",  auto_config: true
     ubuntu_config.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2224, auto_correct: true
     ubuntu_config.vm.network :forwarded_port, guest:8000, host:8000
