@@ -3,10 +3,11 @@ java_packages:
   - java-1.7.0-openjdk
 
 tomcat_java_home: /usr/lib/jvm/jre
-tomcat_version: v7.0.61
-tomcat_download_prefix: "http://apache.cs.uu.nl/tomcat/tomcat-7/v7.0.61/bin/"
+tomcat_minor: 62
+tomcat_version: v7.0.{{tomcat_minor}}
+tomcat_download_prefix: "http://apache.cs.uu.nl/tomcat/tomcat-7/v7.0.{{tomcat_minor}}/bin/"
 tomcat_list:
-  v7.0.61:
-    filename: 'apache-tomcat-7.0.61.tar.gz'
-    dirname: 'apache-tomcat-7.0.61'
+  v7.0.62:
+    filename: 'apache-tomcat-7.0.{{tomcat_minor}}.tar.gz'
+    dirname: 'apache-tomcat-7.0.{{tomcat_minor}}'
 tomcat_apps_dir: "/opt/{{ tomcat_list[tomcat_version]['dirname'] }}"
