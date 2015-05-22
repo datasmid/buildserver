@@ -3,7 +3,7 @@ default: all
 	
 .PHONY: install
 install:
-	ansible-playbook -v -i ansible.ini -l local install.yml
+	ansible-playbook -K -vv -i ansible.ini -l local install.yml
 
 .PHONY: clean
 clean:
