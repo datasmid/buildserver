@@ -1,0 +1,59 @@
+---
+- name: Build Server 
+  hosts: dev
+  user: root
+  gather_facts: no
+  remote_user: vagrant
+  sudo: yes
+
+  tasks:
+
+  - name: verify https connectivity to Jenkins
+    sudo: no
+    local_action: uri url=https://dev/jenkins/jobConfigHistory/ status_code=200
+
+  - name: verify https connectivity to Nexus
+    sudo: no
+    local_action: uri url=https://dev/nexus/#welcome status_code=200
+
+  - name: verify https connectivity to Artifactory
+    sudo: no
+    local_action: uri url=https://dev/artifactory/webapp/browserepo.html? status_code=200
+
+  - name: verify https connectivity to Sonar
+    sudo: no
+    local_action: uri url=https://dev/sonar/coding_rules#s=createdAt|asc=false status_code=200
+
+
+  - name: verify tcp listening socket for MySQL
+    wait_for: port=3306 delay=1 timeout=10
+
+  - name: verify tcp listening socket for Jenkins
+    wait_for: port=8080 delay=1 timeout=5
+
+  - name: verify tcp listening socket for Artifactory
+    wait_for: port=8081 delay=1 timeout=5
+
+  - name: verify listening socket for Nexus
+    wait_for: port=8082 delay=1 timeout=5
+
+  - name: verify listening socket for Nexus
+    wait_for: port=8081 delay=1 timeout=5
+
+  - name: verify https connectivity to Jenkins
+    sudo: no
+    local_action: uri url=https://dev/jenkins/ method=GET status_code=200
+
+  - name: verify https connectivity to releases repository in Nexus
+    sudo: no
+    local_action: uri url=https://dev/nexus/#view-repositories;releases~browsestorage \
+          status_code=200 \
+          method=HEAD
+
+  - name: verify http connectivity to Jenkins
+    sudo: no
+    local_action: uri url=http://dev:8080/jenkins status_code=200
+
+  - name: verify http connectivity to Nexus
+    sudo: no
+    local_action: uri url=http://dev:8082/nexus status_code=200

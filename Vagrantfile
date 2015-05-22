@@ -11,11 +11,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provider "vmware_fusion"
 
   config.ssh.forward_agent = true
-
+  config.ssh.insert_key = false
 
   # Timeouts
   config.vm.boot_timeout = 600
-  config.vm.post_up_message = "Hello, the box is up!"
   config.vm.graceful_halt_timeout=100
   
   # Use the Ansible playbook provision.yml to setup the virtual machines.
@@ -25,8 +24,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     ansible.verbose = "vv"
     ansible.host_key_checking = "false"
   end
-
-
 
 
   # The url from where the 'config.vm.box' box will be fetched if it
@@ -62,43 +59,60 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
-  config.vm.define :test, autostart: false do |test_config|
-    test_config.vm.network "private_network", ip: "192.168.10.18", :netmask => "255.255.255.0",  auto_config: true
-    test_config.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2223, auto_correct: true
-    test_config.vm.network "forwarded_port", guest: 8080, host: 8080, auto_correct: true
+  config.vm.define :target, autostart: false do |target_config|
+    target_config.vm.network "private_network", ip: "192.168.10.18", :netmask => "255.255.255.0",  auto_config: true
+    target_config.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2223, auto_correct: true
+    target_config.vm.network "forwarded_port", guest: 8080, host: 8080, auto_correct: true
 
-    test_config.vm.provider "virtualbox" do |vb|
+    target_config.vm.provider "virtualbox" do |vb|
       vb.customize ["modifyvm", :id, "--memory", "#$MEMSIZE", "--natnet1", "172.16.1/24"]
       vb.gui = false
-      vb.name = "test"
+      vb.name = "target"
     end
 
-    test_config.vm.provider "vmware_fusion" do |vmware|
+    target_config.vm.provider "vmware_fusion" do |vmware|
       vmware.gui = false
       vmware.vmx["memsize"] = "#$MEMSIZE"
       vmware.vmx["numvcpus"] = 2
     end
   end
   
-  config.vm.define :ubuntu, autostart: false do |ubuntu_config|
-    ubuntu_config.vm.box = "ubuntu14"
-    ubuntu_config.vm.box_url = "https://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box"
-    ubuntu_config.vm.network "private_network", ip: "192.168.10.20", :netmask => "255.255.255.0",  auto_config: true
-    ubuntu_config.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2224, auto_correct: true
-    ubuntu_config.vm.network :forwarded_port, guest:8000, host:8000
-    ubuntu_config.vm.provider "vmware_fusion" do |vmware|
+  config.vm.define :testclient, autostart: false do |testclient_config|
+    testclient_config.vm.box = "ubuntu14"
+    testclient_config.vm.box_url = "https://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box"
+    testclient_config.vm.network "private_network", ip: "192.168.10.20", :netmask => "255.255.255.0",  auto_config: true
+    testclient_config.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2224, auto_correct: true
+    testclient_config.vm.network :forwarded_port, guest:8000, host:8000
+    testclient_config.vm.provider "vmware_fusion" do |vmware|
       vmware.vmx["memsize"] = "#$MEMSIZE"
       vmware.vmx["numvcpus"] = "2"
     end
-    ubuntu_config.vm.provider "virtualbox" do |vb|
+    testclient_config.vm.provider "virtualbox" do |vb|
       vb.customize ["modifyvm", :id, "--memory", "#$MEMSIZE", "--natnet1", "172.16.1/24"]
       vb.gui = true
-      vb.name = "client"
+      vb.name = "testclient"
     end
-    ubuntu_config.vm.provider "vmware_fusion" do |vmware|
+    testclient_config.vm.provider "vmware_fusion" do |vmware|
       vmware.gui = false
       vmware.vmx["memsize"] = "#$MEMSIZE"
       vmware.vmx["numvcpus"] = 2
     end
   end
+
+  config.vm.define :windows, autostart: false do |windows_config|
+    windows_config.vm.box = "kroonwijk/win7ie10"
+    windows_config.vm.communicator = "winrm"
+    windows_config.vm.box_url = "https://atlas.hashicorp.com/kroonwijk/boxes/win7ie10"
+
+    windows_config.vm.network "private_network", ip: "192.168.10.40", :netmask => "255.255.255.0",  auto_config: true
+    windows_config.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2225, auto_correct: true
+    windows_config.vm.network :forwarded_port, guest: 3389, host: 3389, id: "rdp", auto_correct: true
+    windows_config.vm.network "forwarded_port", guest: 8080, host: 8080, auto_correct: true
+
+    windows_config.vm.provider "virtualbox" do |vb|
+      vb.customize ["modifyvm", :id, "--memory", "#$MEMSIZE", "--natnet1", "172.16.1/24"]
+      vb.gui = false
+      vb.name = "windows"
+    end
+  end 
 end

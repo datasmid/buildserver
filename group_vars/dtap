@@ -1,4 +1,12 @@
 ---
+yum_packages:
+   - libselinux-python
+   - libsemanage-python
+   - python-httplib2
+   - unzip
+   - ansible # so you can use it as a control host too
+   - acpid
+
 java_packages:
   - java-1.7.0-openjdk
 
