@@ -2,11 +2,21 @@
 # vi: set ft=ruby :
 
 VAGRANTFILE_API_VERSION = "2"
+$MEMSIZE=1024
+
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   
   # The ordering of these 2 lines expresses a preference for a hypervisor
   config.vm.provider "virtualbox"
   config.vm.provider "vmware_fusion"
+
+  config.ssh.forward_agent = true
+
+
+  # Timeouts
+  config.vm.boot_timeout = 600
+  config.vm.post_up_message = "Hello, the box is up!"
+  config.vm.graceful_halt_timeout=100
   
   # Use the Ansible playbook provision.yml to setup the virtual machines.
   config.vm.provision "ansible" do |ansible|
@@ -16,6 +26,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     ansible.host_key_checking = "false"
   end
 
+
+
+
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
   config.vm.box = "chef/centos-6.6"
@@ -24,7 +37,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # disable guest additions
   config.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: true
-  config.ssh.insert_key = false
+  #config.ssh.insert_key = false
+  #
 
   config.vm.define :dev,  primary: true do |dev_config|
     # This host only network for use of Apache as a reverse proxy.
@@ -35,7 +49,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     #dev_config.vm.network "forwarded_port", guest: 443, host: 8443, auto_correct: true
     
     dev_config.vm.provider "virtualbox" do |vb|
-      vb.customize ["modifyvm", :id, "--memory", 4096, "--natnet1", "172.16.1/24"]
+      vb.customize ["modifyvm", :id, "--memory", "#$MEMSIZE", "--natnet1", "172.16.1/24"]
       vb.customize ["modifyvm", :id, "--ioapic", "on"  ]
       vb.name = "dev"
       vb.gui = false
@@ -43,7 +57,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     
     dev_config.vm.provider "vmware_fusion" do |vmware|
       vmware.gui = false
-      vmware.vmx["memsize"] = "4096"
+      vmware.vmx["memsize"] = "#$MEMSIZE"
       vmware.vmx["numvcpus"] = "2"
     end
   end
@@ -54,14 +68,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     test_config.vm.network "forwarded_port", guest: 8080, host: 8080, auto_correct: true
 
     test_config.vm.provider "virtualbox" do |vb|
-      vb.customize ["modifyvm", :id, "--memory", 1024, "--natnet1", "172.16.1/24"]
+      vb.customize ["modifyvm", :id, "--memory", "#$MEMSIZE", "--natnet1", "172.16.1/24"]
       vb.gui = false
       vb.name = "test"
     end
 
     test_config.vm.provider "vmware_fusion" do |vmware|
       vmware.gui = false
-      vmware.vmx["memsize"] = 1024
+      vmware.vmx["memsize"] = "#$MEMSIZE"
       vmware.vmx["numvcpus"] = 2
     end
   end
@@ -73,17 +87,17 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     ubuntu_config.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2224, auto_correct: true
     ubuntu_config.vm.network :forwarded_port, guest:8000, host:8000
     ubuntu_config.vm.provider "vmware_fusion" do |vmware|
-      vmware.vmx["memsize"] = "4096"
+      vmware.vmx["memsize"] = "#$MEMSIZE"
       vmware.vmx["numvcpus"] = "2"
     end
     ubuntu_config.vm.provider "virtualbox" do |vb|
-      vb.customize ["modifyvm", :id, "--memory", 4096, "--natnet1", "172.16.1/24"]
+      vb.customize ["modifyvm", :id, "--memory", "#$MEMSIZE", "--natnet1", "172.16.1/24"]
       vb.gui = true
       vb.name = "client"
     end
     ubuntu_config.vm.provider "vmware_fusion" do |vmware|
       vmware.gui = false
-      vmware.vmx["memsize"] = 4096
+      vmware.vmx["memsize"] = "#$MEMSIZE"
       vmware.vmx["numvcpus"] = 2
     end
   end
