@@ -1,5 +1,5 @@
 - name: Test server 
-  hosts: test
+  hosts: target
   user: root
   remote_user: vagrant
   sudo: yes
