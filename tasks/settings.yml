@@ -6,7 +6,7 @@
               line='192.168.10.16   dev' 
               state=present
 
-    - name: 'add "test" in /etc/hosts file'
+    - name: 'add "target" in /etc/hosts file'
       lineinfile: dest=/etc/hosts regexp='192.168.10.18'
               line='192.168.10.18   test' 
               state=present
