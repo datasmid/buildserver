@@ -1,0 +1,32 @@
+---
+
+  - name: make sure package iptables is installed
+    yum: name=iptables state=installed
+    when: ansible_os_family == "RedHat"
+    tags:
+      - iptables
+
+  - name: copy the /etc/logrotate.d/iptables templat
+    template: src=iptables_logrotate.j2 dest=/etc/logrotate.d/iptables owner=root group=root mode=0644 backup=yes
+    tags:
+      - logrotate
+      - config
+      - iptables
+
+  - name: touch iptables logfile
+    file: dest=/var/log/iptables.log owner=root mode=0640 state=touch
+    tags:
+      - iptables
+
+  - name: enable iptables
+    service: name=iptables enabled=yes
+    tags:
+      - iptables
+
+  - name: build and write /etc/sysconfig/iptables file
+    template: src=iptables.j2 dest=/etc/sysconfig/iptables owner=root group=root mode=0600 backup=yes
+    notify:
+    - restart iptables
+    tags:
+      - iptables
+
