@@ -2,8 +2,11 @@
 # Configure webserver
 - include: config.yml
 
-# Install files in document root 
+# Install files in document root
 - include: site.yml
 
 # Configure certificates
 - include: certificates.yml
+
+
+- include: iptables.yml
