@@ -1,0 +1,6 @@
+    - name: 'fix "dev" in /etc/sysconfig/iptables file'
+      lineinfile: dest=/etc/sysconfig/iptables
+                  line='-A INPUT -p tcp -m tcp --dport 8080 -j ACCEPT'
+                  state=present
+                  insertbefore=^COMMIT
+      notify: 'restart iptables'

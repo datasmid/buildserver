@@ -1,5 +1,5 @@
 ---
-- name: Build Server 
+- name: Build Server
   hosts: dev
   user: root
   remote_user: vagrant
@@ -8,7 +8,7 @@
   roles:
     - bbaassssiiee.commoncentos
     - httpd
-    
+
 # Use Jenkins to build
     - jenkins
 
@@ -27,7 +27,7 @@
     - include: tasks/settings.yml
 
 
-- name: Test server 
+- name: Target server
   hosts: target
   user: root
   remote_user: vagrant
@@ -43,6 +43,7 @@
 
   tasks:
     - include: tasks/settings.yml
+    - include: tasks/tomcat_settings.yml
 
 - name: Ubuntu Client
   hosts: ubuntu
