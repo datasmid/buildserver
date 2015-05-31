@@ -12,11 +12,13 @@ clean:
 	rm -rf roles/bbaassssiiee.sonar/
 	rm -rf roles/ansible-ant/
 	rm -rf roles/ansible-eclipse/
+	rm -rf roles/ansible-maven/
 	rm -rf roles/geerlingguy.java/
 	rm -rf roles/hudecof.tomcat/
 	rm -rf roles/hullufred.nexus/
 	rm -rf roles/pcextreme.mariadb/
-	rm -rf roles/Ginsys.omnibus-gitlab/
+	rm -rf roles/briancoca.oracle_java7
+	rm -rf roles/kbrebanov.*
 
 .PHONY: up
 up:
