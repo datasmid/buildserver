@@ -1,9 +1,15 @@
+    - name: 'install ubuntu stuff'
+      apt: name={{ item }} state=present
+      with_items:
+        - firefox
+        - virtualbox-guest-dkms
+        - git
 
     - name: 'verify presence of Nexus'
       get_url: url=https://dev/nexus validate_certs=no dest=/tmp/nexus
 
     - name: 'download CA root cert'
-      get_url: url=https://dev/buildserverCA.cer dest=/tmp/buildserverCA.cer validate_certs=no 
+      get_url: url=https://dev/buildserverCA.cer dest=/tmp/buildserverCA.cer validate_certs=no
 
     - name: 'print red letters if import needed of CA root cert in Java trust store'
       command: "keytool -list -alias dev -keystore {{java_home}}/jre/lib/security/cacerts -storepass changeit -noprompt"

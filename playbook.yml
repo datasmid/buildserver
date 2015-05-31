@@ -1,5 +1,5 @@
 ---
-- name: 'run ad-hoc tasks on vagrant box'
+- name: 'run ad-hoc playbook on test client'
   hosts: all
   user: root
   remote_user: vagrant
@@ -7,9 +7,11 @@
   gather_facts: yes
 
   roles:
-    - jenkins
-    - bbaassssiiee.artifactory
+    - kbrebanov.virtualbox
+    - ansible-eclipse
+
+  pre_tasks:
+    - include: tasks/client_pre_tasks.yml
 
   tasks:
-    - include: tasks/settings.yml
-
+    - include: tasks/client_setup.yml

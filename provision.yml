@@ -30,7 +30,6 @@
     - bbaassssiiee.commoncentos
     - geerlingguy.java
     - hudecof.tomcat
-#    - Ginsys.omnibus-gitlab
 
   tasks:
     - include: tasks/settings.yml
@@ -43,14 +42,7 @@
   sudo: yes
   gather_facts: yes
 
-  pre_tasks:
-    - include: tasks/client_pre_tasks.yml
-
   roles:
     - geerlingguy.java
     - ansible-maven
     - briancoca.oracle_java7
-    - ansible-eclipse
-
-  tasks:
-    - include: tasks/client_setup.yml
