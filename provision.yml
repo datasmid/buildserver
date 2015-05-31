@@ -8,21 +8,12 @@
   roles:
     - bbaassssiiee.commoncentos
     - httpd
+    - jenkins                           # Use Jenkins to build
+    - hullufred.nexus                   # nexus can be used as library repository
+    - pcextreme.mariadb                 # artifactory & sonar use mariadb
+    - bbaassssiiee.sonar                # SonarQube can be used for reports
+    - bbaassssiiee.artifactory          # Artifactory can be used as build repository
 
-# Use Jenkins to build
-    - jenkins
-
-# nexus can be used as library repository
-    - hullufred.nexus
-
-# artifactory & sonar use mariadb
-    - pcextreme.mariadb
-
-# SonarQube can be used for reports
-    - bbaassssiiee.sonar
-
-# Artifactory can be used as build repository
-    - bbaassssiiee.artifactory
   tasks:
     - include: tasks/settings.yml
 
