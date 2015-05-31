@@ -1,4 +1,6 @@
 ---
+http_port: 80
+https_port: 443
 yum_packages:
    - libselinux-python
    - libsemanage-python
