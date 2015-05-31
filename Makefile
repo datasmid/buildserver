@@ -3,13 +3,15 @@ default: all
 
 .PHONY: install
 install:
-	ansible-playbook -K -vv -i ansible.ini -l local install.yml
+	ansible-playbook -vv -i ansible.ini -l local install.yml
 
 .PHONY: clean
 clean:
 	rm -rf roles/bbaassssiiee.commoncentos/
 	rm -rf roles/bbaassssiiee.artifactory/
 	rm -rf roles/bbaassssiiee.sonar/
+	rm -rf roles/ansible-ant/
+	rm -rf roles/ansible-eclipse/
 	rm -rf roles/geerlingguy.java/
 	rm -rf roles/hudecof.tomcat/
 	rm -rf roles/hullufred.nexus/
