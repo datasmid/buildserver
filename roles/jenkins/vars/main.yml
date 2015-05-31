@@ -25,17 +25,17 @@ plugins:
   - 'jacoco'           # test coverage
   - 'jira'             # Atlassian Jira API
   - 'jobConfigHistory' # save changes in job configuration
-  - 'junit'
-  - 'ldap'
-  - 'mailer'
+#  - 'junit'           # installed by default
+#  - 'ldap'            # installed by default
+# - 'mailer'           # installed by default
   - 'pmd'              #
   - 'release'
   - 'role-strategy'
-  - 'ssh-agent' 
+  - 'ssh-agent'
   - 'sonar'            # source code quality
 #  - 'thinBackup'       # backup job configurations
 #  - 'violations'       #
-  
+
 jenkins_base_url: 'http://pkg.jenkins-ci.org/redhat'
 jenkins_data: "/data/jenkins"
 jenkins_home: "/var/lib/jenkins"
