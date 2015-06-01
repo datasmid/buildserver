@@ -29,6 +29,7 @@
   roles:
     - bbaassssiiee.commoncentos
     - geerlingguy.java
+    - postgres
     - hudecof.tomcat
 
   tasks:
