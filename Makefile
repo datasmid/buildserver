@@ -59,3 +59,15 @@ smoketest:
 
 .PHONY: all
 all: clean install up setup deploy testclient
+
+.PHONY: babun
+babun:
+	pact install python python-paramiko python-crypto gcc-g++ wget openssh
+python-setuptools
+	@echo 'export PYTHONHOME=/usr' >> ~/.zshrc
+	@echo 'export export PYTHONPATH=/usr/lib/python2.7' >> ~/.zshrc
+	
+	export PYTHONHOME=/usr
+	export PYTHONPATH=/usr/lib/python2.7
+	python /usr/lib/python2.7/site-packages/easy_install.py pip
+	pip install ansible
