@@ -56,3 +56,10 @@
     local_action: uri url=https://dev/nexus/#view-repositories;releases~browsestorage \
           status_code=200 \
           method=HEAD
+
+  - name: 'verify tcp listening socket for TomCat on target'
+    wait_for: host=target port=8080 timeout=5
+
+  - name: 'verify http connectivity to TomCat on target'
+    sudo: no
+    local_action: uri url=http://target:8080/ status_code=200

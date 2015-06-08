@@ -31,10 +31,11 @@ up:
 .PHONY: deploy
 deploy:
 	vagrant halt target
+	vagrant destroy -f target
 	vagrant up --no-provision target
-	wait
 	vagrant provision target
 	ansible-playbook -vv -i ansible.ini -l target deploy.yml
+
 
 .PHONY: testclient
 testclient:
@@ -50,6 +51,11 @@ setup:
 
 .PHONY: test
 test: clean install setup deploy
+	ansible-playbook -vv -i ansible.ini -l target webtest.yml
+
+.PHONY: smoketest
+smoketest:
+	ansible-playbook -vv -i ansible.ini -l all smoketest.yml
 
 .PHONY: all
 all: clean install up setup deploy testclient
