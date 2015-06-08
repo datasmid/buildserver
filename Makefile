@@ -60,6 +60,11 @@ smoketest:
 .PHONY: all
 all: clean install up setup deploy testclient
 
+
+### Babun is a linux-like environment on windows
+### http://babun.github.io
+### use of ansible under babun is experimental and still broken
+
 .PHONY: babun
 babun:
 	pact install python python-paramiko python-crypto gcc-g++ wget openssh python-setuptools
@@ -70,3 +75,7 @@ babun:
 	export PYTHONPATH=/usr/lib/python2.7
 	python /usr/lib/python2.7/site-packages/easy_install.py pip
 	pip install ansible
+	mkdir -p ${HOME}/bin
+	cp windows/ansible-playbook.bat ${HOME}/bin
+	chmod -x ansible.ini
+	chmod a+rw *.*
