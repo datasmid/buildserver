@@ -53,7 +53,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
-  config.vm.define :target, autostart: false do |target_config|
+  config.vm.define :target, autostart: true do |target_config|
     target_config.vm.box = "dockpack/centos6"
     target_config.vm.box_url = "https://atlas.hashicorp.com/dockpack/boxes/centos6"
     target_config.vm.box_check_update = false
