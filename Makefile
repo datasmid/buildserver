@@ -22,16 +22,12 @@ clean:
 
 .PHONY: up
 up:
-	vagrant halt dev
-	vagrant destroy -f dev
 	vagrant up --no-provision dev
-	wait
 	vagrant provision dev
+	ansible-playbook -vv -i ansible.ini -l all smoketest.yml
 
 .PHONY: deploy
 deploy:
-	vagrant halt target
-	vagrant destroy -f target
 	vagrant up --no-provision target
 	vagrant provision target
 	ansible-playbook -vv -i ansible.ini -l target deploy.yml
@@ -45,12 +41,8 @@ testclient:
 	vagrant provision testclient
 	vagrant halt testclient
 
-.PHONY: setup
-setup:
-	vagrant destroy -f target
-
 .PHONY: test
-test: clean install setup deploy
+test: deploy
 	ansible-playbook -vv -i ansible.ini -l target webtest.yml
 
 .PHONY: smoketest
@@ -58,7 +50,7 @@ smoketest:
 	ansible-playbook -vv -i ansible.ini -l all smoketest.yml
 
 .PHONY: all
-all: clean install up setup deploy testclient
+all: install up deploy testclient
 
 
 ### Babun is a linux-like environment on windows
