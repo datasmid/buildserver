@@ -1,6 +1,9 @@
 
 NEW:
 ===========
+2015/06/08: Started new fork dropped old code, with intention to merge later parts.
+
+
 2015/05/21:  Forked to add and test changes to be able to execute it on Linux(Fedora)
 See the wiki and issue lists for more info.
 
