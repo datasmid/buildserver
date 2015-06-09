@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 VAGRANTFILE_API_VERSION = "2"
-$MEMSIZE=1024
+$MEMSIZE=2048
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
