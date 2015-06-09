@@ -1,0 +1,33 @@
+Issues:
+--------------------------------------------------------------
+001 2015/06/09: Keystore import:
+  On fedora needed to manually import into local keystore if you
+  start off from scratch since it needs su and the playbook
+  doesn't do su by default. (It should maybe use sudo when the keystore
+  is in a location like /etc/pka,  not if it is in $JAVA_HOME.)
+
+  Command:
+    sudo keytool -importcert -trustcacerts -file
+    pki/buildserverCA.cer -storepass changeit -noprompt -alias
+    dev -keystore /etc/pki/java/cacerts
+
+002 20150609: Nexus download resulted sometimes in corrupt tgz package.
+
+003 20150609: vagrant provision target error: Postgres startup fails, ipv6 related issue.
+
+004 Testing war deployment to tomcat.
+    The last test of getting the war file from dev may fail.
+    This may be related to the minimal amount of memory.
+
+    1 Jenkins is not finished bulding at that point in time.
+    2 Sometimes the build fails, it cannot contact nexus, first open a web page to nexus then try a
+      rebuild in Jenkins and wait for a green light for the build.
+    3 Then manually run the last line of the deploy step from the Makefile.
+
+
+ ______________
+< construction >
+ --------------
+-merge windows with cygwin. (For now try yourself)
+-create a playbook for  local cygwin setup. or use a  vagrant local privider plugin:
+ vagrant-guest_ansible Provisioner.
