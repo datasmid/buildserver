@@ -58,6 +58,8 @@ all: install up deploy testclient
 ### http://babun.github.io
 ### use of ansible under babun is experimental and still broken
 
+### See install instructions in cygwin-setup for a working alternative.
+
 .PHONY: babun
 babun:
 	pact install python python-paramiko python-crypto gcc-g++ wget openssh python-setuptools
