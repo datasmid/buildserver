@@ -13,6 +13,7 @@ You will need:
 
 If you are a fan of cows install package: cowsay.
 Ansible logs will look like:
+```
  ___________________________________________
 < NOTIFIED: postgres | start postgresql-9.3 >
  -------------------------------------------
@@ -22,7 +23,7 @@ Ansible logs will look like:
                 ||----w |
                 ||     ||
 
-
+```
 For **Cygwin**: See the cygwin directory for additional install notes.
 
 1 Set default provider in ~/.bashrc.

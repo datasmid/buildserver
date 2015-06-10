@@ -45,18 +45,15 @@ fi
 
 
 # Ansible settings
-#  export  VAGRANT_LOG=info for more logging.
+#  set VAGRANT_LOG=info for more logging.
 ANSIBLE=/opt/ansible
-export PYTHONPATH=$ANSIBLE/lib
-
 export ANSIBLE_LIBRARY=$ANSIBLE/library
 export ANSIBLE_VERBOSE=v
 
-export VAGRANT_NO_COLOR=true
+#Add your project directory to PATH for ansible to find playbooks
+export PATH=/cygdrive/c/work/github/Hruoudland:$PATH
 
-
-#Path where Vagrantfile is checked out.
-export PATH=/cygdrive/c/work/github/buildserver:$PATH
+export PYTHONPATH=$ANSIBLE/lib
 
 
 #eof

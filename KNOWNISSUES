@@ -11,13 +11,12 @@ Issues:
     pki/buildserverCA.cer -storepass changeit -noprompt -alias
     dev -keystore /etc/pki/java/cacerts
 
-002 20150609: Nexus download resulted sometimes in corrupt tgz package.
+002 20150609: vagrant provision target error: Postgres startup fails, ipv6 related issue.
+	Maybe fedora related.
 
-003 20150609: vagrant provision target error: Postgres startup fails, ipv6 related issue.
-
-004 Testing war deployment to tomcat.
+003 Testing war deployment to tomcat.
     The last test of getting the war file from dev may fail.
-    This may be related to the minimal amount of memory.
+
 
     1 Jenkins is not finished bulding at that point in time.
     2 Sometimes the build fails, it cannot contact nexus, first open a web page to nexus then try a
@@ -28,6 +27,5 @@ Issues:
  ______________
 < construction >
  --------------
--merge windows with cygwin. (For now try yourself)
 -create a playbook for  local cygwin setup. or use a  vagrant local privider plugin:
  vagrant-guest_ansible Provisioner.

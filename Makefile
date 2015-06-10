@@ -24,13 +24,14 @@ clean:
 up:
 	vagrant up --no-provision dev
 	vagrant provision dev
-	ansible-playbook -vv -i ansible.ini -l all smoketest.yml
+	
 
 .PHONY: deploy
 deploy:
 	vagrant up --no-provision target
 	vagrant provision target
 	ansible-playbook -vv -i ansible.ini -l target deploy.yml
+	ansible-playbook -vv -i ansible.ini -l all smoketest.yml
 
 
 .PHONY: testclient

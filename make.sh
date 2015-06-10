@@ -10,4 +10,5 @@ make  2>&1 | tee log
 
 #Remove color codes from log.
 sed -r -i  "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g" log
+
 #eof

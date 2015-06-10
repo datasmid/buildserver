@@ -1,6 +1,7 @@
 .vagrant
 roles
 pki
+.rnd
 .DS_Store
 .idea
 plugins/callbacks/profile_tasks.pyc
