@@ -98,17 +98,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.define :windows, autostart: false do |windows_config|
     windows_config.vm.box = "kroonwijk/win7ie10"
+    windows_config.winrm.username = 'IEuser'
+    windows_config.winrm.password = 'Passw0rd!'
     windows_config.vm.communicator = "winrm"
     windows_config.vm.box_url = "https://atlas.hashicorp.com/kroonwijk/boxes/win7ie10"
 
-    windows_config.vm.network "private_network", ip: "192.168.10.40", :netmask => "255.255.255.0",  auto_config: true
-    windows_config.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2225, auto_correct: true
-    windows_config.vm.network :forwarded_port, guest: 3389, host: 3389, id: "rdp", auto_correct: true
-    windows_config.vm.network "forwarded_port", guest: 8080, host: 8080, auto_correct: true
-
+    windows_config.vm.network :private_network, ip: "192.168.10.40"
     windows_config.vm.provider "virtualbox" do |vb|
-      vb.customize ["modifyvm", :id, "--memory", "#$MEMSIZE", "--natnet1", "172.16.1/24"]
-      vb.gui = false
+      vb.customize ["modifyvm", :id, "--memory", "#$MEMSIZE"]
+      vb.gui = true
       vb.name = "windows"
     end
   end
