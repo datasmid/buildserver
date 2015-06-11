@@ -5,6 +5,13 @@ default: all
 install:
 	ansible-playbook -vv -i ansible.ini -l local install.yml
 
+.PHONY: prepare
+prepare:
+	vagrant up --no-provision dev
+	vagrant up --no-provision target
+	vagrant up --no-provision testclient
+	vagrant up --no-provision windows
+
 .PHONY: clean
 clean:
 	rm -rf roles/bbaassssiiee.commoncentos/
@@ -24,7 +31,7 @@ clean:
 up:
 	vagrant up --no-provision dev
 	vagrant provision dev
-	
+
 
 .PHONY: deploy
 deploy:
@@ -65,6 +72,8 @@ babun:
 	pact install python python-paramiko python-crypto gcc-g++ wget openssh python-setuptools
 	@echo 'export PYTHONHOME=/usr' >> ~/.zshrc
 	@echo 'export export PYTHONPATH=/usr/lib/python2.7' >> ~/.zshrc
+	@echo 'export PYTHONHOME=/usr' >> ~/.bash_profile
+	@echo 'export export PYTHONPATH=/usr/lib/python2.7' >> ~/.bash_profile
 
 	export PYTHONHOME=/usr
 	export PYTHONPATH=/usr/lib/python2.7
