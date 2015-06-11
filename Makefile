@@ -25,7 +25,6 @@ clean:
 	rm -rf roles/hullufred.nexus/
 	rm -rf roles/pcextreme.mariadb/
 	rm -rf roles/briancoca.oracle_java7
-	rm -rf roles/kbrebanov.*
 
 .PHONY: up
 up:
