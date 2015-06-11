@@ -26,6 +26,11 @@
     - name: 'create maven settings.xml'
       template: src=../roles/jenkins/templates/settings_xml.j2 dest=/home/vagrant/.m2/settings.xml owner=vagrant group=vagrant mode=0600
 
+    - name: 'checkout buildserver project'
+      sudo: no
+      git: dest=/home/vagrant/buildserver
+           repo=https://github.com/bbaassssiiee/buildserver.git
+
     - name: 'checkout fork of OASIS until PR11 is merged'
       sudo: no
       git: dest=/home/vagrant/OASIS

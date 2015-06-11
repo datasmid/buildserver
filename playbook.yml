@@ -1,7 +1,6 @@
 ---
-- name: 'run ad-hoc playbook on test client'
-  hosts: all
-  user: root
+- name: 'run ad-hoc playbook on testclient'
+  hosts: testclient
   remote_user: vagrant
   sudo: yes
   gather_facts: yes
@@ -10,7 +9,7 @@
     - include: tasks/client_pre_tasks.yml
 
   roles:
-    - kbrebanov.virtualbox
+    - briancoca.oracle_java7
     - ansible-eclipse
 
   tasks:
