@@ -6,29 +6,31 @@
 - name: "create jenkins CLI destination directory"
   sudo: yes
   file: path={{ jenkins_data }} state=directory
-  
+
 # if jenkins is installed or updated, wait for pulling the jenkins CLI
 - name: "wait one minute for jenkins to warm up."
   wait_for: port=8080 delay=60
   retries: 5
-  
+
 #- name: "wait while starting jenkins"
 #  uri: url="https://127.0.0.1:8080/jenkins/jnlpJars/jenkins-cli.jar"
 #       return_content=no timeout=600
 #  retries: 200
 #  delay: 10
-    
+
 # download jenkins command line tools
 - name: "get jenkins CLI"
   sudo: yes
   get_url: url="http://127.0.0.1:8080/jenkins/jnlpJars/jenkins-cli.jar" dest={{jenkins_cli}} mode=0440 timeout=300
-  retries: 50 
+  retries: 50
   delay: 10
 
 # download latest jenkins update file
 - name: "get jenkins updates"
   sudo: yes
-  get_url: url=http://updates.jenkins-ci.org/update-center.json dest={{ jenkins_data }}/updates_jenkins.json thirsty=yes mode=0440 timeout=200
+  get_url: url=http://updates.jenkins-ci.org/update-center.json dest={{ jenkins_data }}/updates_jenkins.json
+            thirsty=yes mode=0440
+            timeout=200
   retries: 30
   delay: 10
   register: jenkins_updates
