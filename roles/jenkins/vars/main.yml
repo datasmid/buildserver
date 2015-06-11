@@ -5,7 +5,7 @@ features:
   gradle: False
   system_auth: False
 
-ant_version: 1.9.4
+ant_version: 1.9.5
 maven_version: 3.2.5
 gradle_version: 2.2.1
 java_home: /usr/lib/jvm/java
@@ -15,23 +15,23 @@ plugins:
   - 'analysis-core'    # for findbugs
   - 'artifactory'      # connect to build repository
   - 'checkstyle'       # source code formatting reports
-  - 'cobertura'
+#  - 'cobertura'
   - 'dashboard-view'
 #  - 'dry'              # don't repeat yourself
   - 'findbugs'          # common bugs can be squashed
-  - 'fortify360'
+#  - 'fortify360'
   - 'git'              # connect to git
   - 'gradle'           # build tool
   - 'jacoco'           # test coverage
-  - 'jira'             # Atlassian Jira API
+#  - 'jira'             # Atlassian Jira API
   - 'jobConfigHistory' # save changes in job configuration
 #  - 'junit'           # installed by default
 #  - 'ldap'            # installed by default
 # - 'mailer'           # installed by default
   - 'pmd'              #
   - 'release'
-  - 'role-strategy'
-  - 'ssh-agent'
+#  - 'role-strategy'
+#  - 'ssh-agent'
   - 'sonar'            # source code quality
 #  - 'thinBackup'       # backup job configurations
 #  - 'violations'       #

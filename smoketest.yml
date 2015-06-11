@@ -8,21 +8,28 @@
 
   tasks:
 
+  - name: 'verify tcp listening socket for Apache'
+    wait_for: port=443 timeout=180 delay=10
+
   - name: 'verify tcp listening socket for MySQL'
-    wait_for: port=3306 delay=1 timeout=10
+    wait_for: port=3306 timeout=300
 
   - name: 'verify tcp listening socket for Jenkins'
-    wait_for: port=8080 delay=1 timeout=5
+    wait_for: port=8080 timeout=300
 
   - name: 'verify tcp listening socket for Artifactory'
-    wait_for: port=8081 delay=1 timeout=5
+    wait_for: port=8081 timeout=300
 
-  - name: 'verify listening socket for Nexus'
-    wait_for: port=8082 delay=1 timeout=5
+  - name: 'verify tcp listening socket for Nexus'
+    wait_for: port=8082 timeout=300
 
-  - name: 'verify listening socket for Nexus'
-    wait_for: port=8081 delay=1 timeout=5
+  - name: 'verify tcp listening socket for Sonar'
+    wait_for: port=9000 timeout=300
 
+  - name: 'verify local import of pki/buildserverCA.cer'
+    sudo: no
+    changed_when: no
+    local_action: get_url url=https://dev/ validate_certs=yes timeout=100 dest=/dev/null
 
   - name: 'verify https connectivity to Jenkins'
     sudo: no
@@ -38,7 +45,7 @@
 
   - name: 'verify https connectivity to Sonar'
     sudo: no
-    local_action: uri url=https://dev/sonar/coding_rules#s=createdAt|asc=false status_code=200
+    local_action: uri url=https://dev/sonar/coding_rules#s=createdAt|asc=false timeout=100 status_code=200
 
   - name: 'verify https connectivity to Jenkins'
     sudo: no
@@ -49,3 +56,10 @@
     local_action: uri url=https://dev/nexus/#view-repositories;releases~browsestorage \
           status_code=200 \
           method=HEAD
+
+  - name: 'verify tcp listening socket for TomCat on target'
+    wait_for: host=target port=8080 timeout=5
+
+  - name: 'verify http connectivity to TomCat on target'
+    sudo: no
+    local_action: uri url=http://target:8080/ status_code=200

@@ -14,15 +14,20 @@
       get_url: url=https://galaxy.ansible.com dest=/dev/null
 
     - name: "ansible-galaxy install --force -r requirements.yml"
-      command: ansible-galaxy install --force -r requirements.yml 
+      command: ansible-galaxy install --force -r requirements.yml
 
+    - name: 'ensure permissions on directory for certificates'
+      file: name=pki state=directory mode=0700
+
+    - name: 'ensure permissions on insecure_private_key for SSH'
+      file: name=pki/vagrant.rsa state=file mode=0600
 
     - name: 'make sure directory for TLS certificates exists'
       file: name=pki state=directory mode=0700
-      
+
     - name: 'generate CA key'
       command: "openssl genrsa -out pki/buildserverCA.key 1024 creates=pki/buildserverCA.key"
-  
+
     - name: 'self-sign CA key'
       command: "openssl req -x509 -new -nodes -key pki/buildserverCA.key -days 1024 -out pki/buildserverCA.pem -subj '/C=AA/ST=NN/L=Ansible/O=localroot/CN=Buildserver CA' creates=pki/buildserverCA.pem"
 
@@ -43,7 +48,7 @@
       sudo: yes
       command: "keytool -importcert -trustcacerts -file pki/buildserverCA.cer -storepass changeit -noprompt -alias dev -keystore /etc/pki/java/cacerts"
       when: linux_location.stat.exists and devkey.rc == 1
-  
+
     - name: 'inquire  $JAVA_HOMEjre/lib/security of Java trust store'
       stat: "path={{java_home}}/jre/lib/security/cacerts"
       register: java_location
