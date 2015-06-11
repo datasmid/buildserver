@@ -30,7 +30,7 @@
   sudo: yes
   get_url: url=http://updates.jenkins-ci.org/update-center.json dest={{ jenkins_data }}/updates_jenkins.json
             thirsty=yes mode=0440
-            timeout=200
+            timeout=300
   retries: 30
   delay: 10
   register: jenkins_updates
