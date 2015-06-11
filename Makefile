@@ -4,8 +4,6 @@ default: all
 .PHONY: install
 install:
 	ansible-playbook -vv -i ansible.ini -l local install.yml
-	chmod 700 pki
-	chmod 600 pki/vagrant.rsa
 
 .PHONY: clean
 clean:
