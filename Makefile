@@ -43,8 +43,6 @@ deploy:
 
 .PHONY: testclient
 testclient:
-	vagrant halt target
-	vagrant halt dev
 	vagrant up testclient
 	vagrant provision testclient
 	vagrant halt testclient
