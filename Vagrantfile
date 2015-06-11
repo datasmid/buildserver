@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 VAGRANTFILE_API_VERSION = "2"
-$MEMSIZE=1024
+$MEMSIZE=2048
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
@@ -10,11 +10,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provider "virtualbox"
   config.vm.provider "vmware_fusion"
 
-  config.ssh.forward_agent = true
+  config.ssh.forward_agent = false
   config.ssh.insert_key = false
 
   # Timeouts
-  config.vm.boot_timeout = 600
+  config.vm.boot_timeout = 900
   config.vm.graceful_halt_timeout=100
 
   # Use the Ansible playbook provision.yml to setup the virtual machines.
@@ -53,7 +53,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
-  config.vm.define :target, autostart: false do |target_config|
+  config.vm.define :target, autostart: true do |target_config|
     target_config.vm.box = "dockpack/centos6"
     target_config.vm.box_url = "https://atlas.hashicorp.com/dockpack/boxes/centos6"
     target_config.vm.box_check_update = false

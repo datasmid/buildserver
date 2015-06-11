@@ -9,10 +9,10 @@
     - bbaassssiiee.commoncentos
     - httpd
     - jenkins                           # Use Jenkins to build
-    - hullufred.nexus                   # nexus can be used as library repository
-    - pcextreme.mariadb                 # artifactory & sonar use mariadb
-    - bbaassssiiee.sonar                # SonarQube can be used for reports
-    - bbaassssiiee.artifactory          # Artifactory can be used as build repository
+    - hullufred.nexus                   # Nexus is used as library repository
+    - pcextreme.mariadb                 # Artifactory & sonar use mariadb
+    - bbaassssiiee.artifactory          # Artifactory is our build repository
+    - bbaassssiiee.sonar                # SonarQube reports on code quality
 
   tasks:
     - include: tasks/settings.yml

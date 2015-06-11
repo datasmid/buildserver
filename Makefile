@@ -24,19 +24,17 @@ clean:
 
 .PHONY: up
 up:
-	vagrant halt dev
-	vagrant destroy -f dev
 	vagrant up --no-provision dev
-	wait
 	vagrant provision dev
+	
 
 .PHONY: deploy
 deploy:
-	vagrant halt target
 	vagrant up --no-provision target
-	wait
 	vagrant provision target
 	ansible-playbook -vv -i ansible.ini -l target deploy.yml
+	ansible-playbook -vv -i ansible.ini -l all smoketest.yml
+
 
 .PHONY: testclient
 testclient:
@@ -46,12 +44,35 @@ testclient:
 	vagrant provision testclient
 	vagrant halt testclient
 
-.PHONY: setup
-setup:
-	vagrant destroy -f target
-
 .PHONY: test
-test: clean install setup deploy
+test: deploy
+	ansible-playbook -vv -i ansible.ini -l target webtest.yml
+
+.PHONY: smoketest
+smoketest:
+	ansible-playbook -vv -i ansible.ini -l all smoketest.yml
 
 .PHONY: all
-all: clean install up setup deploy testclient
+all: install up deploy testclient
+
+
+### Babun is a linux-like environment on windows
+### http://babun.github.io
+### use of ansible under babun is experimental and still broken
+
+### See install instructions in cygwin-setup for a working alternative.
+
+.PHONY: babun
+babun:
+	pact install python python-paramiko python-crypto gcc-g++ wget openssh python-setuptools
+	@echo 'export PYTHONHOME=/usr' >> ~/.zshrc
+	@echo 'export export PYTHONPATH=/usr/lib/python2.7' >> ~/.zshrc
+
+	export PYTHONHOME=/usr
+	export PYTHONPATH=/usr/lib/python2.7
+	python /usr/lib/python2.7/site-packages/easy_install.py pip
+	pip install ansible
+	mkdir -p ${HOME}/bin
+	cp windows/ansible-playbook.bat ${HOME}/bin
+	chmod -x ansible.ini
+	chmod a+rw *.*
