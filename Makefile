@@ -6,7 +6,7 @@ install:
 	ansible-playbook -vv -i ansible.ini -l local install.yml
 
 .PHONY: prepare
-prepare:
+prepare: install
 	vagrant up --no-provision dev
 	vagrant up --no-provision target
 	vagrant up --no-provision testclient
@@ -37,7 +37,7 @@ deploy:
 	vagrant up --no-provision target
 	vagrant provision target
 	ansible-playbook -vv -i ansible.ini -l target deploy.yml
-	ansible-playbook -vv -i ansible.ini -l all smoketest.yml
+	ansible-playbook -vv -i ansible.ini -l all webtest.yml
 
 
 .PHONY: testclient
