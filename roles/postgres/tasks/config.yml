@@ -1,4 +1,11 @@
 ---
+
+- name: 'set ip to listen on to ipv4 localhost'
+  lineinfile: dest=/var/lib/pgsql/9.3/data/postgresql.conf insertbefore='^#listen_addresses'
+              line='listen_addresses = '127.0.0.1'' state=present
+  notify:
+    - start postgresql-9.3
+
 - name: 'init postgresql database'
   command: service postgresql-9.3 initdb creates=/var/lib/pgsql/9.3/data/postgresql.conf
   notify:
