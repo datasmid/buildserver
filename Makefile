@@ -30,6 +30,7 @@ clean:
 up:
 	vagrant up --no-provision dev
 	vagrant provision dev
+	ansible-playbook -vv -i ansible.ini -l dev build.yml
 
 
 .PHONY: deploy

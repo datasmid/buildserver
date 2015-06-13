@@ -1,0 +1,32 @@
+- name: build application with Jenkins
+  hosts: dev
+  user: root
+  remote_user: vagrant
+  sudo: no
+
+  tasks:
+    - name: 'waiting for listening socket for Jenkins'
+      wait_for: port=8080 timeout=300
+
+    - name: 'waiting for listening socket for Artifactory'
+      wait_for: port=8081 timeout=300
+
+    - name: 'waiting for listening socket for Nexus'
+      wait_for: port=8082 timeout=300
+
+    - name: 'waiting for Nexus'
+      uri: url=https://dev/nexus/#welcome status_code=200
+            return_content=no
+                    timeout=30
+      register: pollingstatus
+      until: "{{ pollingstatus.status }} == 200"
+      retries: 200
+      delay: 10
+
+    - name: 'verify https connectivity to Jenkins'
+      uri: url=https://dev/jenkins/ method=GET status_code=200
+
+
+    - name: 'trigger the build'
+      sudo: yes
+      shell: "java -jar /data/jenkins//jenkins-cli.jar -s https://dev/jenkins/ build game-of-life"
