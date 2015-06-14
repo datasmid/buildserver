@@ -1,0 +1,3 @@
+# these python extensions are required for Ansible modules
+httplib2
+http://github.com/diyan/pywinrm/archive/master.zip#egg=pywinrm

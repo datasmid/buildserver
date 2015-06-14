@@ -4,6 +4,8 @@ default: all
 .PHONY: install
 install:
 	ansible-playbook -vv -i ansible.ini -l local install.yml
+	@echo installing python extensions
+	pip install --upgrade -r requirements.txt
 
 .PHONY: prepare
 prepare: install
