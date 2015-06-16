@@ -102,10 +102,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     windows_config.winrm.password = 'Passw0rd!'
     windows_config.vm.communicator = "winrm"
     windows_config.vm.box_url = "https://atlas.hashicorp.com/kroonwijk/boxes/win7ie10"
-
     windows_config.vm.network :private_network, ip: "192.168.10.40"
+    windows_config.vm.network :forwarded_port, guest: 3389, host: 3389, id: "rdp", auto_correct: true
     windows_config.vm.provider "virtualbox" do |vb|
-      vb.customize ["modifyvm", :id, "--memory", "#$MEMSIZE"]
+      vb.customize ["modifyvm", :id, "--memory", "#$MEMSIZE", "--natnet1", "172.16.1/24"]
       vb.gui = true
       vb.name = "windows"
     end

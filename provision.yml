@@ -46,4 +46,4 @@
   roles:
     - geerlingguy.java
     - ansible-maven
-    - briancoca.oracle_java7
+

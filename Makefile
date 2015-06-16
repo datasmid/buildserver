@@ -4,6 +4,15 @@ default: all
 .PHONY: install
 install:
 	ansible-playbook -vv -i ansible.ini -l local install.yml
+	@echo installing python extensions
+	pip install --upgrade -r requirements.txt
+
+.PHONY: prepare
+prepare: install
+	vagrant up --no-provision dev
+	vagrant up --no-provision target
+	vagrant up --no-provision testclient
+#	vagrant up --no-provision windows
 
 .PHONY: clean
 clean:
@@ -18,26 +27,24 @@ clean:
 	rm -rf roles/hullufred.nexus/
 	rm -rf roles/pcextreme.mariadb/
 	rm -rf roles/briancoca.oracle_java7
-	rm -rf roles/kbrebanov.*
 
 .PHONY: up
 up:
 	vagrant up --no-provision dev
 	vagrant provision dev
-	
+	ansible-playbook -vv -i ansible.ini -l dev build.yml
+
 
 .PHONY: deploy
 deploy:
 	vagrant up --no-provision target
 	vagrant provision target
 	ansible-playbook -vv -i ansible.ini -l target deploy.yml
-	ansible-playbook -vv -i ansible.ini -l all smoketest.yml
+	ansible-playbook -vv -i ansible.ini -l all webtest.yml
 
 
 .PHONY: testclient
 testclient:
-	vagrant halt target
-	vagrant halt dev
 	vagrant up testclient
 	vagrant provision testclient
 	vagrant halt testclient
@@ -65,6 +72,8 @@ babun:
 	pact install python python-paramiko python-crypto gcc-g++ wget openssh python-setuptools
 	@echo 'export PYTHONHOME=/usr' >> ~/.zshrc
 	@echo 'export export PYTHONPATH=/usr/lib/python2.7' >> ~/.zshrc
+	@echo 'export PYTHONHOME=/usr' >> ~/.bash_profile
+	@echo 'export export PYTHONPATH=/usr/lib/python2.7' >> ~/.bash_profile
 
 	export PYTHONHOME=/usr
 	export PYTHONPATH=/usr/lib/python2.7

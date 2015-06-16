@@ -10,4 +10,5 @@
 - name: 'authorize jenkins_repo for local rpm installs'
   command: rpm --import {{jenkins_repo_key}}
   when: ansible_os_family == "RedHat"
-
+  retries: 30
+  delay: 10
