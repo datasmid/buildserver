@@ -1,0 +1,4 @@
+
+    - name: 'install software' 
+      win_get_url: dest=c:\Users\IEUser\Desktop\upgrade_to_ps3.ps1
+                   url=https://raw.githubusercontent.com/cchurch/ansible/devel/examples/scripts/upgrade_to_ps3.ps1
