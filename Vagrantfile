@@ -97,7 +97,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.define :windows, autostart: false do |windows_config|
-    windows_config.vm.box = "kroonwijk/win7ie10"
+    windows_config.vm.box = "ferhaty/win7ie10winrm"
     windows_config.winrm.username = 'IEuser'
     windows_config.winrm.password = 'Passw0rd!'
     windows_config.vm.communicator = "winrm"
