@@ -1,7 +1,6 @@
 ---
 - name: Build Server
   hosts: dev
-  user: root
   remote_user: vagrant
   sudo: yes
 
@@ -20,7 +19,6 @@
 
 - name: Target server
   hosts: target
-  user: root
   remote_user: vagrant
   sudo: yes
   vars:
@@ -38,7 +36,6 @@
 
 - name: Ubuntu Client
   hosts: ubuntu
-  user: root
   remote_user: vagrant
   sudo: yes
   gather_facts: yes
@@ -46,4 +43,12 @@
   roles:
     - geerlingguy.java
     - ansible-maven
+
+- name: Windows client
+  hosts: windows
+  remote_user: IEUser
+  gather_facts: no
+
+  tasks:
+    - include: tasks/windows_settings.yml
 
