@@ -50,6 +50,7 @@
   gather_facts: no
 
   roles:
+  - ansible-windows-powershell
   - ansible-oasis-maven
 
   tasks:
