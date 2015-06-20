@@ -49,16 +49,17 @@ testclient:
 	vagrant provision testclient
 	vagrant halt testclient
 
-.PHONY: test
-test: deploy
-	ansible-playbook -vv -i ansible.ini -l target webtest.yml
-
 .PHONY: smoketest
-smoketest:
+smoketest: 
 	ansible-playbook -vv -i ansible.ini -l all smoketest.yml
+.PHONY: webtest
+webtest: 
+	ansible-playbook -vv -i ansible.ini -l target webtest.yml
+.PHONY: test
+test: smoketest webtest
 
 .PHONY: all
-all: install up deploy testclient
+all: install up deploy smoketest webtest
 
 
 ### Babun is a linux-like environment on windows
