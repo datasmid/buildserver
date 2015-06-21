@@ -12,8 +12,8 @@ install:
 prepare:
 	vagrant up --no-provision dev
 	vagrant up --no-provision target
-	vagrant up --no-provision testclient
-	vagrant up --no-provision windows
+#	vagrant up --no-provision testclient
+#	vagrant up --no-provision windows
 
 .PHONY: clean
 clean:
