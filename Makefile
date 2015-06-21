@@ -3,6 +3,7 @@ default: all
 
 .PHONY: install
 install:
+	@echo installing galaxy roles
 	ansible-playbook -vv -i ansible.ini -l local install.yml
 	@echo installing python extensions
 	pip install --upgrade -r requirements.txt
@@ -12,7 +13,7 @@ prepare: install
 	vagrant up --no-provision dev
 	vagrant up --no-provision target
 	vagrant up --no-provision testclient
-#	vagrant up --no-provision windows
+	vagrant up --no-provision windows
 
 .PHONY: clean
 clean:
