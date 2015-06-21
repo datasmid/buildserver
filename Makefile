@@ -9,7 +9,7 @@ install:
 	pip install --upgrade -r requirements.txt
 
 .PHONY: prepare
-prepare: install
+prepare:
 	vagrant up --no-provision dev
 	vagrant up --no-provision target
 	vagrant up --no-provision testclient
@@ -51,10 +51,10 @@ testclient:
 	vagrant halt testclient
 
 .PHONY: smoketest
-smoketest: 
+smoketest:
 	ansible-playbook -vv -i ansible.ini -l all smoketest.yml
 .PHONY: webtest
-webtest: 
+webtest:
 	ansible-playbook -vv -i ansible.ini -l target webtest.yml
 .PHONY: test
 test: smoketest webtest
