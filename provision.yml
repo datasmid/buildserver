@@ -25,7 +25,7 @@
     homedir: "{{ lookup('env','HOME') }}"
 
   pre_tasks:
-    - include: tasks/etc_hosts.yml
+    - include: tasks/settings.yml
 
   roles:
     - bbaassssiiee.commoncentos
@@ -34,7 +34,6 @@
     - hudecof.tomcat
 
   tasks:
-    - include: tasks/settings.yml
     - include: tasks/tomcat_settings.yml
 
 - name: Ubuntu Client
