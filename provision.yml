@@ -24,6 +24,9 @@
   vars:
     homedir: "{{ lookup('env','HOME') }}"
 
+  pre_tasks:
+    - include: tasks/etc_hosts.yml
+
   roles:
     - bbaassssiiee.commoncentos
     - geerlingguy.java

@@ -3,15 +3,16 @@ default: all
 
 .PHONY: install
 install:
+	@echo installing galaxy roles
 	ansible-playbook -vv -i ansible.ini -l local install.yml
 	@echo installing python extensions
 	pip install --upgrade -r requirements.txt
 
 .PHONY: prepare
-prepare: install
+prepare:
 	vagrant up --no-provision dev
 	vagrant up --no-provision target
-	vagrant up --no-provision testclient
+#	vagrant up --no-provision testclient
 #	vagrant up --no-provision windows
 
 .PHONY: clean
@@ -49,16 +50,17 @@ testclient:
 	vagrant provision testclient
 	vagrant halt testclient
 
-.PHONY: test
-test: deploy
-	ansible-playbook -vv -i ansible.ini -l target webtest.yml
-
 .PHONY: smoketest
 smoketest:
 	ansible-playbook -vv -i ansible.ini -l all smoketest.yml
+.PHONY: webtest
+webtest:
+	ansible-playbook -vv -i ansible.ini -l target webtest.yml
+.PHONY: test
+test: smoketest webtest
 
 .PHONY: all
-all: install up deploy testclient
+all: install up deploy smoketest webtest
 
 
 ### Babun is a linux-like environment on windows
