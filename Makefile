@@ -62,6 +62,28 @@ test: smoketest webtest
 .PHONY: all
 all: install up deploy smoketest webtest
 
+dev.box:
+	vagrant halt dev
+	vagrant package --base dev --output dev.box
+
+target.box:
+	vagrant halt target
+	vagrant package --base target --output target.box
+testclient.box:
+	vagrant halt testclient
+	vagrant package --base testclient --output testclient.box
+windows.box:
+	vagrant halt windows
+	vagrant package --base windows --output windows.box
+
+.PHONY: boxes
+boxes: dev.box target.box testclient.box
+
+import:
+	vagrant box add -f -name dockpack/centos6 target.box
+	vagrant box add -f -name ubuntu14 testclient.box
+	vagrant box add -f -name chef/centos-6.6 dev.box
+
 
 ### Babun is a linux-like environment on windows
 ### http://babun.github.io
