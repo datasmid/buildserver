@@ -30,6 +30,7 @@
   roles:
     - bbaassssiiee.commoncentos
     - geerlingguy.java
+    - issue
     - postgres
     - hudecof.tomcat
 
