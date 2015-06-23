@@ -23,6 +23,7 @@ clean:
 	rm -rf roles/ansible-ant/
 	rm -rf roles/ansible-eclipse/
 	rm -rf roles/ansible-maven/
+	rm -rf roles/ansible-oasis-maven/
 	rm -rf roles/geerlingguy.java/
 	rm -rf roles/hudecof.tomcat/
 	rm -rf roles/hullufred.nexus/
