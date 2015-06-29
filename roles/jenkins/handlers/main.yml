@@ -12,7 +12,7 @@
 - name: 'restart jenkins'
   sudo: yes
   service: name=jenkins state=restarted
- 
+
 - name: '(re-)assign service start/stop order'
   sudo: yes
   command: chkconfig jenkins reset

@@ -1,5 +1,5 @@
-    - name: 'fix "dev" in /etc/hosts file'
-      lineinfile: dest=/etc/hosts regexp='172.16.1.15*' state=absent
+    - name: 'set hostname'
+      hostname: name={{ inventory_hostname }}
 
     - name: 'add "dev" in /etc/hosts file'
       lineinfile: dest=/etc/hosts regexp='192.168.10.16'
@@ -10,3 +10,4 @@
       lineinfile: dest=/etc/hosts regexp='192.168.10.18'
               line='192.168.10.18   target'
               state=present
+

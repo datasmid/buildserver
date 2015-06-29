@@ -18,7 +18,7 @@
 - name: "import buildserverCA root cert in Java trust store"
   command: "keytool -importcert -trustcacerts -file /var/www/html/buildserverCA.cer -storepass changeit -noprompt -alias {{inventory_hostname}} -keystore {{java_home}}/jre/lib/security/cacerts"
   when: devkey.rc == 1
-  
+
 - name: 'install software group "Development tools"'
   yum: name="@Development tools" state=present
   retries: 3

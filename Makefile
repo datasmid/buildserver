@@ -23,6 +23,7 @@ clean:
 	rm -rf roles/ansible-ant/
 	rm -rf roles/ansible-eclipse/
 	rm -rf roles/ansible-maven/
+	rm -rf roles/ansible-oasis-maven/
 	rm -rf roles/geerlingguy.java/
 	rm -rf roles/hudecof.tomcat/
 	rm -rf roles/hullufred.nexus/
@@ -61,6 +62,28 @@ test: smoketest webtest
 
 .PHONY: all
 all: install up deploy smoketest webtest
+
+dev.box:
+	vagrant halt dev
+	vagrant package --base dev --output boxes/dev.box
+
+target.box:
+	vagrant halt target
+	vagrant package --base target --output boxes/target.box
+testclient.box:
+	vagrant halt testclient
+	vagrant package --base testclient --output boxes/testclient.box
+windows.box:
+	vagrant halt windows
+	vagrant package --base windows --output boxes/windows.box
+
+.PHONY: boxes
+boxes: dev.box target.box testclient.box
+
+import:
+	vagrant box add -f -name dockpack/centos6 boxes/target.box
+	vagrant box add -f -name ubuntu14 boxes/testclient.box
+	vagrant box add -f -name chef/centos-6.6 boxes/dev.box
 
 
 ### Babun is a linux-like environment on windows

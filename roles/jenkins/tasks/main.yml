@@ -10,7 +10,7 @@
 - include: maven.yml
 - include: gradle.yml
 
-# Install jenkins 
+# Install jenkins
 - include: jenkins.yml
 
 # Run configuration
