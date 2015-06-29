@@ -13,7 +13,7 @@
 
 - name: 'create legacyIds for demo job'
   file: state=touch dest={{jenkins_data}}/jobs/game-of-life/builds/legacyIds owner=jenkins group=jenkins
-  
+
 - name: 'create symlinks for demo job'
   file: state=link force=yes src=-1 dest={{jenkins_data}}/jobs/game-of-life/builds/{{item}} owner=jenkins group=jenkins
   with_items:

@@ -11,7 +11,7 @@
   template: src=httpd-conf.d-proxy.conf.j2 dest=/etc/httpd/conf.d/proxy.conf owner=root group=root mode=0600 backup=yes
   notify:
     - restart httpd
-    
+
 - name: 'create ssl configuration file'
   template: src=httpd-conf.d-ssl.conf.j2 dest=/etc/httpd/conf.d/ssl.conf owner=root group=root mode=0600 backup=yes
   notify:

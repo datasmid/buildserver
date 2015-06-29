@@ -2,17 +2,17 @@
 ### Ant
 - name: 'make sure directory for Ant exists'
   file: dest={{ant_home}} state=directory owner=root group=root mode=0755
-  
+
 - name: 'verify presence of Ant'
   stat: path={{ant_home}}/bin/ant
   register: ant_installed
   when: features.ant
-  
+
 - name: 'download Ant'
   get_url: url={{ant_url}} dest=/tmp
   retries: 3
   when: features.ant and not ant_installed.stat.exists
-  
+
 - name: 'untar Ant'
   command: tar xfz /tmp/{{ant_tarfile}} -C {{jenkins_tools}}/hudson.tasks.Ant_AntInstallation creates={{ant_home}}/bin/ant
   when: features.ant and not ant_installed.stat.exists

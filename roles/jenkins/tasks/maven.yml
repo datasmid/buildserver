@@ -2,10 +2,10 @@
 ### Maven
 - name: 'make sure directory for Maven exists'
   file: dest={{maven_home}} state=directory owner=root group=root mode=0755
-  
+
 - name: 'make sure directory for Maven local repository exists'
   file: dest={{jenkins_data}}/repository state=directory owner=jenkins group=jenkins mode=0755
-  
+
 - name: 'verify presence of maven'
   stat: path={{maven_home}}/bin/mvn
   register: mvn_installed
@@ -22,7 +22,7 @@
 
 - name: 'make sure jenkins ~/.m2 directory exists'
   file: path={{jenkins_home}}/.m2 owner=jenkins group=jenkins mode=0750 state=directory
-  when: features.maven 
+  when: features.maven
 
 - name: 'create settings.xml'
   template: src=settings_xml.j2 dest={{jenkins_home}}/.m2/settings.xml owner=jenkins group=jenkins mode=0600
@@ -34,7 +34,7 @@
   template: src=etc-profile-d-maven-sh.j2 dest=/etc/profile.d/maven.sh
           owner=root group=root mode=0644
   when: features.maven
-  
+
 - name: 'cleanup maven download'
   file: dest=/tmp/{{maven_tarfile}} state=absent
 

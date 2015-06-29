@@ -1,9 +1,9 @@
 ---
-  
+
 - name: "make sure ca-certificates is latest"
   yum: name=ca-certificates state=latest
   when: ansible_os_family == "RedHat"
-  
+
 - name: 'copy buildserverCA.crt to webserver'
   copy: src=pki/buildserverCA.cer dest=/var/www/html/buildserverCA.cer owner=apache group=apache mode=0644
 
@@ -15,14 +15,14 @@
 
 - name: 'fetch certficate signing request'
   fetch: src={{inventory_hostname}}.csr dest=pki/{{inventory_hostname}}.csr flat=yes
-  
+
 - name: 'CA-sign buildserver key in a way to avoid https://github.com/mitchellh/vagrant/issues/2646'
   sudo: no
   local_action: shell /bin/bash --login -c 'openssl x509 -req -in pki/dev.csr -CA pki/buildserverCA.pem -CAkey pki/buildserverCA.key -CAcreateserial -out pki/dev.crt -days 180'
-  
+
 - name: 'copy signed certificate to webserver'
   copy: src=pki/{{inventory_hostname}}.crt dest=/etc/pki/tls/certs/{{inventory_hostname}}.crt
-  
+
 - name: 'copy dh_parameters.txt to webserver'
   copy: src=dh_parameters.txt dest=/etc/pki/tls/dh_parameters.txt
 
