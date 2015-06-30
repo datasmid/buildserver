@@ -1,3 +1,4 @@
 location: Appsterdam
+noliohost: nolio
 mvn_deploy_url: https://dev/artifactory
 mvn_proxy_url: https://dev/nexus
