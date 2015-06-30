@@ -1,30 +1,53 @@
-# The MIT License (MIT)
-#
-# Copyright (c) 2014 Jharrod LaFon
-#
-# Permission is hereby granted, free of charge, to any person obtaining a copy of
-# this software and associated documentation files (the "Software"), to deal in
-# the Software without restriction, including without limitation the rights to
-# use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
-# the Software, and to permit persons to whom the Software is furnished to do so,
-# subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in all
-# copies or substantial portions of the Software.
-# 
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-# FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-# COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
-# IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-# CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+# (C) 2015, Tom Paine, <github@aioue.net>
+# (C) 2014, Jharrod LaFon, @JharrodLaFon
+# (C) 2012-2013, Michael DeHaan, <michael.dehaan@gmail.com>
+
+# Provides per-task timing, ongoing playbook elapsed time and
+# ordered list of top 20 longest running tasks at end
 
 import time
 
+from ansible.callbacks import display
+
+
+# define start time
+t0 = tn = time.time()
+
+
+def secondsToStr(t):
+    # http://bytes.com/topic/python/answers/635958-handy-short-cut-formatting-elapsed-time-floating-point-seconds
+    rediv = lambda ll, b: list(divmod(ll[0], b)) + ll[1:]
+    return "%d:%02d:%02d.%03d" % tuple(reduce(rediv, [[t * 1000, ], 1000, 60, 60]))
+
+
+def filled(msg, fchar="*"):
+    if len(msg) == 0:
+        width = 79
+    else:
+        msg = "%s " % msg
+        width = 79 - len(msg)
+    if width < 3:
+        width = 3
+    filler = fchar * width
+    return "%s%s " % (msg, filler)
+
+
+def timestamp(self):
+    if self.current is not None:
+        self.stats[self.current] = time.time() - self.stats[self.current]
+
+
+def tasktime():
+    global tn
+    time_current = time.strftime('%A %d %B %Y  %H:%M:%S %z')
+    time_elapsed = secondsToStr(time.time() - tn)
+    time_total_elapsed = secondsToStr(time.time() - t0)
+    display(filled('%s (%s)%s%s' % (time_current, time_elapsed, ' ' * 7, time_total_elapsed)))
+    tn = time.time()
+
+
 class CallbackModule(object):
-    """
-    A plugin for timing tasks
-    """
+
     def __init__(self):
         self.stats = {}
         self.current = None
@@ -33,21 +56,21 @@ class CallbackModule(object):
         """
         Logs the start of each task
         """
-        if self.current is not None:
-            # Record the running time of the last executed task
-            self.stats[self.current] = time.time() - self.stats[self.current]
+        tasktime()
+        timestamp(self)
 
         # Record the start time of the current task
         self.current = name
         self.stats[self.current] = time.time()
 
+    def playbook_on_setup(self):
+        tasktime()
+
     def playbook_on_stats(self, stats):
-        """
-        Prints the timings
-        """
-        # Record the timing of the very last task
-        if self.current is not None:
-            self.stats[self.current] = time.time() - self.stats[self.current]
+        tasktime()
+        display(filled("", fchar="="))
+
+        timestamp(self)
 
         # Sort the tasks by their running time
         results = sorted(
@@ -56,8 +79,8 @@ class CallbackModule(object):
             reverse=True,
         )
 
-        # Just keep the top 10
-        results = results[:10]
+        # Just keep the top 20
+        results = results[:20]
 
         # Print the timings
         for name, elapsed in results:
@@ -67,3 +90,4 @@ class CallbackModule(object):
                     ' {0:.02f}s'.format(elapsed),
                 )
             )
+        print ''
