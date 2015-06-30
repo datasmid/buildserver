@@ -110,4 +110,25 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       vb.name = "windows"
     end
   end
+
+ config.vm.define :lab, autostart: true do |lab_config|
+    lab_config.vm.box = "chef/centos-7.1"
+    lab_config.vm.box_url = "https://atlas.hashicorp.com/chef/boxes/centos-7.1"
+    lab_config.vm.box_check_update = false
+    lab_config.vm.network "private_network", ip: "192.168.10.28", :netmask => "255.255.255.0",  auto_config: true
+    lab_config.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2223, auto_correct: true
+    lab_config.vm.network "forwarded_port", guest: 8080, host: 8080, auto_correct: true
+
+    lab_config.vm.provider "virtualbox" do |vb|
+      vb.customize ["modifyvm", :id, "--memory", "#$MEMSIZE", "--natnet1", "172.16.1/24"]
+      vb.gui = false
+      vb.name = "lab"
+    end
+
+    lab_config.vm.provider "vmware_fusion" do |vmware|
+      vmware.gui = false
+      vmware.vmx["memsize"] = "#$MEMSIZE"
+      vmware.vmx["numvcpus"] = 2
+    end
+  end
 end
