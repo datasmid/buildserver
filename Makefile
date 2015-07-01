@@ -78,7 +78,7 @@ windows.box:
 	vagrant package --base windows --output boxes/windows.box
 
 .PHONY: boxes
-boxes: dev.box target.box testclient.box
+boxes: dev.box target.box testclient.box windows.box
 
 import:
 	vagrant box add -f -name dockpack/centos6 boxes/target.box
