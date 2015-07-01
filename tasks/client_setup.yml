@@ -31,15 +31,3 @@
       git: dest=/home/vagrant/buildserver
            repo=https://github.com/bbaassssiiee/buildserver.git
 
-    - name: 'checkout fork of OASIS until PR11 is merged'
-      sudo: no
-      git: dest=/home/vagrant/OASIS
-           repo=https://github.com/bbaassssiiee/OASIS-Maven.git
-
-    - name: 'mvn install files for OASIS'
-      sudo: no
-      shell: "(cd /home/vagrant/OASIS && bash ./install.sh)"
-
-    - name: 'reboot system if required'
-      command: shutdown -r now 'Rebooting to complete system upgrade'
-               removes=/var/run/reboot-required
