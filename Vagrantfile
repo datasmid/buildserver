@@ -111,7 +111,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
- config.vm.define :lab, autostart: true do |lab_config|
+ config.vm.define :lab, autostart: false do |lab_config|
     lab_config.vm.box = "chef/centos-7.1"
     lab_config.vm.box_url = "https://atlas.hashicorp.com/chef/boxes/centos-7.1"
     lab_config.vm.box_check_update = false
