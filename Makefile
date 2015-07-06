@@ -67,18 +67,18 @@ dev.box:
 	vagrant halt dev
 	vagrant package --base dev --output boxes/dev.box
 
-target.box:
+boxes/target.box:
 	vagrant halt target
 	vagrant package --base target --output boxes/target.box
-testclient.box:
+boxes/testclient.box:
 	vagrant halt testclient
 	vagrant package --base testclient --output boxes/testclient.box
-windows.box:
+boxes/windows.box:
 	vagrant halt windows
 	vagrant package --base windows --output boxes/windows.box
 
 .PHONY: boxes
-boxes: dev.box target.box testclient.box windows.box
+boxes: boxes/dev.box boxes/target.box boxes/testclient.box boxes/windows.box
 
 import:
 	vagrant box add -f -name dockpack/centos6 boxes/target.box
