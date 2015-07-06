@@ -74,22 +74,22 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
-  config.vm.define :testclient, autostart: false do |testclient_config|
-    testclient_config.vm.box = "ubuntu14"
-    testclient_config.vm.box_url = "https://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box"
-    testclient_config.vm.network "private_network", ip: "192.168.10.20", :netmask => "255.255.255.0",  auto_config: true
-    testclient_config.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2224, auto_correct: true
-    testclient_config.vm.network :forwarded_port, guest:8000, host:8000
-    testclient_config.vm.provider "vmware_fusion" do |vmware|
+  config.vm.define :test, autostart: false do |test_config|
+    test_config.vm.box = "ubuntu14"
+    test_config.vm.box_url = "https://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box"
+    test_config.vm.network "private_network", ip: "192.168.10.20", :netmask => "255.255.255.0",  auto_config: true
+    test_config.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2224, auto_correct: true
+    test_config.vm.network :forwarded_port, guest:8000, host:8000
+    test_config.vm.provider "vmware_fusion" do |vmware|
       vmware.vmx["memsize"] = "#$MEMSIZE"
       vmware.vmx["numvcpus"] = "2"
     end
-    testclient_config.vm.provider "virtualbox" do |vb|
+    test_config.vm.provider "virtualbox" do |vb|
       vb.customize ["modifyvm", :id, "--memory", "#$MEMSIZE", "--natnet1", "172.16.1/24"]
       vb.gui = true
-      vb.name = "testclient"
+      vb.name = "test"
     end
-    testclient_config.vm.provider "vmware_fusion" do |vmware|
+    test_config.vm.provider "vmware_fusion" do |vmware|
       vmware.gui = false
       vmware.vmx["memsize"] = "#$MEMSIZE"
       vmware.vmx["numvcpus"] = 2

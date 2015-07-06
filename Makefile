@@ -12,7 +12,7 @@ install:
 prepare:
 	vagrant up --no-provision dev
 	vagrant up --no-provision target
-#	vagrant up --no-provision testclient
+#	vagrant up --no-provision test
 #	vagrant up --no-provision windows
 
 .PHONY: clean
@@ -45,11 +45,11 @@ deploy:
 	ansible-playbook -vv -i ansible.ini -l all webtest.yml
 
 
-.PHONY: testclient
-testclient:
-	vagrant up testclient
-	vagrant provision testclient
-	vagrant halt testclient
+.PHONY: test
+test:
+	vagrant up test
+	vagrant provision test
+	vagrant halt test
 
 .PHONY: smoketest
 smoketest:
@@ -70,19 +70,19 @@ dev.box:
 boxes/target.box:
 	vagrant halt target
 	vagrant package --base target --output boxes/target.box
-boxes/testclient.box:
-	vagrant halt testclient
-	vagrant package --base testclient --output boxes/testclient.box
+boxes/test.box:
+	vagrant halt test
+	vagrant package --base test --output boxes/test.box
 boxes/windows.box:
 	vagrant halt windows
 	vagrant package --base windows --output boxes/windows.box
 
 .PHONY: boxes
-boxes: boxes/dev.box boxes/target.box boxes/testclient.box boxes/windows.box
+boxes: boxes/dev.box boxes/target.box boxes/test.box boxes/windows.box
 
 import:
 	vagrant box add -f -name dockpack/centos6 boxes/target.box
-	vagrant box add -f -name ubuntu14 boxes/testclient.box
+	vagrant box add -f -name ubuntu14 boxes/test.box
 	vagrant box add -f -name chef/centos-6.6 boxes/dev.box
 
 

@@ -37,7 +37,7 @@
   tasks:
     - include: tasks/tomcat_settings.yml
 
-- name: Ubuntu Client
+- name: Ubuntu Box
   hosts: ubuntu
   remote_user: vagrant
   sudo: yes
