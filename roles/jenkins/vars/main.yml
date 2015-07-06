@@ -17,6 +17,7 @@ plugins:
   - 'checkstyle'       # source code formatting reports
 #  - 'cobertura'
   - 'dashboard-view'
+  - 'delivery-pipeline-plugin'
 #  - 'dry'              # don't repeat yourself
   - 'findbugs'          # common bugs can be squashed
 #  - 'fortify360'
