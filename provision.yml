@@ -6,6 +6,7 @@
 
   roles:
     - bbaassssiiee.commoncentos
+    - common
     - httpd
     - jenkins                           # Use Jenkins to build
     - hullufred.nexus                   # Nexus is used as library repository
@@ -29,8 +30,8 @@
 
   roles:
     - bbaassssiiee.commoncentos
+    - common
     - geerlingguy.java
-    - issue
     - postgres
     - hudecof.tomcat
 
