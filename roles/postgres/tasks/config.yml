@@ -22,3 +22,6 @@
               line="listen_addresses = '127.0.0.1'" state=present
   notify:
     - start postgresql-9.3
+
+- name: 'start postgresql-9.3'
+  service: name=postgresql-9.3 state=started
