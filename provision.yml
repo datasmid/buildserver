@@ -4,12 +4,14 @@
   remote_user: vagrant
   sudo: yes
 
+
   roles:
     - bbaassssiiee.commoncentos
     - common
     - httpd
     - jenkins                           # Use Jenkins to build
     - hullufred.nexus                   # Nexus is used as library repository
+    - geerlingguy.java
     - pcextreme.mariadb                 # Artifactory & sonar use mariadb
     - bbaassssiiee.artifactory          # Artifactory is our build repository
     - bbaassssiiee.sonar                # SonarQube reports on code quality
