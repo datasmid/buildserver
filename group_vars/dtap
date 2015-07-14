@@ -11,3 +11,8 @@ yum_packages:
 
 java_packages:
   - java-1.7.0-openjdk
+
+artifactory_version: "3.6.0"
+features:
+  mysql: True
+  postgresql: False
