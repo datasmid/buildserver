@@ -1,4 +1,10 @@
 ---
   
-  - name: firewalld configuration
-    service: name=firewalld state=stopped
+  - name: firewalld configuration apache
+    command: firewall-cmd --add-service=http --permanent 
+
+  - name: firewalld configuration apache
+    command: firewall-cmd --add-service=https --permanent 
+
+  - name: start firewalld
+    service: name=firewalld state=restarted enabled=yes
