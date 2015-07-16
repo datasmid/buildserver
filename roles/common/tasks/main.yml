@@ -5,7 +5,7 @@
 - name: 'persist hostname in hosts file'
   sudo: yes
   lineinfile: dest=/etc/hosts regexp='{{inventory_hostname}}'
-              line='{{ansible_eth1.ipv4.address}}   {{inventory_hostname}}'
+              line='{{ansible_all_ipv4_addresses[1]}}   {{inventory_hostname}}'
               state=present
 
 - name: creates issue

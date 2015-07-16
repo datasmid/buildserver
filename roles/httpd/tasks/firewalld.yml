@@ -1,0 +1,4 @@
+---
+  
+  - name: firewalld configuration
+    service: name=firewalld state=stopped
