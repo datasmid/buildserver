@@ -13,14 +13,14 @@
 # Install jenkins
 - include: jenkins.yml
 
-# Run configuration
-- include: config.yml
-
 # Install jenkins command line tools
 - include: cli.yml
 
 # Install/update jenkins plugins
 - include: plugins.yml
+
+# Run configuration
+- include: config.yml
 
 # Install demo job: game-of-life
 - include: demo.yml

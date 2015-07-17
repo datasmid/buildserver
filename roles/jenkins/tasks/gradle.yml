@@ -6,12 +6,16 @@
   when: features.gradle
 
 - name: 'download Gradle'
-  get_url: url={{gradle_url}} dest=/tmp
+  get_url: url={{gradle_url}} dest=~
   retries: 3
   when: features.gradle and not gradle_installed.stat.exists
 
+- name: 'create directory for Gradle installations'
+  file: dest={{jenkins_tools}}/hudson.plugins.gradle.GradleInstallation
+        state=directory owner=jenkins group=jenkins
+
 - name: 'unzip Gradle'
-  command: unzip -o  /tmp/{{gradle_zipfile}} -d {{jenkins_tools}} creates={{gradle_home}}
+  command: unzip -o  ~/{{gradle_zipfile}} -d {{jenkins_tools}}/hudson.plugins.gradle.GradleInstallation creates={{gradle_home}}
   when: features.gradle
 
 - name: 'install /etc/profile.d/gradle.sh'
@@ -20,12 +24,12 @@
   when: features.gradle
 
 - name: 'verify presence of Gradle download'
-  stat: path=/tmp/{{gradle_zipfile}}
+  stat: path=~/{{gradle_zipfile}}
   register: gradle_download
   when: features.gradle
 
 - name: 'cleanup Gradle download'
-  file: dest=/tmp/{{gradle_zipfile}} state=absent
+  file: dest=~/{{gradle_zipfile}} state=absent
   when: features.gradle and gradle_download.stat.exists
 
 - name: 'make sure Gradle directory is absent'

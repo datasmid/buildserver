@@ -7,3 +7,6 @@
     - config
   when: ansible_os_family == "RedHat"
 
+
+- name: 'make sure jenkins_tools directory is accessible'
+  file: path={{jenkins_tools}} recurse=yes owner=jenkins group=jenkins state=directory
