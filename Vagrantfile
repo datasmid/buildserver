@@ -29,8 +29,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: true
 
   config.vm.define :dev,  primary: true do |dev_config|
-    dev_config.vm.box = "chef/centos-6.6"
-    dev_config.vm.box_url = "https://atlas.hashicorp.com/chef/boxes/centos-6.6"
+    dev_config.vm.box = "dockpack/centos6"
+    dev_config.vm.box_url = "https://atlas.hashicorp.com/dockpack/boxes/centos6"
     dev_config.vm.box_check_update = false
     # This host only network for use of Apache as a reverse proxy.
     dev_config.vm.network "private_network", ip: "192.168.10.16", :netmask => "255.255.255.0",  auto_config: true
@@ -40,7 +40,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     #dev_config.vm.network "forwarded_port", guest: 443, host: 8443, auto_correct: true
 
     dev_config.vm.provider "virtualbox" do |vb|
-      vb.customize ["modifyvm", :id, "--memory", "#$MEMSIZE", "--natnet1", "172.16.1/24"]
+      vb.customize ["modifyvm", :id, "--memory", "4096", "--natnet1", "172.16.1/24"]
       vb.customize ["modifyvm", :id, "--ioapic", "on"  ]
       vb.name = "dev"
       vb.gui = false
