@@ -59,7 +59,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     target_config.vm.box_check_update = false
     target_config.vm.network "private_network", ip: "192.168.10.18", :netmask => "255.255.255.0",  auto_config: true
     target_config.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2223, auto_correct: true
-    target_config.vm.network "forwarded_port", guest: 8080, host: 8080, auto_correct: true
 
     target_config.vm.provider "virtualbox" do |vb|
       vb.customize ["modifyvm", :id, "--memory", "#$MEMSIZE", "--natnet1", "172.16.1/24"]
