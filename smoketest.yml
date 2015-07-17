@@ -1,6 +1,6 @@
 ---
 - name: Build Server
-  hosts: dev
+  hosts: dev:lab
   user: root
   gather_facts: no
   remote_user: vagrant

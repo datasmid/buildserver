@@ -2,11 +2,11 @@
 features:
   ant: True
   maven: True
-  gradle: False
+  gradle: True
   system_auth: False
 
-ant_version: 1.9.5
-maven_version: 3.2.5
+ant_version: 1.9.6
+maven_version: 3.3.3
 gradle_version: 2.2.1
 java_home: /usr/lib/jvm/java
 

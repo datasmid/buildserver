@@ -116,7 +116,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     lab_config.vm.box_url = "https://atlas.hashicorp.com/chef/boxes/centos-7.1"
     lab_config.vm.box_check_update = false
     lab_config.vm.network "private_network", ip: "192.168.10.28", :netmask => "255.255.255.0",  auto_config: true
-    lab_config.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2223, auto_correct: true
+    lab_config.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2227, auto_correct: true
     lab_config.vm.network "forwarded_port", guest: 8080, host: 8080, auto_correct: true
 
     lab_config.vm.provider "virtualbox" do |vb|
