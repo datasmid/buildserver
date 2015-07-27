@@ -38,7 +38,7 @@ plugins:
 #  - 'violations'       #
 
 jenkins_base_url: 'http://pkg.jenkins-ci.org/redhat'
-jenkins_data: "/data/jenkins"
+jenkins_data: "/home/jenkins"
 jenkins_home: "/var/lib/jenkins"
 jenkins_tools: "{{jenkins_data}}/tools"
 jenkins_https: 8443
