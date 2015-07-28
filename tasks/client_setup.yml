@@ -3,6 +3,7 @@
       with_items:
         - firefox
         - virtualbox-guest-dkms
+        - icedtea-netx-common
         - git
 
     - name: 'verify presence of Nexus'
