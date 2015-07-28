@@ -23,8 +23,19 @@ https://dl.bintray.com/mitchellh/vagrant/
 Windows
 =======
 You can install Ansible with Cygwin using this Powershell script:
-https://github.com/alangibson/ansible-cygwin-installer 
+https://github.com/alangibson/ansible-cygwin-installer
+Place the BAT files somewhere in your Windows %PATH%.
 
+
+Networking
+==========
+Add these to /etc/hosts or \WINDOWS\SYSTEM32\drivers\etc\hosts
+
+192.168.10.16 dev
+192.168.10.18 target
+192.168.10.28 lab
+192.168.10.36 nolio
+192.168.10.40 windows
 
 getting started
 ===============
