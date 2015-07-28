@@ -21,5 +21,12 @@
   lineinfile: dest=/etc/httpd/conf/httpd.conf regexp='^ServerName'
               line='ServerName {{inventory_hostname}}' state=present
 
+- name: 'mask ServerTokens'
+  lineinfile: dest=/etc/httpd/conf/httpd.conf regexp='^ServerTokens'
+              line='ServerTokens Prod' state=present
+
+
+
+
 - name: 'start httpd service'
   service: name=httpd enabled=true
