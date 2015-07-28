@@ -105,12 +105,29 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     windows_config.vm.network :forwarded_port, guest: 3389, host: 3389, id: "rdp", auto_correct: true
     windows_config.vm.provider "virtualbox" do |vb|
       vb.customize ["modifyvm", :id, "--memory", "#$MEMSIZE", "--natnet1", "172.16.1/24"]
-      vb.gui = true
+      vb.gui = false
       vb.name = "windows"
     end
   end
 
- config.vm.define :lab, autostart: false do |lab_config|
+  config.vm.define :nolio,  primary: true do |nolio_config|
+    nolio_config.vm.box = "nolio"
+    nolio_config.vm.boot_timeout = 60
+    nolio_config.vm.box_url = "boxes/nolio.box"
+    nolio_config.vm.box_check_update = false
+    nolio_config.vm.network :private_network, ip: "192.168.10.36"
+    nolio_config.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2236, auto_correct: true
+    nolio_config.vm.network :forwarded_port, guest:8080, host:8080, auto_correct: true
+
+    nolio_config.vm.provider "virtualbox" do |vb|
+      vb.customize ["modifyvm", :id, "--memory", "#$MEMSIZE"]
+      vb.customize ["modifyvm", :id, "--ioapic", "on"  ]
+      vb.customize ["modifyvm", :id, "--macaddress2", "4ca63b073f36"]
+      vb.name = "nolio"
+      vb.gui = false
+    end
+  end
+  config.vm.define :lab, autostart: false do |lab_config|
     lab_config.vm.box = "chef/centos-7.1"
     lab_config.vm.box_url = "https://atlas.hashicorp.com/chef/boxes/centos-7.1"
     lab_config.vm.box_check_update = false
