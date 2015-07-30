@@ -1,0 +1,10 @@
+---
+- name: Docker Engine
+  hosts: target:lab:test
+  remote_user: vagrant
+  sudo: yes
+
+  tasks:
+    - include: tasks/install_docker.yml
+
+

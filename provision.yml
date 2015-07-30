@@ -38,6 +38,7 @@
 
   tasks:
     - include: tasks/tomcat_settings.yml
+    - include: tasks/install_docker.yml
 
 - name: Ubuntu Box
   hosts: ubuntu
