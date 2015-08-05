@@ -31,7 +31,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define :dev,  primary: true do |dev_config|
     dev_config.vm.box = "dockpack/centos6"
     dev_config.vm.box_url = "https://atlas.hashicorp.com/dockpack/boxes/centos6"
-    dev_config.vm.box_check_update = false
+    dev_config.vm.box_check_update = true
     # This host only network for use of Apache as a reverse proxy.
     dev_config.vm.network "private_network", ip: "192.168.10.16", :netmask => "255.255.255.0",  auto_config: true
     # To access this host use: 'vagrant ssh dev'
@@ -56,7 +56,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define :target, autostart: true do |target_config|
     target_config.vm.box = "dockpack/centos6"
     target_config.vm.box_url = "https://atlas.hashicorp.com/dockpack/boxes/centos6"
-    target_config.vm.box_check_update = false
+    target_config.vm.box_check_update = true
     target_config.vm.network "private_network", ip: "192.168.10.18", :netmask => "255.255.255.0",  auto_config: true
     target_config.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2223, auto_correct: true
 
@@ -97,6 +97,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.define :windows, autostart: false do |windows_config|
     windows_config.vm.box = "ferhaty/win7ie10winrm"
+    windows_config.vm.box_check_update = true
     windows_config.winrm.username = 'IEuser'
     windows_config.winrm.password = 'Passw0rd!'
     windows_config.vm.communicator = "winrm"
