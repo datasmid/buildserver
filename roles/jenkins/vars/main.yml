@@ -54,6 +54,12 @@ rpm_dependencies:
   - 'jenkins'
   - 'curl'
   - 'unzip'
+  - 'rpm-build'
+  - 'rpmdevtools'
+  - 'rpmlint'
+  - 'mock'
+  - 'yum-utils'
+  - 'createrepo'
 
 
 maven_name: "apache-maven-{{maven_version}}"
