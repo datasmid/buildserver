@@ -63,7 +63,7 @@ maven_home: "{{jenkins_tools}}/hudson.tasks.Maven_MavenInstallation/{{maven_name
 
 ant_name: "apache-ant-{{ant_version}}"
 ant_tarfile: "{{ant_name}}-bin.tar.gz"
-ant_url: http://ftp.tudelft.nl/apache/ant/binaries/{{ant_tarfile}}
+ant_url: http://ftp.nluug.nl/internet/apache/ant/binaries/{{ant_tarfile}}
 ant_home: "{{jenkins_tools}}/hudson.tasks.Ant_AntInstallation/{{ant_name}}"
 
 gradle_name: "gradle-{{gradle_version}}"
