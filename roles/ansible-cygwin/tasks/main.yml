@@ -1,0 +1,33 @@
+---
+# tasks file
+
+#- name: install elevate.native
+#  script: install_elevate.ps1
+
+#- name: restart machine
+# script: restart.ps1
+
+#- name: wait for machine to restart
+#  local_action:
+#    module: wait_for
+#      host={{ inventory_hostname }}
+#      port=3389
+#      delay=120
+#      timeout=600
+
+- name: install packages with Chocolatey
+  script: chocolatey.ps1 {{ item }}
+  with_items:
+    - cygwin
+    - cyg-get
+
+- name: install Cygwin packages
+  script: cygwin_packages.ps1
+
+- name: copy requirements for Pip
+  win_copy: src=requirements.txt dest=C:\\tools\cygwin\tmp
+
+# TODO
+#- name: install Ansible
+#  script: cygwin_ansible.ps1
+

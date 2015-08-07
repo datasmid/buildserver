@@ -59,6 +59,7 @@
 
   roles:
   - ansible-oasis-maven
+  - ansible-cygwin
 
   tasks:
     - include: tasks/windows_settings.yml
