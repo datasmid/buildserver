@@ -1,0 +1,10 @@
+---
+- name: Apache
+  hosts: dev
+  remote_user: vagrant
+  sudo: yes
+
+  roles:
+    - httpd
+
+
