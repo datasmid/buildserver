@@ -35,5 +35,4 @@ script:
   - ansible-playbook -i ansible.ini --list-tasks provision.yml
   - chmod 700 pki
   - chmod 600 pki/vagrant.rsa
-  - ansible-playbook -i ansible.ini -l test provision.yml
 
