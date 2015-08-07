@@ -30,6 +30,8 @@ install:
 
 
 script:
+  chmod 700 pki
+  chmod 600 pki/vagrant.rsa
   - ansible --version
   - ansible-playbook -i ansible.ini --syntax-check provision.yml
   - ansible-playbook -i ansible.ini --list-tasks provision.yml
