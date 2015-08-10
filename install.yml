@@ -49,12 +49,12 @@
       command: "keytool -importcert -trustcacerts -file pki/buildserverCA.cer -storepass changeit -noprompt -alias dev -keystore /etc/pki/java/cacerts"
       when: linux_location.stat.exists and devkey.rc == 1
 
-    - name: 'inquire  $JAVA_HOMEjre/lib/security of Java trust store'
-      stat: "path={{java_home}}/jre/lib/security/cacerts"
+    - name: 'inquire  $JAVA_HOME/jre/lib/security of Java trust store'
+      stat: path='{{java_home}}/jre/lib/security/cacerts'
       register: java_location
 
     - name: 'print red letters if import needed of CA root cert in Java trust store'
-      command: "keytool -list -alias dev -keystore {{java_home}}/jre/lib/security/cacerts -storepass changeit -noprompt"
+      command: "keytool -list -alias dev -keystore '{{java_home}}/jre/lib/security/cacerts' -storepass changeit -noprompt"
       when: java_location.stat.exists
       ignore_errors: yes
       register: javakey
