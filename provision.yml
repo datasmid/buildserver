@@ -58,8 +58,7 @@
   gather_facts: no
 
   roles:
-  - ansible-oasis-maven
-  - ansible-cygwin
+  - ansible-oasis
 
   tasks:
     - include: tasks/windows_settings.yml

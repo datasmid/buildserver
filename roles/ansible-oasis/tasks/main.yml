@@ -1,23 +1,17 @@
 ---
 # tasks file
 
-#- name: install elevate.native
-#  script: install_elevate.ps1
-
-#- name: restart machine
-# script: restart.ps1
-
-#- name: wait for machine to restart
-#  local_action:
-#    module: wait_for
-#      host={{ inventory_hostname }}
-#      port=3389
-#      delay=120
-#      timeout=600
+- name: install elevate.native
+  script: install_elevate.ps1
 
 - name: install packages with Chocolatey
   script: chocolatey.ps1 {{ item }}
   with_items:
+    - firefox
+    - git
+    - jdk7
+    - notepadplusplus.install
+    - vcredist2010
     - cygwin
     - cyg-get
 
