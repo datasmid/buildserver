@@ -51,7 +51,7 @@
     - name: "import buildserverCA root cert in Linux Java trust store"
       sudo: yes
       command: "keytool -importcert -trustcacerts -file pki/buildserverCA.cer -storepass changeit -noprompt -alias dev -keystore /etc/pki/java/cacerts"
-      when: linux_location.stat.exists and devkey.rc == 1 and sudoing.exists == true
+      when: linux_location.stat.exists and devkey.rc == 1
 
     - name: 'inquire  $JAVA_HOME/jre/lib/security of Java trust store'
       stat: path='{{java_home}}/jre/lib/security/cacerts'
@@ -68,7 +68,7 @@
       command: "keytool -importcert -trustcacerts -file pki/buildserverCA.cer -storepass changeit -noprompt -alias dev -keystore {{java_home}}/jre/lib/security/cacerts"
       when:  sudoing.stat.exists and javakey.rc != 0
 
-    - name: "import buildserverCA root cert in Java trust store"
+    - name: "import buildserverCA root cert in Cygwin trust store"
       sudo: no
       command: "keytool -importcert -trustcacerts -file pki/buildserverCA.cer -storepass changeit -noprompt -alias dev -keystore {{java_home}}/jre/lib/security/cacerts"
       when:  not sudoing.stat.exists and javakey.rc != 0
