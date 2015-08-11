@@ -63,3 +63,18 @@
       sudo: yes
       command: "keytool -importcert -trustcacerts -file pki/buildserverCA.cer -storepass changeit -noprompt -alias dev -keystore {{java_home}}/jre/lib/security/cacerts"
       when: java_location.stat.exists and javakey.rc == 1
+# TODO next action should run without sudo on cygwin
+
+    - name: 'inquire if sudo exists'
+      stat: path=/usr/bin/sudo
+      register: sudoing
+
+    - name: "import buildserverCA root cert in Java trust store"
+      sudo: yes
+      command: "keytool -importcert -trustcacerts -file pki/buildserverCA.cer -storepass changeit -noprompt -alias dev -keystore {{java_home}}/jre/lib/security/cacerts"
+      when: java_location.stat.exists and javakey.rc == 1 and sudoing.exists == true
+
+    - name: "import buildserverCA root cert in Java trust store"
+      sudo: yes
+      command: "keytool -importcert -trustcacerts -file pki/buildserverCA.cer -storepass changeit -noprompt -alias dev -keystore {{java_home}}/jre/lib/security/cacerts"
+      when: java_location.stat.exists and javakey.rc == 1 and sudoing.exists==false
