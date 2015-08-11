@@ -18,7 +18,7 @@
             <url>{{ mvn_proxy_url }}/content/groups/public</url>
         </mirror>
     </mirrors>
-    <localRepository>${user.home}/.m2/repository/</localRepository>
+    <localRepository>/home/jenkins/repository/</localRepository>
     <profiles>
         <profile>
             <id>nexus</id>
@@ -91,14 +91,12 @@
         <server>
             <id>nexus</id>
             <username>admin</username>
-            <password>admin123</password>
+            <password>{{ mvn_nexus_password.stdout }}</password>
         </server>
         <server>
             <id>artifactory</id>
             <username>admin</username>
-            <password>AP41frEADixDgC1DrR18nos47S3</password>
+            <password>{{ mvn_artifactory_password.stdout }}</password>
         </server>
     </servers>
-
-
 </settings>

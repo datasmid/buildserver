@@ -13,6 +13,10 @@
     - name: "check network"
       get_url: url=https://galaxy.ansible.com dest=/dev/null
 
+    - name: 'inquire if sudo exists'
+      stat: path=/usr/bin/sudo
+      register: sudoing
+
     - name: "ansible-galaxy install --force -r requirements.yml"
       command: ansible-galaxy install --force -r requirements.yml
 
@@ -47,14 +51,14 @@
     - name: "import buildserverCA root cert in Linux Java trust store"
       sudo: yes
       command: "keytool -importcert -trustcacerts -file pki/buildserverCA.cer -storepass changeit -noprompt -alias dev -keystore /etc/pki/java/cacerts"
-      when: linux_location.stat.exists and devkey.rc == 1
+      when: linux_location.stat.exists and devkey.rc == 1 and sudoing.exists == true
 
-    - name: 'inquire  $JAVA_HOMEjre/lib/security of Java trust store'
-      stat: "path={{java_home}}/jre/lib/security/cacerts"
+    - name: 'inquire  $JAVA_HOME/jre/lib/security of Java trust store'
+      stat: path='{{java_home}}/jre/lib/security/cacerts'
       register: java_location
 
     - name: 'print red letters if import needed of CA root cert in Java trust store'
-      command: "keytool -list -alias dev -keystore {{java_home}}/jre/lib/security/cacerts -storepass changeit -noprompt"
+      command: "keytool -list -alias dev -keystore '{{java_home}}/jre/lib/security/cacerts' -storepass changeit -noprompt"
       when: java_location.stat.exists
       ignore_errors: yes
       register: javakey
@@ -62,4 +66,9 @@
     - name: "import buildserverCA root cert in Java trust store"
       sudo: yes
       command: "keytool -importcert -trustcacerts -file pki/buildserverCA.cer -storepass changeit -noprompt -alias dev -keystore {{java_home}}/jre/lib/security/cacerts"
-      when: java_location.stat.exists and javakey.rc == 1
+      when: java_location.stat.exists and javakey.rc == 1 and sudoing.exists == true
+
+    - name: "import buildserverCA root cert in Java trust store"
+      sudo: no
+      command: "keytool -importcert -trustcacerts -file pki/buildserverCA.cer -storepass changeit -noprompt -alias dev -keystore {{java_home}}/jre/lib/security/cacerts"
+      when: java_location.stat.exists and javakey.rc == 1 and sudoing.exists == false

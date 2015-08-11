@@ -5,4 +5,5 @@ pki
 .DS_Store
 .idea
 plugins/callbacks/profile_tasks.pyc
+plugins/callbacks/human_log.pyc
 log

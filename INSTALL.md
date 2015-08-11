@@ -77,7 +77,7 @@ Paste this into ~/.ssh/config (change home path!)
   LogLevel FATAL
 
   Host 192.168.10.20
-  HostName testclient
+  HostName test
   User vagrant
   Port 22
   UserKnownHostsFile /dev/null
@@ -94,7 +94,7 @@ Paste this into ~/.ssh/config (change home path!)
 ```
 192.168.10.16		dev
 192.168.10.18		target
-192.168.10.20		testclient
+192.168.10.20		test
 192.168.10.40		windows
 ```
 

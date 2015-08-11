@@ -1,17 +1,20 @@
 ---
 - name: Build Server
-  hosts: dev
+  hosts: dev:lab
   remote_user: vagrant
   sudo: yes
 
+
   roles:
     - bbaassssiiee.commoncentos
+    - common
     - httpd
     - jenkins                           # Use Jenkins to build
     - hullufred.nexus                   # Nexus is used as library repository
+    - geerlingguy.java
     - pcextreme.mariadb                 # Artifactory & sonar use mariadb
     - bbaassssiiee.artifactory          # Artifactory is our build repository
-    - bbaassssiiee.sonar                # SonarQube reports on code quality
+#    - bbaassssiiee.sonar                # SonarQube reports on code quality
 
   tasks:
     - include: tasks/settings.yml
@@ -29,23 +32,25 @@
 
   roles:
     - bbaassssiiee.commoncentos
+    - common
     - geerlingguy.java
-    - issue
-    - postgres
     - hudecof.tomcat
 
   tasks:
     - include: tasks/tomcat_settings.yml
+    - include: tasks/install_docker.yml
 
-- name: Ubuntu Client
+- name: Ubuntu Box
   hosts: ubuntu
   remote_user: vagrant
   sudo: yes
   gather_facts: yes
 
   roles:
-    - geerlingguy.java
+    - briancoca.oracle_java7
     - ansible-maven
+    - ansible-eclipse
+    - ansible-oasis-maven
 
 - name: Windows client
   hosts: windows
@@ -53,7 +58,7 @@
   gather_facts: no
 
   roles:
-  - ansible-oasis-maven
+  - ansible-oasis
 
   tasks:
     - include: tasks/windows_settings.yml

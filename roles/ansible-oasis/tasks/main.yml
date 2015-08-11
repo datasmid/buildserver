@@ -1,0 +1,27 @@
+---
+# tasks file
+
+- name: install elevate.native
+  script: install_elevate.ps1
+
+- name: install packages with Chocolatey
+  script: chocolatey.ps1 {{ item }}
+  with_items:
+    - firefox
+    - git
+    - jdk7
+    - notepadplusplus.install
+    - vcredist2010
+    - cygwin
+    - cyg-get
+
+- name: install Cygwin packages
+  script: cygwin_packages.ps1
+
+- name: copy requirements for Pip
+  win_copy: src=requirements.txt dest=C:\\tools\cygwin\tmp
+
+# TODO
+#- name: install Ansible
+#  script: cygwin_ansible.ps1
+

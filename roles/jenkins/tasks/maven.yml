@@ -12,20 +12,52 @@
   when: features.maven
 
 - name: 'download maven'
-  get_url: url={{maven_url}} dest=/tmp
+  get_url: url={{maven_url}} dest=~
   retries: 3
   when: features.maven and not mvn_installed.stat.exists
 
 - name: 'untar maven'
-  command: tar xfz /tmp/{{maven_tarfile}} -C {{jenkins_tools}}/hudson.tasks.Maven_MavenInstallation
+  command: tar xfz ~/{{maven_tarfile}} -C {{jenkins_tools}}/hudson.tasks.Maven_MavenInstallation
   when: features.maven and not mvn_installed.stat.exists
+
+- name: 'fix maven permissions'
+  file:  dest={{maven_home}}/{{item}}
+         state=directory mode=0755
+  with_items:
+    - bin
+    - boot
+  when: features.maven
 
 - name: 'make sure jenkins ~/.m2 directory exists'
   file: path={{jenkins_home}}/.m2 owner=jenkins group=jenkins mode=0750 state=directory
   when: features.maven
 
+- name: 'create master password for Maven'
+  sudo_user: jenkins
+  command: "{{maven_home}}/bin/mvn --encrypt-master-password {{ mvn_master_password }}"
+  register: encrypted_mvn_password
+  when: features.maven
+
+- name: 'install settings-security.xml'
+  sudo_user: jenkins
+  template: src=settings-security-xml.j2 dest={{jenkins_home}}/.m2/settings-security.xml mode=0600
+  when: features.maven
+
+- name: 'create Nexus password for Maven'
+  sudo_user: jenkins
+  command: "{{maven_home}}/bin/mvn --encrypt-password {{ input_nexus_password }}"
+  register: mvn_nexus_password
+  when: features.maven
+
+- name: 'create Artifactory password for Maven'
+  sudo_user: jenkins
+  command: "{{maven_home}}/bin/mvn --encrypt-password {{ input_artifactory_password }}"
+  register: mvn_artifactory_password
+  when: features.maven
+
 - name: 'create settings.xml'
-  template: src=settings_xml.j2 dest={{jenkins_home}}/.m2/settings.xml owner=jenkins group=jenkins mode=0600
+  sudo_user: jenkins
+  template: src=settings_xml.j2 dest={{jenkins_home}}/.m2/settings.xml mode=0644
   tags:
     - config
   when: ansible_os_family == "RedHat"
@@ -36,7 +68,7 @@
   when: features.maven
 
 - name: 'cleanup maven download'
-  file: dest=/tmp/{{maven_tarfile}} state=absent
+  file: dest=~/{{maven_tarfile}} state=absent
 
 - name: 'make sure maven directory is absent'
   file: dest={{maven_home}} state=absent

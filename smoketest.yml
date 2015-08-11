@@ -1,6 +1,6 @@
 ---
 - name: Build Server
-  hosts: dev
+  hosts: dev:lab
   user: root
   gather_facts: no
   remote_user: vagrant
@@ -33,28 +33,29 @@
 
   - name: 'verify https connectivity to Jenkins'
     sudo: no
-    local_action: uri url=https://dev/jenkins/jobConfigHistory/ status_code=200
+    local_action: uri url=https://dev/jenkins/jobConfigHistory/ validate_certs=no status_code=200
 
   - name: 'verify https connectivity to Nexus'
     sudo: no
-    local_action: uri url=https://dev/nexus/#welcome status_code=200
+    local_action: uri url=https://dev/nexus/#welcome validate_certs=no status_code=200
 
   - name: 'verify https connectivity to Artifactory'
     sudo: no
-    local_action: uri url=https://dev/artifactory/webapp/browserepo.html? status_code=200
+    local_action: uri url=https://dev/artifactory/webapp/browserepo.html? validate_certs=no status_code=200
 
   - name: 'verify https connectivity to Sonar'
     sudo: no
-    local_action: uri url=https://dev/sonar/coding_rules#s=createdAt|asc=false timeout=100 status_code=200
+    local_action: uri url=https://dev/sonar/coding_rules#s=createdAt|asc=false validate_certs=no timeout=100 status_code=200
 
   - name: 'verify https connectivity to Jenkins'
     sudo: no
-    local_action: uri url=https://dev/jenkins/ method=GET status_code=200
+    local_action: uri url=https://dev/jenkins/ method=GET validate_certs=no status_code=200
 
   - name: 'verify https connectivity to releases repository in Nexus'
     sudo: no
     local_action: uri url=https://dev/nexus/#view-repositories;releases~browsestorage \
           status_code=200 \
+          validate_certs=no \
           method=HEAD
 
   - name: 'verify tcp listening socket for TomCat on target'

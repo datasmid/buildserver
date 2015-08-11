@@ -2,11 +2,11 @@
 features:
   ant: True
   maven: True
-  gradle: False
+  gradle: True
   system_auth: False
 
-ant_version: 1.9.5
-maven_version: 3.2.5
+ant_version: 1.9.6
+maven_version: 3.3.3
 gradle_version: 2.2.1
 java_home: /usr/lib/jvm/java
 
@@ -17,6 +17,7 @@ plugins:
   - 'checkstyle'       # source code formatting reports
 #  - 'cobertura'
   - 'dashboard-view'
+  - 'delivery-pipeline-plugin'
 #  - 'dry'              # don't repeat yourself
   - 'findbugs'          # common bugs can be squashed
 #  - 'fortify360'
@@ -35,9 +36,10 @@ plugins:
   - 'sonar'            # source code quality
 #  - 'thinBackup'       # backup job configurations
 #  - 'violations'       #
+  - 'ws-cleanup'       # Workspace cleanup
 
 jenkins_base_url: 'http://pkg.jenkins-ci.org/redhat'
-jenkins_data: "/data/jenkins"
+jenkins_data: "/home/jenkins"
 jenkins_home: "/var/lib/jenkins"
 jenkins_tools: "{{jenkins_data}}/tools"
 jenkins_https: 8443
@@ -53,6 +55,12 @@ rpm_dependencies:
   - 'jenkins'
   - 'curl'
   - 'unzip'
+  - 'rpm-build'
+  - 'rpmdevtools'
+  - 'rpmlint'
+  - 'mock'
+  - 'yum-utils'
+  - 'createrepo'
 
 
 maven_name: "apache-maven-{{maven_version}}"
@@ -62,7 +70,7 @@ maven_home: "{{jenkins_tools}}/hudson.tasks.Maven_MavenInstallation/{{maven_name
 
 ant_name: "apache-ant-{{ant_version}}"
 ant_tarfile: "{{ant_name}}-bin.tar.gz"
-ant_url: http://ftp.tudelft.nl/apache/ant/binaries/{{ant_tarfile}}
+ant_url: http://ftp.nluug.nl/internet/apache/ant/binaries/{{ant_tarfile}}
 ant_home: "{{jenkins_tools}}/hudson.tasks.Ant_AntInstallation/{{ant_name}}"
 
 gradle_name: "gradle-{{gradle_version}}"

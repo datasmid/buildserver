@@ -18,7 +18,7 @@
 
 - name: 'CA-sign buildserver key in a way to avoid https://github.com/mitchellh/vagrant/issues/2646'
   sudo: no
-  local_action: shell /bin/bash --login -c 'openssl x509 -req -in pki/dev.csr -CA pki/buildserverCA.pem -CAkey pki/buildserverCA.key -CAcreateserial -out pki/dev.crt -days 180'
+  local_action: shell /bin/bash --login -c 'openssl x509 -req -in pki/{{inventory_hostname}}.csr -CA pki/buildserverCA.pem -CAkey pki/buildserverCA.key -CAcreateserial -out pki/{{inventory_hostname}}.crt -days 180'
 
 - name: 'copy signed certificate to webserver'
   copy: src=pki/{{inventory_hostname}}.crt dest=/etc/pki/tls/certs/{{inventory_hostname}}.crt

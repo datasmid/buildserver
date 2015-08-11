@@ -1,0 +1,13 @@
+- name: 'set hostname' 
+  sudo: yes
+  hostname: name='{{inventory_hostname}}'
+
+- name: 'persist hostname in hosts file'
+  sudo: yes
+  lineinfile: dest=/etc/hosts regexp='{{inventory_hostname}}'
+              line='{{ansible_all_ipv4_addresses[1]}}   {{inventory_hostname}}'
+              state=present
+
+- name: creates issue
+  template: src=issue.j2 dest=/etc/issue owner=root group=root mode=0644
+

@@ -33,5 +33,7 @@
 - src: https://github.com/bbaassssiiee/ansible-ant.git
   path: ./roles
 
-- src: https://github.com/ferhaty/ansible-oasis-maven.git
-  path: ./roles
+# deploy Nolio with nolio.yml
+- src: https://github.com/bbaassssiiee/ansible-role-nolioagent
+  path: ./roles/
+

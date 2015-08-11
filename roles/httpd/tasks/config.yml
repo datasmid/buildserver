@@ -18,8 +18,19 @@
     - restart httpd
 
 - name: 'configure ServerName'
-  lineinfile: dest=/etc/httpd/conf/httpd.conf regexp='^ServerName'
+  lineinfile: dest=/etc/httpd/conf/httpd.conf regexp='^ServerName '
               line='ServerName {{inventory_hostname}}' state=present
+              insertafter='^#ServerName'
+
+- name: 'mask ServerTokens'
+  lineinfile: dest=/etc/httpd/conf/httpd.conf regexp='^ServerTokens '
+              line='ServerTokens Prod' state=present
+
+- name: 'configure upload size limit'
+  lineinfile: dest=/etc/httpd/conf.d/mod_security.conf regexp='^    SecRequestBodyLimit '
+              line='    SecRequestBodyLimit 209715200' state=present
+  notify:
+    - restart httpd
 
 - name: 'start httpd service'
   service: name=httpd enabled=true

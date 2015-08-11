@@ -35,7 +35,7 @@ JENKINS_USER="jenkins"
 #
 # Options to pass to java when running Jenkins.
 #
-JENKINS_JAVA_OPTIONS="-Djava.awt.headless=true -XX:+HeapDumpOnOutOfMemoryError -XX:PermSize=512m -XX:MaxPermSize=1024m -Dhudson.DNSMultiCast.disabled=true"
+JENKINS_JAVA_OPTIONS="-Djava.awt.headless=true -Djava.io.tmpdir={{jenkins_data}}/tmp -XX:+HeapDumpOnOutOfMemoryError -XX:PermSize=512m -XX:MaxPermSize=1024m -Dhudson.DNSMultiCast.disabled=true"
 
 ## Type:        integer(0:65535)
 ## Default:     8080

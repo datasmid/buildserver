@@ -2,7 +2,7 @@
 language: python
 python: "2.7"
 env:
-  - ANSIBLE_VERSION=1.8
+  - ANSIBLE_VERSION=1.9.2
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -qq python-apt python-pycurl
@@ -33,4 +33,6 @@ script:
   - ansible --version
   - ansible-playbook -i ansible.ini --syntax-check provision.yml
   - ansible-playbook -i ansible.ini --list-tasks provision.yml
+  - chmod 700 pki
+  - chmod 600 pki/vagrant.rsa
 

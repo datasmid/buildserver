@@ -1,17 +1,10 @@
 ---
-- name: 'run ad-hoc playbook on testclient'
-  hosts: testclient
+- name: Docker Engine
+  hosts: target:lab:test
   remote_user: vagrant
   sudo: yes
-  gather_facts: yes
-
-  pre_tasks:
-    - include: tasks/settings.yml
-    - include: tasks/client_pre_tasks.yml
-
-  roles:
-    - briancoca.oracle_java7
-    - ansible-eclipse
 
   tasks:
-    - include: tasks/client_setup.yml
+    - include: tasks/install_docker.yml
+
+
