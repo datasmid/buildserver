@@ -22,6 +22,6 @@
   win_copy: src=requirements.txt dest=C:\\tools\cygwin\tmp
 
 # TODO
-#- name: install Ansible
-#  script: cygwin_ansible.ps1
+- name: run Ansible powershell script
+  script: cygwin_ansible.ps1
 
