@@ -59,15 +59,15 @@
 
     - name: 'print red letters if import needed of CA root cert in Java trust store'
       command: "keytool -list -alias dev -keystore '{{java_home}}/jre/lib/security/cacerts' -storepass changeit -noprompt"
-      when: java_location.stat.exists 
+      when: java_location.stat.exists
       ignore_errors: yes
       register: javakey
 
-    - name: "import buildserverCA root cert in Java trust store"
+    - name: "import buildserverCA root cert in Cygwin Java trust store"
       command: "elevate -c -w keytool -importcert -trustcacerts -file pki/buildserverCA.cer -storepass changeit -noprompt -alias dev -keystore '{{java_home}}/jre/lib/security/cacerts'"
-      when: javakey.rc == 1 and not sudoing.stat.exists 
+      when: javakey.rc == 1 and not sudoing.stat.exists
 
-    - name: "import buildserverCA root cert in Java trust store"
+    - name: "import buildserverCA root cert in Mac Java trust store"
       sudo: yes
       command: "keytool -importcert -trustcacerts -file pki/buildserverCA.cer -storepass changeit -noprompt -alias dev -keystore {{java_home}}/jre/lib/security/cacerts"
       when: javakey.rc == 1 and sudoing.stat.exists == 1
