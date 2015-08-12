@@ -50,7 +50,6 @@
     - briancoca.oracle_java7
     - ansible-maven
     - ansible-eclipse
-    - ansible-oasis-maven
 
 - name: Windows client
   hosts: windows

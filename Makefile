@@ -4,7 +4,8 @@ default: all
 .PHONY: install
 install:
 	@echo installing galaxy roles
-	ansible-playbook -vv -i ansible.ini -l local install.yml
+	chmod 644 ansible.ini
+	ansible-playbook -K -vv -i ansible.ini -l local install.yml
 	@echo installing python extensions
 	pip install --upgrade -r requirements.txt
 
