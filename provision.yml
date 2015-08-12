@@ -62,3 +62,13 @@
   tasks:
     - include: tasks/windows_settings.yml
 
+- name: OASIS Windows Slave
+  hosts: windows
+  remote_user: IEUser
+  gather_facts: no
+
+  roles:
+  - ferhaty.jenkins-slave
+
+  tasks:
+    - include: tasks/windows_settings.yml
