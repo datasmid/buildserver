@@ -1,30 +1,43 @@
 README:
 
 
-buildserver
+Buildserver
 ===========
-*Java, Ant, Maven, Gradle, Jenkins, Sonar, Nexus, Artifactory with MariaDB as database.*
+This is a complete development environment provisioned with Ansible+Vagrant.
 
-This build server on Centos is provisioned with Vagrant and Ansible. It uses several roles published on http://galaxy.ansible.com.
-
+The build server on Centos is provisioned with Vagrant and Ansible. It uses several roles published on http://galaxy.ansible.com.
+**Java, Ant, Maven, Gradle, Jenkins, Sonar, Nexus, Artifactory with MariaDB as database.**
+It comes fully configure with the example project (game-of-life) of the book "Jenkins, the Definitive Guide". That is an [open source book](http://www.wakaleo.com/books/jenkins-the-definitive-guide).
 Plugins for Jenkins and Sonar are provisioned from specs in roles/jenkins/vars/main.yml and roles/sonar/vars/main.yml.
 
-It comes fully configure with the example project (game-of-life) of the book "Jenkins, the Definitive Guide".
-That is an open source book available at http://www.wakaleo.com/books/jenkins-the-definitive-guide
+**Tomcat+PostgreSQL** are deployed on a separate VM to mimic production.
 
+**Windows 7 IE 10** is used for post-deployment testing.
 
-requirements
+Requirements
 ============
-*Vagrant and Ansible; and VirtualBox or VMWare (Fusion)*
 
-http://download.virtualbox.org/virtualbox/4.3.18/
-https://dl.bintray.com/mitchellh/vagrant/
+ [VirtualBox](http://download.virtualbox.org/virtualbox/4.3.18/)
 
-Windows
+ [Vagrant](https://dl.bintray.com/mitchellh/vagrant/)
+
+ [Chocolatey](https://chocolatey.org) (on windows only)
+
+XCode on mac only
+
+Ansible
 =======
-You can install Ansible with Cygwin using this Powershell script:
-https://github.com/alangibson/ansible-cygwin-installer
-Place the BAT files somewhere in your Windows %PATH%.
+On Mac run:
+
+`brew install ansible`
+
+On RedHat/Fedora/Centos Linux:
+
+`yum install ansible`
+
+On Windows You can install Ansible with Cygwin using this
+[Powershell script](https://github.com/bbaassssiiee/ansible-cygwin-installer)
+Place the BAT files somewhere in C:\Hashicorp\bin
 
 
 Networking
@@ -41,8 +54,7 @@ getting started
 ===============
     git clone https://github.com/bbaassssiiee/buildserver
     cd buildserver
-    ansible-playbook -v -i ansible.ini -l local install.yml
-    pip install --upgrade -r requirements.txt
+    make install
     vagrant up
 
 Connect to the buildserver at the host-only address http://192.168.10.16 (you can set that address in the Vagrantfile)
