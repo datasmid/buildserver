@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 VAGRANTFILE_API_VERSION = "2"
-$MEMSIZE=2048
+$MEMSIZE=1024
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
@@ -40,7 +40,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     #dev_config.vm.network "forwarded_port", guest: 443, host: 8443, auto_correct: true
 
     dev_config.vm.provider "virtualbox" do |vb|
-      vb.customize ["modifyvm", :id, "--memory", "4096", "--natnet1", "172.16.1/24"]
+      vb.customize ["modifyvm", :id, "--memory", "2048", "--natnet1", "172.16.1/24"]
       vb.customize ["modifyvm", :id, "--ioapic", "on"  ]
       vb.name = "dev"
       vb.gui = false
