@@ -35,9 +35,9 @@ On RedHat/Fedora/Centos Linux:
 
 `yum install ansible`
 
-On Windows You can install Ansible with Cygwin using this
-[Powershell script](https://github.com/bbaassssiiee/ansible-cygwin-installer)
-Place the BAT files somewhere in C:\Hashicorp\bin
+On Windows You can install Ansible & Ansible with Cygwin using this
+[Powershell script](https://github.com/Hruodland/cygvagans)
+The BAT files will be copied to C:\Hashicorp\bin
 
 
 Networking
