@@ -65,6 +65,7 @@
 
     - name: "import buildserverCA root cert in Cygwin Java trust store"
       command: "elevate -c -w keytool -importcert -trustcacerts -file pki/buildserverCA.cer -storepass changeit -noprompt -alias dev -keystore '{{java_home}}/jre/lib/security/cacerts'"
+      ignore_errors: yes
       when: javakey.rc == 1 and not sudoing.stat.exists
 
     - name: "import buildserverCA root cert in Mac Java trust store"
