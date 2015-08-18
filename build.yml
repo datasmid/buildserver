@@ -29,4 +29,4 @@
 
     - name: 'trigger the build'
       sudo: yes
-      shell: "java -jar /data/jenkins//jenkins-cli.jar -s https://dev/jenkins/ build game-of-life"
+      shell: "java -jar {{jenkins_data}}/jenkins-cli.jar -s https://dev/jenkins/ build game-of-life"
