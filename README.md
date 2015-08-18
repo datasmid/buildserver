@@ -23,16 +23,16 @@ On Windows
 3. Ansible, Vagrant & Cygwin, install them using [this Powershell script](https://github.com/Hruodland/cygvagans) The BAT files shoulde be copied to C:\Hashicorp\bin
 
 
-On Mac Install/Upgrade
+On Mac
 ----------------------
- **XCode** from the AppStore.
+Install/Upgrade **XCode** from the AppStore.
  **Brew**,
  **Caskroom**,
  **VirtualBox**,
  **Vagrant**,
  **Ansible**
 
- It is easiest to instal brew first, from **[brew.sh](http://brew.sh)**
+ It is easiest to instal brew first, from **[brew.sh](http://brew.sh)**, then:
 
     brew install --upgrade ansible
     brew install caskroom/cask/brew-cask
@@ -48,15 +48,11 @@ On RedHat/Fedora/Centos Linux:
  Download & install [Vagrant](https://dl.bintray.com/mitchellh/vagrant/)
 
 
-
-
-Networking
-==========
-
-
 Quickstart
 ==========
-**Add these hostnames** to /etc/hosts or \WINDOWS\SYSTEM32\drivers\etc\hosts
+You need access to the internet (i.e. `nslookup mirrorlist.centos.org` should work)
+
+**Add these hostnames** to /etc/hosts or to \WINDOWS\SYSTEM32\drivers\etc\hosts
 
     192.168.10.16 dev
     192.168.10.18 target
