@@ -78,6 +78,10 @@ Quickstart
 
     ansible-playbook -l dev:target provision.yml
 
+**Install Docker on target too**
+
+    ansible-playbook -l target playbook.yml
+
 **Bring up the windows 7 VM, and provision it:**
 
     vagrant up --no-provision windows
