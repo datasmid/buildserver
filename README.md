@@ -7,7 +7,7 @@ This is a complete development environment provisioned with Ansible+Vagrant.
 
 The build server on Centos is provisioned with Vagrant and Ansible. It uses several roles published on http://galaxy.ansible.com.
 **Java, Ant, Maven, Gradle, Jenkins, Sonar, Nexus, Artifactory with MariaDB as database.**
-It comes fully configure with the example project (game-of-life) of the book "Jenkins, the Definitive Guide". That is an [open source book](http://www.wakaleo.com/books/jenkins-the-definitive-guide).
+It comes fully configured with the example project (game-of-life) of the open source book ["Jenkins, the Definitive Guide"](http://www.wakaleo.com/books/jenkins-the-definitive-guide).
 Plugins for Jenkins and Sonar are provisioned from specs in roles/jenkins/vars/main.yml and roles/sonar/vars/main.yml.
 
 **Tomcat+PostgreSQL** are deployed on a separate VM to mimic production.
@@ -16,48 +16,74 @@ Plugins for Jenkins and Sonar are provisioned from specs in roles/jenkins/vars/m
 
 Requirements
 ============
+On Windows
+----------
+1. [Chocolatey](https://chocolatey.org) (on windows only)
+2.  [VirtualBox](http://download.virtualbox.org/virtualbox/4.3.30/)
+3. Ansible, Vagrant & Cygwin, install them using [this Powershell script](https://github.com/Hruodland/cygvagans) The BAT files shoulde be copied to C:\Hashicorp\bin
 
- [VirtualBox](http://download.virtualbox.org/virtualbox/4.3.18/)
 
- [Vagrant](https://dl.bintray.com/mitchellh/vagrant/)
+On Mac Install/Upgrade
+----------------------
+ **XCode** from the AppStore.
+ **Brew**,
+ **Caskroom**,
+ **VirtualBox**,
+ **Vagrant**,
+ **Ansible**
 
- [Chocolatey](https://chocolatey.org) (on windows only)
+ It is easiest to instal brew first, from **[brew.sh](http://brew.sh)**
 
-XCode on mac only
-
-Ansible
-=======
-On Mac run:
-
-`brew install ansible`
+    brew install --upgrade ansible
+    brew install caskroom/cask/brew-cask
+    brew cask install --upgrade virtualbox
+    brew cask install --upgrade vagrant
 
 On RedHat/Fedora/Centos Linux:
+------------------------------
+ `yum install ansible`
 
-`yum install ansible`
+ Download & install [VirtualBox](http://download.virtualbox.org/virtualbox/4.3.30/)
 
-On Windows You can install Ansible & Vagrant with Cygwin using this
-[Powershell script](https://github.com/Hruodland/cygvagans)
-The BAT files will be copied to C:\Hashicorp\bin
+ Download & install [Vagrant](https://dl.bintray.com/mitchellh/vagrant/)
+
+
 
 
 Networking
 ==========
-Add these to /etc/hosts or \WINDOWS\SYSTEM32\drivers\etc\hosts
 
-192.168.10.16 dev
-192.168.10.18 target
-192.168.10.28 lab
-192.168.10.36 nolio
-192.168.10.40 windows
 
-getting started
-===============
+Quickstart
+==========
+**Add these hostnames** to /etc/hosts or \WINDOWS\SYSTEM32\drivers\etc\hosts
+
+    192.168.10.16 dev
+    192.168.10.18 target
+    192.168.10.28 lab
+    192.168.10.36 nolio
+    192.168.10.40 windows
+
+**Fork & clone this repo:**
+
     git clone https://github.com/bbaassssiiee/buildserver
     cd buildserver
     make install
-    vagrant up
 
-Connect to the buildserver at the host-only address http://192.168.10.16 (you can set that address in the Vagrantfile)
+**Bring up 2 virtual machines:** 'dev' the CI server, and 'target' the Tomcat server
+
+    vagrant up --no-provision
+
+**Run the provisioner**
+
+    ansible-playbook -l dev:target provision.yml
+
+**Bring up the windows 7 VM, and provision it:**
+
+    vagrant up --no-provision windows
+    ansible-playbook -l windows provision.yml
+
+**Connect to the buildserver** at the host-only address [http://192.168.10.16](http://192.168.10.16) (you can set that address in the Vagrantfile)
 
 development
 ===============
