@@ -19,8 +19,8 @@ Requirements
 On Windows
 ----------
 1. [Chocolatey](https://chocolatey.org) (on windows only)
-2.  [VirtualBox](http://download.virtualbox.org/virtualbox/4.3.30/)
-3. Ansible, Vagrant & Cygwin, install them using [this Powershell script](https://github.com/Hruodland/cygvagans) The BAT files shoulde be copied to C:\Hashicorp\bin
+2. [VirtualBox](http://download.virtualbox.org/virtualbox/4.3.30/)
+3. Install Ansible, Vagrant & Cygwin using [this Powershell script](https://github.com/Hruodland/cygvagans)
 
 
 On Mac
