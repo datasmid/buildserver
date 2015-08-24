@@ -1,6 +1,8 @@
 ---
 http_port: 80
 https_port: 443
+slaveAgentPort: 8079
+
 yum_packages:
    - libselinux-python
    - libsemanage-python
