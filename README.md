@@ -32,7 +32,7 @@ Install/Upgrade **XCode** from the AppStore.
  **Vagrant**,
  **Ansible**
 
- It is easiest to instal brew first, from **[brew.sh](http://brew.sh)**, then:
+ It is easiest to install brew first, from **[brew.sh](http://brew.sh)**, then:
 
     brew install --upgrade ansible
     brew install caskroom/cask/brew-cask
