@@ -111,6 +111,22 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
+  config.vm.define :jenkins_windows_slave, autostart: false do |windows_slave_config|
+    windows_slave_config.vm.box = "dockpack/windows"
+    windows_slave_config.vm.box_check_update = true
+    windows_slave_config.winrm.username = 'IEuser'
+    windows_slave_config.winrm.password = 'Passw0rd!'
+    windows_slave_config.vm.communicator = "winrm"
+    windows_slave_config.vm.box_url = "https://atlas.hashicorp.com/dockpack/boxes/windows"
+    windows_slave_config.vm.network :private_network, ip: "192.168.10.41"
+    windows_slave_config.vm.network :forwarded_port, guest: 3389, host: 3389, id: "rdp", auto_correct: true
+    windows_slave_config.vm.provider "virtualbox" do |vb|
+      vb.customize ["modifyvm", :id, "--memory", "#$MEMSIZE", "--natnet1", "172.16.1/24"]
+      vb.gui = false
+      vb.name = "jenkins_windows_slave"
+    end
+  end
+
   config.vm.define :nolio,  primary: true do |nolio_config|
     nolio_config.vm.box = "nolio"
     nolio_config.vm.boot_timeout = 60
