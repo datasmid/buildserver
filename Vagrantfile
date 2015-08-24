@@ -127,7 +127,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
-  config.vm.define :nolio,  primary: true do |nolio_config|
+  config.vm.define :nolio, autostart: false do |nolio_config|
     nolio_config.vm.box = "nolio"
     nolio_config.vm.boot_timeout = 60
     nolio_config.vm.box_url = "boxes/nolio.box"
