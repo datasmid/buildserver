@@ -34,7 +34,7 @@
     </hudson.model.AllView>
   </views>
   <primaryView>All</primaryView>
-  <slaveAgentPort>0</slaveAgentPort>
+  <slaveAgentPort>{{ slaveAgentPort }}</slaveAgentPort>
   <label></label>
   <nodeProperties/>
   <globalNodeProperties>
