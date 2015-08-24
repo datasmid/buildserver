@@ -27,6 +27,7 @@ install:
 
   - git clone https://github.com/bcoca/ansible-selenium-role.git roles/briancoca.selenium
   - git clone https://github.com/ferhaty/ansible-oasis-maven.git roles/ansible-oasis-maven
+  - git clone https://github.com/ferhaty/ferhaty.jenkins-slave.git roles/ferhaty.jenkins-slave
 
 
 script:
@@ -35,4 +36,3 @@ script:
   - ansible-playbook -i ansible.ini --list-tasks provision.yml
   - chmod 700 pki
   - chmod 600 pki/vagrant.rsa
-
