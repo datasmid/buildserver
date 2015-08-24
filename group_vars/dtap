@@ -12,5 +12,7 @@ yum_packages:
 java_packages:
   - java-1.7.0-openjdk
 
+jenkins_data: "/home/jenkins"
+
 artifactory_version: "3.6.0"
 artifactory_database: mysql
