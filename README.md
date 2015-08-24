@@ -34,6 +34,7 @@ Install/Upgrade **XCode** from the AppStore.
 
  It is easiest to install brew first, from **[brew.sh](http://brew.sh)**, then:
 
+    brew install --upgrade python
     brew install --upgrade ansible
     brew install caskroom/cask/brew-cask
     brew cask install --upgrade virtualbox
