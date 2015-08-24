@@ -37,7 +37,7 @@ plugins:
 #  - 'thinBackup'       # backup job configurations
 #  - 'violations'       #
   - 'ws-cleanup'       # Workspace cleanup
-  - 'swarm-plugin'     # Swarm plugin for build slaves
+  - 'swarm'     # Swarm plugin for build slaves
 
 jenkins_base_url: 'http://pkg.jenkins-ci.org/redhat'
 jenkins_data: "/home/jenkins"
