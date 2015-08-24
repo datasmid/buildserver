@@ -9,12 +9,13 @@
     - bbaassssiiee.commoncentos
     - common
     - httpd
+    - firewall
     - jenkins                           # Use Jenkins to build
     - hullufred.nexus                   # Nexus is used as library repository
     - geerlingguy.java
     - pcextreme.mariadb                 # Artifactory & sonar use mariadb
     - bbaassssiiee.artifactory          # Artifactory is our build repository
-#    - bbaassssiiee.sonar                # SonarQube reports on code quality
+    - bbaassssiiee.sonar                # SonarQube reports on code quality
 
   tasks:
     - include: tasks/settings.yml
