@@ -8,3 +8,6 @@
   - name: firewalld configuration https
     firewalld: service=https permanent=true state=enabled immediate=yes
 
+  - name: firewalld configuration https
+    firewalld: port={{ slaveAgentPort }} permanent=true state=enabled immediate=yes
+

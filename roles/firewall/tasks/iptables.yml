@@ -6,7 +6,7 @@
     tags:
       - iptables
 
-  - name: copy the /etc/logrotate.d/iptables templat
+  - name: copy the /etc/logrotate.d/iptables template
     template: src=iptables_logrotate.j2 dest=/etc/logrotate.d/iptables owner=root group=root mode=0644 backup=yes
     tags:
       - logrotate
