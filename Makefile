@@ -1,23 +1,52 @@
 VAGRANT_DEFAULT_PROVIDER=virtualbox
+export ANSIBLE_SSH_ARGS='-o ControlMaster=no'
 default: all
 
-.PHONY: install
-install:
-	@echo installing galaxy roles
+
+.PHONY: help
+help:
+	@Echo "General tasks:"
+	@echo "make  (all)   -builds dev target nolio windows virtual machines"
+	@echo "               all: clean setup install deploy "
+	@echo "make test    -test dev target nolio windows virtual machines "
+	@echo "-------------------------------------------------------------"
+	@echo "make clean   -Cleanup vm's and  ansible roles"
+	@echo "make setup   -Setup ansible roles and python packages "
+	@echo "make install -Install the virtual machines only"
+	@echo "make build   -Build the application game of life"
+	@echo "make deploy  -Deploy the application game of life to target"
+
+.PHONY: setup
+setup:
+	@echo Installing galaxy roles
 	chmod 644 ansible.ini
-	ansible-playbook -K -vv -i ansible.ini -l local install.yml
-	@echo installing python extensions
+	ansible-playbook -vv -i ansible.ini -l local install.yml
+	@echo Installing python extensions
 	pip install --upgrade -r requirements.txt
 
-.PHONY: prepare
-prepare:
-	vagrant up --no-provision dev
-	vagrant up --no-provision target
-#	vagrant up --no-provision test
-#	vagrant up --no-provision windows
+
+.PHONY: install
+install: setup
+	@Echo Install Ansible galaxy roles and dependant python packages.
+	@Echo Bring up 2 virtual machines:** 'dev' the CI server, and 'target' the Tomcat server
+	vagrant up --no-provision
+	@Echo **Run the provisioner**
+	ansible-playbook -l dev:target provision.yml
+	@Echo **Install Docker on target too**
+	ansible-playbook -l target playbook.yml
+	@Echo **Bring up the windows 7 VM, and provision it:**
+# Bring nolio down, with 8G windows box will be  set otherwise in guruMeditation mode if memory runs out ..
+	vagrant halt nolio
+	vagrant up --no-provision windows
+	ansible-playbook -l windows provision.yml
+
+.PHONY: build
+build:
+	@Echo Triggers build jobs Jenkins on [dev].
+	ansible-playbook -vv -i ansible.ini -l dev build.yml
 
 .PHONY: clean
-clean:
+clean: destroy
 	rm -rf roles/bbaassssiiee.commoncentos/
 	rm -rf roles/bbaassssiiee.artifactory/
 	rm -rf roles/bbaassssiiee.sonar/
@@ -31,38 +60,36 @@ clean:
 	rm -rf roles/pcextreme.mariadb/
 	rm -rf roles/briancoca.oracle_java7
 
-.PHONY: up
-up:
-	vagrant up --no-provision dev
-	vagrant provision dev
-	ansible-playbook -vv -i ansible.ini -l dev build.yml
-
+.PHONY: destroy
+destroy:
+	@Echo Destroys virtual images
+	vagrant destroy -f dev
+	vagrant destroy -f nolio
+	vagrant destroy -f target
+	vagrant destroy -f windows
+	
+	
 
 .PHONY: deploy
 deploy:
-	vagrant up --no-provision target
-	vagrant provision target
 	ansible-playbook -vv -i ansible.ini -l target deploy.yml
-	ansible-playbook -vv -i ansible.ini -l all webtest.yml
 
 
-.PHONY: test
-test:
-	vagrant up test
-	vagrant provision test
-	vagrant halt test
 
 .PHONY: smoketest
 smoketest:
-	ansible-playbook -vv -i ansible.ini -l all smoketest.yml
+	ansible-playbook -vv -i ansible.ini -l dev:target smoketest.yml
 .PHONY: webtest
 webtest:
 	ansible-playbook -vv -i ansible.ini -l target webtest.yml
 .PHONY: test
 test: smoketest webtest
 
+
 .PHONY: all
-all: install up deploy smoketest webtest
+all: clean setup install deploy
+
+
 
 dev.box:
 	vagrant halt dev
@@ -87,25 +114,4 @@ import:
 	vagrant box add -f -name chef/centos-6.6 boxes/dev.box
 
 
-### Babun is a linux-like environment on windows
-### http://babun.github.io
-### use of ansible under babun is experimental and still broken
 
-### See install instructions in cygwin-setup for a working alternative.
-
-.PHONY: babun
-babun:
-	pact install python python-paramiko python-crypto gcc-g++ wget openssh python-setuptools
-	@echo 'export PYTHONHOME=/usr' >> ~/.zshrc
-	@echo 'export export PYTHONPATH=/usr/lib/python2.7' >> ~/.zshrc
-	@echo 'export PYTHONHOME=/usr' >> ~/.bash_profile
-	@echo 'export export PYTHONPATH=/usr/lib/python2.7' >> ~/.bash_profile
-
-	export PYTHONHOME=/usr
-	export PYTHONPATH=/usr/lib/python2.7
-	python /usr/lib/python2.7/site-packages/easy_install.py pip
-	pip install ansible
-	mkdir -p ${HOME}/bin
-	cp windows/ansible-playbook.bat ${HOME}/bin
-	chmod -x ansible.ini
-	chmod a+rw *.*

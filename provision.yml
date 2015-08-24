@@ -35,6 +35,7 @@
     - common
     - geerlingguy.java
     - hudecof.tomcat
+    - postgres
 
   tasks:
     - include: tasks/tomcat_settings.yml
