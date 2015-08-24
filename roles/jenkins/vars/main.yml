@@ -38,6 +38,8 @@ plugins:
 #  - 'violations'       #
   - 'ws-cleanup'       # Workspace cleanup
   - 'swarm'     # Swarm plugin for build slaves
+  - 'msbuild'     # Plugin for building Microsoft applications
+  - 'xcode-plugin' # Plugin for building Mac OS X applications
 
 jenkins_base_url: 'http://pkg.jenkins-ci.org/redhat'
 jenkins_data: "/home/jenkins"
