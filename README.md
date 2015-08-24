@@ -40,6 +40,9 @@ Install/Upgrade **XCode** from the AppStore.
     brew cask install --upgrade virtualbox
     brew cask install --upgrade vagrant
 
+Note that it is custom nowadays on mac to change ownership for /usr/local, so you don't need sudo.
+
+
 On RedHat/Fedora/Centos Linux:
 ------------------------------
  `yum install ansible`
