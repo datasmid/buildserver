@@ -62,13 +62,10 @@
   tasks:
     - include: tasks/windows_settings.yml
 
-- name: OASIS Windows Slave
-  hosts: windows
+- name: Jenkins Windows Slave
+  hosts: jenkins_windows_slave
   remote_user: IEUser
   gather_facts: no
 
   roles:
-  - ferhaty.jenkins-slave
-
-  tasks:
-    - include: tasks/windows_settings.yml
+  - { role: ferhaty.jenkins-slave, swarm_master: "https://{{ hostvars['dev']['ansible_ssh_host'] }}/jenkins" }
