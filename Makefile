@@ -6,28 +6,33 @@ default: all
 .PHONY: help
 help:
 	@Echo "General tasks:"
-	@echo "make  (all)   -builds dev target nolio windows virtual machines"
-	@echo "               all: clean setup install deploy "
-	@echo "make test    -test dev target nolio windows virtual machines "
-	@echo "-------------------------------------------------------------"
-	@echo "make clean   -Cleanup vm's and  ansible roles"
-	@echo "make setup   -Setup ansible roles and python packages "
-	@echo "make install -Install the virtual machines only"
-	@echo "make build   -Build the application game of life"
-	@echo "make deploy  -Deploy the application game of life to target"
+	@Echo "make  (all)   -builds dev target nolio windows virtual machines"
+	@Echo "               all: clean setup install deploy"
+	@Echo "make test     -test dev target nolio windows virtual machines"
+	@Echo "-------------------------------------------------------------"
+	@Echo "make clean    -Cleanup vm's and  ansible roles"
+	@Echo "make addboxes -Run once to 'vagrant box add' the 2 from ./boxes/"
+	@Echo "make setup    -Setup ansible roles and python packages"
+	@Echo "make install  -Install the virtual machines only"
+	@Echo "make build    -Build the application game of life"
+	@Echo "make deploy   -Deploy the application game of life to target"
 
 .PHONY: setup
 setup:
-	@echo Installing galaxy roles
+	@Echo Install Ansible galaxy roles and dependent python packages.
+	@Echo Installing galaxy roles
 	chmod 644 ansible.ini
 	ansible-playbook -vv -i ansible.ini -l local install.yml
-	@echo Installing python extensions
+	@Echo Installing python extensions
 	pip install --upgrade -r requirements.txt
 
+.PHONY: addboxes
+addboxes:
+	vagrant box add -f -name nolio boxes/nolio.box
+	vagrant box add -f -name windows boxes/windows.box
 
 .PHONY: install
 install: setup
-	@Echo Install Ansible galaxy roles and dependant python packages.
 	@Echo Bring up 2 virtual machines:** 'dev' the CI server, and 'target' the Tomcat server
 	vagrant up --no-provision
 	@Echo **Run the provisioner**
@@ -35,8 +40,8 @@ install: setup
 	@Echo **Install Docker on target too**
 	ansible-playbook -l target playbook.yml
 	@Echo **Bring up the windows 7 VM, and provision it:**
-# Bring nolio down, with 8G windows box will be  set otherwise in guruMeditation mode if memory runs out ..
-	vagrant halt nolio
+# Bring nolio down, otherwise with 8G windows box will be set in guruMeditation mode if memory runs out ..
+	vagrant halt nolio || true
 	vagrant up --no-provision windows
 	ansible-playbook -l windows provision.yml
 
@@ -67,8 +72,8 @@ destroy:
 	vagrant destroy -f nolio
 	vagrant destroy -f target
 	vagrant destroy -f windows
-	
-	
+
+
 
 .PHONY: deploy
 deploy:
@@ -89,8 +94,6 @@ test: smoketest webtest
 .PHONY: all
 all: clean setup install deploy
 
-
-
 dev.box:
 	vagrant halt dev
 	vagrant package --base dev --output boxes/dev.box
@@ -108,10 +111,6 @@ boxes/windows.box:
 .PHONY: boxes
 boxes: boxes/dev.box boxes/target.box boxes/test.box boxes/windows.box
 
-import:
-	vagrant box add -f -name dockpack/centos6 boxes/target.box
-	vagrant box add -f -name ubuntu14 boxes/test.box
-	vagrant box add -f -name chef/centos-6.6 boxes/dev.box
 
 
 
