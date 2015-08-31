@@ -29,6 +29,7 @@ plugins:
 #  - 'junit'           # installed by default
 #  - 'ldap'            # installed by default
 # - 'mailer'           # installed by default
+  - 'm2release'
   - 'pmd'              #
   - 'release'
 #  - 'role-strategy'
