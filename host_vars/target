@@ -7,3 +7,5 @@ tomcat_list:
     filename: 'apache-tomcat-7.0.{{tomcat_minor}}.tar.gz'
     dirname: 'apache-tomcat-7.0.{{tomcat_minor}}'
 tomcat_apps_dir: "/opt/{{ tomcat_list[tomcat_version]['dirname'] }}"
+
+sel_role: node

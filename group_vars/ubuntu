@@ -7,3 +7,5 @@ java_home: /usr/lib/jvm/default-java
 
 # for groover.maven
 local_ansible_data_path: /tmp/data
+
+sel_role: node

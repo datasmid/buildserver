@@ -1,0 +1,11 @@
+---
+- name: Selenium
+  hosts: dev:target:test
+  remote_user: vagrant
+  sudo: yes
+
+  roles:
+    
+    - geerlingguy.java
+    - ansible-selenium-role
+

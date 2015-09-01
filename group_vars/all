@@ -6,3 +6,5 @@ mvn_proxy_url: https://dev/nexus
 mvn_master_password: Mvn_Password
 input_nexus_password: admin123
 input_artifactory_password: password
+
+hub: 'http://dev:4444/grid/register'
