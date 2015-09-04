@@ -8,6 +8,8 @@
   - name: firewalld configuration https
     firewalld: service=https permanent=true state=enabled immediate=yes
 
-  - name: firewalld configuration https
+  - name: firewalld configuration slaveagent
     firewalld: port={{ slaveAgentPort }} permanent=true state=enabled immediate=yes
 
+  - name: firewalld configuration seleniumHubPort
+    firewalld: port={{ seleniumHubPort }} permanent=true state=enabled immediate=yes
