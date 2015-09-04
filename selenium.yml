@@ -1,11 +1,13 @@
 ---
-- name: Selenium
-  hosts: dev:target:test
+- name: windows
+  hosts: windows
   remote_user: vagrant
-  sudo: yes
 
-  roles:
-    
-    - geerlingguy.java
-    - ansible-selenium-role
+  tasks:
+    - name: create directory for selenium
+      win_file: dest={{selenium_dir}} state=directory owner=IEUser
+
+    - name: download selenium
+      sudo: False
+      win_get_url: url={{download_url}} dest={{selenium_dir}}//selenium-server.jar
 
