@@ -37,6 +37,8 @@
     - geerlingguy.java
     - hudecof.tomcat
     - postgres
+    - { role: ferhaty.jenkins-slave,
+        swarm_master: "https://{{ hostvars['dev']['ansible_ssh_host'] }}/jenkins" }
 
   tasks:
     - include: tasks/tomcat_settings.yml
@@ -60,14 +62,9 @@
 
   roles:
   - ansible-oasis
+  - { role: ferhaty.jenkins-slave,
+        swarm_master: "https://{{ hostvars['dev']['ansible_ssh_host'] }}/jenkins" }
 
   tasks:
     - include: tasks/windows_settings.yml
 
-- name: Jenkins Windows Slave
-  hosts: jenkins_windows_slave
-  remote_user: IEUser
-  gather_facts: no
-
-  roles:
-  - { role: ferhaty.jenkins-slave, swarm_master: "https://{{ hostvars['dev']['ansible_ssh_host'] }}/jenkins" }

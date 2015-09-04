@@ -12,7 +12,7 @@ yum_packages:
    - acpid
 
 java_packages:
-  - java-1.7.0-openjdk
+  - java-1.7.0-openjdk-devel
 
 jenkins_data: "/home/jenkins"
 

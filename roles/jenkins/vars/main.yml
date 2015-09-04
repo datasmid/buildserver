@@ -7,7 +7,7 @@ features:
 
 ant_version: 1.9.6
 maven_version: 3.3.3
-gradle_version: 2.2.1
+gradle_version: 2.6
 java_home: /usr/lib/jvm/java
 
 plugins:

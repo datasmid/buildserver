@@ -4,7 +4,15 @@
     <hudson.tasks.Ant_-AntInstallation>
       <name>{{ant_name}}</name>
       <home>{{ant_home}}</home>
-      <properties/>
+      <properties>
+        <hudson.tools.InstallSourceProperty>
+          <installers>
+            <hudson.tasks.Ant_-AntInstaller>
+              <id>{{ant_version}}</id>
+            </hudson.tasks.Ant_-AntInstaller>
+          </installers>
+        </hudson.tools.InstallSourceProperty>
+      </properties>
     </hudson.tasks.Ant_-AntInstallation>
   </installations>
 </hudson.tasks.Ant_-DescriptorImpl>
