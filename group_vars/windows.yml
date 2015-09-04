@@ -2,3 +2,4 @@ ansible_ssh_user: vagrant
 ansible_ssh_pass: vagrant
 ansible_ssh_port: 5986
 ansible_connection: winrm
+selenium_dir: 'C:\selenium'
