@@ -40,7 +40,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     #dev_config.vm.network "forwarded_port", guest: 443, host: 8443, auto_correct: true
 
     dev_config.vm.provider "virtualbox" do |vb|
-      vb.customize ["modifyvm", :id, "--memory", "2048", "--natnet1", "172.16.1/24"]
+      vb.customize ["modifyvm", :id, "--memory", "3072", "--natnet1", "172.16.1/24"]
       vb.customize ["modifyvm", :id, "--ioapic", "on"  ]
       vb.name = "dev"
       vb.gui = false
