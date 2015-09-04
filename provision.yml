@@ -4,7 +4,6 @@
   remote_user: vagrant
   sudo: yes
 
-
   roles:
     - bbaassssiiee.commoncentos
     - common
@@ -16,6 +15,7 @@
     - pcextreme.mariadb                 # Artifactory & sonar use mariadb
     - bbaassssiiee.artifactory          # Artifactory is our build repository
     - bbaassssiiee.sonar                # SonarQube reports on code quality
+    - ansible-selenium-role
 
   tasks:
     - include: tasks/settings.yml
@@ -37,8 +37,8 @@
     - geerlingguy.java
     - hudecof.tomcat
     - postgres
-    - { role: ferhaty.jenkins-slave,
-        swarm_master: "https://{{ hostvars['dev']['ansible_ssh_host'] }}/jenkins" }
+    - ferhaty.jenkins-slave
+    - ansible-selenium-role
 
   tasks:
     - include: tasks/tomcat_settings.yml
@@ -54,6 +54,7 @@
     - briancoca.oracle_java7
     - ansible-maven
     - ansible-eclipse
+    - ansible-selenium-role
 
 - name: Windows client
   hosts: windows
@@ -62,8 +63,8 @@
 
   roles:
   - ansible-oasis
-  - { role: ferhaty.jenkins-slave,
-        swarm_master: "https://{{ hostvars['dev']['ansible_ssh_host'] }}/jenkins" }
+  - ferhaty.jenkins-slave
+#  - ansible-selenium-role
 
   tasks:
     - include: tasks/windows_settings.yml
