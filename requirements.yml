@@ -23,11 +23,10 @@
 - src: briancoca.oracle_java7
   path: ./roles
 
-- src: https://github.com/bbaassssiiee/ansible-maven
+- src: https://github.com/bbaassssiiee/ansible-maven.git
   path: ./roles/
 
 - src: https://github.com/bbaassssiiee/ansible-selenium-role.git
-  version: multiplatform
   path: ./roles/
 
 # alban.andrieu.eclipse runs local as root.
@@ -38,7 +37,7 @@
   path: ./roles
 
 # deploy Nolio with nolio.yml
-- src: https://github.com/bbaassssiiee/ansible-role-nolioagent
+- src: https://github.com/bbaassssiiee/ansible-role-nolioagent.git
   path: ./roles/
 
 # Setup Windows machine as a Jenkins slave
