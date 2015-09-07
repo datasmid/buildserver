@@ -14,7 +14,7 @@
     - geerlingguy.java
     - pcextreme.mariadb                 # Artifactory & sonar use mariadb
     - bbaassssiiee.artifactory          # Artifactory is our build repository
-    - bbaassssiiee.sonar                # SonarQube reports on code quality
+#    - bbaassssiiee.sonar                # SonarQube reports on code quality
     - ansible-selenium-role
 
   tasks:
@@ -37,7 +37,7 @@
     - geerlingguy.java
     - hudecof.tomcat
     - postgres
-    - ferhaty.jenkins-slave
+    - ansible-jenkins-slave
     - ansible-selenium-role
 
   tasks:
@@ -51,10 +51,12 @@
   gather_facts: yes
 
   roles:
-    - briancoca.oracle_java7
+#    - briancoca.oracle_java7
+    - geerlingguy.java
     - ansible-maven
     - ansible-eclipse
     - ansible-selenium-role
+    - ansible-jenkins-slave
 
 - name: Windows client
   hosts: windows
@@ -64,7 +66,6 @@
   roles:
   - ansible-oasis
   - ferhaty.jenkins-slave
-#  - ansible-selenium-role
 
   tasks:
     - include: tasks/windows_settings.yml
