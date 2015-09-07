@@ -1,6 +1,13 @@
-    - name: 'fix "dev" in /etc/sysconfig/iptables file'
+    - name: 'fix TC port in /etc/sysconfig/iptables file'
       lineinfile: dest=/etc/sysconfig/iptables
                   line='-A INPUT -p tcp -m tcp --dport 8080 -j ACCEPT'
                   state=present
                   insertbefore=^COMMIT
+      notify: 'restart iptables'
+
+    - name: 'fix Se port in /etc/sysconfig/iptables file'
+      lineinfile: dest=/etc/sysconfig/iptables
+                  line='-A INPUT -p tcp -m tcp --dport 4444 -j ACCEPT'
+                  state=present
+                  insertafter="^# allow web server traffic:"
       notify: 'restart iptables'
