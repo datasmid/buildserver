@@ -64,6 +64,9 @@ clean: destroy
 	rm -rf roles/hullufred.nexus/
 	rm -rf roles/pcextreme.mariadb/
 	rm -rf roles/briancoca.oracle_java7
+	rm -rf roles/ansible-selenium-role
+	rm -rf roles/ferhaty.jenkins-slave
+	rm -rf roles/ansible-role-nolioagent
 
 .PHONY: destroy
 destroy:
