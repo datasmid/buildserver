@@ -26,7 +26,7 @@
 - src: https://github.com/bbaassssiiee/ansible-maven
   path: ./roles/
 
-- src: https://github.com/bbaassssiiee/ansible-selenium-role
+- src: https://github.com/bbaassssiiee/ansible-selenium-role.git
   version: multiplatform
   path: ./roles/
 
