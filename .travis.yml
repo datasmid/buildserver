@@ -25,7 +25,7 @@ install:
   - git clone https://github.com/jhinrichsen/ansible-nexus.git roles/hullufred.nexus
   - git clone https://github.com/bcoca/ansible-oracle_java7-role.git roles/briancoca.oracle_java7
 
-  - git clone https://github.com/bcoca/ansible-selenium-role.git roles/briancoca.selenium
+  - git clone https://github.com/bbaassssiiee/ansible-selenium-role.git roles/briancoca.selenium
   - git clone https://github.com/ferhaty/ansible-oasis-maven.git roles/ansible-oasis-maven
   - git clone https://github.com/ferhaty/ferhaty.jenkins-slave.git roles/ferhaty.jenkins-slave
 
