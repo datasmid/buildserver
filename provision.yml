@@ -66,6 +66,7 @@
   roles:
   - ansible-oasis
   - ferhaty.jenkins-slave
+  - windows-selenium-role
 
   tasks:
     - include: tasks/windows_settings.yml
