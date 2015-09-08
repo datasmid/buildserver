@@ -50,8 +50,8 @@ build:
 	@Echo Triggers build jobs Jenkins on [dev].
 	ansible-playbook -vv -i ansible.ini -l dev build.yml
 
-.PHONY: clean
-clean: destroy
+.PHONY: cleanroles
+cleanroles:
 	rm -rf roles/bbaassssiiee.commoncentos/
 	rm -rf roles/bbaassssiiee.artifactory/
 	rm -rf roles/bbaassssiiee.sonar/
@@ -65,6 +65,7 @@ clean: destroy
 	rm -rf roles/pcextreme.mariadb/
 	rm -rf roles/briancoca.oracle_java7
 	rm -rf roles/ansible-selenium-role
+	rm -rf roles/windows-selenium-role
 	rm -rf roles/ferhaty.jenkins-slave
 	rm -rf roles/ansible-role-nolioagent
 
@@ -76,7 +77,8 @@ destroy:
 	vagrant destroy -f target
 	vagrant destroy -f windows
 
-
+.PHONY: clean
+clean: cleanroles destroy
 
 .PHONY: deploy
 deploy:
