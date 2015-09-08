@@ -67,6 +67,7 @@ cleanroles:
 	rm -rf roles/ansible-selenium-role
 	rm -rf roles/windows-selenium-role
 	rm -rf roles/ferhaty.jenkins-slave
+	rm -rf roles/ansible-jenkins-slave
 	rm -rf roles/ansible-role-nolioagent
 
 .PHONY: destroy
