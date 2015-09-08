@@ -30,6 +30,7 @@ install:
     roles/ansible-selenium-role
   - git clone https://github.com/ferhaty/ansible-oasis-maven.git roles/ansible-oasis-maven
   - git clone https://github.com/ferhaty/ferhaty.jenkins-slave.git roles/ferhaty.jenkins-slave
+  - git clone https://github.com/bbaassssiiee/ansible-jenkins-slave.git roles/ansible-jenkins-slave
 
 
 script:
