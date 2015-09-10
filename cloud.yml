@@ -25,6 +25,7 @@
   gather_facts: yes
 
   roles:
+    - httpd
     - ansible-selenium-role
 
 - name: Target server
