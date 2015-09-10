@@ -5,25 +5,25 @@ default: all
 
 .PHONY: help
 help:
-	@Echo "General tasks:"
-	@Echo "make  (all)   -builds dev target nolio windows virtual machines"
-	@Echo "               all: clean setup install deploy"
-	@Echo "make test     -test dev target nolio windows virtual machines"
-	@Echo "-------------------------------------------------------------"
-	@Echo "make clean    -Cleanup vm's and  ansible roles"
-	@Echo "make addboxes -Run once to 'vagrant box add' the 2 from ./boxes/"
-	@Echo "make setup    -Setup ansible roles and python packages"
-	@Echo "make install  -Install the virtual machines only"
-	@Echo "make build    -Build the application game of life"
-	@Echo "make deploy   -Deploy the application game of life to target"
+	@echo "General tasks:"
+	@echo "make  (all)   -builds dev target nolio windows virtual machines"
+	@echo "               all: clean setup install deploy"
+	@echo "make test     -test dev target nolio windows virtual machines"
+	@echo "-------------------------------------------------------------"
+	@echo "make clean    -Cleanup vm's and  ansible roles"
+	@echo "make addboxes -Run once to 'vagrant box add' the 2 from ./boxes/"
+	@echo "make setup    -Setup ansible roles and python packages"
+	@echo "make install  -Install the virtual machines only"
+	@echo "make build    -Build the application game of life"
+	@echo "make deploy   -Deploy the application game of life to target"
 
 .PHONY: setup
 setup:
-	@Echo Install Ansible galaxy roles and dependent python packages.
-	@Echo Installing galaxy roles
+	@echo Install Ansible galaxy roles and dependent python packages.
+	@echo Installing galaxy roles
 	chmod 644 ansible.ini
 	ansible-playbook -vv -i ansible.ini -l local install.yml
-	@Echo Installing python extensions
+	@echo Installing python extensions
 	pip install --upgrade -r requirements.txt
 
 .PHONY: addboxes
@@ -33,13 +33,13 @@ addboxes:
 
 .PHONY: install
 install: setup
-	@Echo Bring up 2 virtual machines:** 'dev' the CI server, and 'target' the Tomcat server
+	@echo Bring up 2 virtual machines:** 'dev' the CI server, and 'target' the Tomcat server
 	vagrant up --no-provision
-	@Echo **Run the provisioner**
+	@echo **Run the provisioner**
 	ansible-playbook -l dev:target provision.yml
-	@Echo **Install Docker on target too**
+	@echo **Install Docker on target too**
 	ansible-playbook -l target playbook.yml
-	@Echo **Bring up the windows 7 VM, and provision it:**
+	@echo **Bring up the windows 7 VM, and provision it:**
 # Bring nolio down, otherwise with 8G windows box will be set in guruMeditation mode if memory runs out ..
 	vagrant halt nolio || true
 	vagrant up --no-provision windows
@@ -47,7 +47,7 @@ install: setup
 
 .PHONY: build
 build:
-	@Echo Triggers build jobs Jenkins on [dev].
+	@echo Triggers build jobs Jenkins on [dev].
 	ansible-playbook -vv -i ansible.ini -l dev build.yml
 
 .PHONY: cleanroles
@@ -72,7 +72,7 @@ cleanroles:
 
 .PHONY: destroy
 destroy:
-	@Echo Destroys virtual images
+	@echo Destroys virtual images
 	vagrant destroy -f dev
 	vagrant destroy -f nolio
 	vagrant destroy -f target

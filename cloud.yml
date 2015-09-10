@@ -22,7 +22,7 @@
 - name: Selenium Hub
   hosts: hub
   remote_user: ansible
-  gather_facts: no
+  gather_facts: yes
 
   roles:
     - ansible-selenium-role
@@ -46,16 +46,4 @@
 
   tasks:
     - include: tasks/tomcat_settings.yml
-
-- name: Windows client
-  hosts: windows
-  remote_user: IEUser
-  gather_facts: no
-
-  roles:
-  - ferhaty.jenkins-slave
-  - windows-selenium-role
-
-  tasks:
-    - include: tasks/windows_settings.yml
 
