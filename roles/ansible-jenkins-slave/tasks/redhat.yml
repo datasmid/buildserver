@@ -16,6 +16,7 @@
         mode=755
 
 - name: download swarm client
+  environment: proxy_env
   get_url: url=http://maven.jenkins-ci.org/content/repositories/releases/org/jenkins-ci/plugins/swarm-client/{{ swarm_client_version }}/swarm-client-{{ swarm_client_version }}-jar-with-dependencies.jar
            dest=/home/jenkins/swarm-client.jar owner=jenkins group=jenkins
 

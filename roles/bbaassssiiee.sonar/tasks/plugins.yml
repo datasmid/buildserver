@@ -1,5 +1,6 @@
 ---
 - name: 'make sure sonar plugins are installed'
+  environment: proxy_env
   get_url: url={{item}}
             owner=sonar group=sonar mode=0644
             dest=/opt/sonar/extensions/plugins

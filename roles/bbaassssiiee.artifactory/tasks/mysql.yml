@@ -10,6 +10,7 @@
   register: jdbc_installed
 
 - name: 'download jdbc connector for mysql'
+  environment: proxy_env
   get_url: url={{mysql_jdbc_url}} dest=/tmp
   retries: 3
 #  when: features.mysql and not ant_installed.stat.exists

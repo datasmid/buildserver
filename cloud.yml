@@ -5,9 +5,8 @@
   sudo: yes
 
   roles:
-    - common
-    - httpd
-    - firewall
+#    - httpd
+#    - firewall
     - jenkins                           # Use Jenkins to build
     - hullufred.nexus                   # Nexus is used as library repository
     - geerlingguy.java
@@ -22,6 +21,7 @@
 - name: Selenium Hub
   hosts: hub
   remote_user: ansible
+  sudo: True
   gather_facts: yes
 
   roles:

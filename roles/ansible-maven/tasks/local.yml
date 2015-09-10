@@ -11,6 +11,7 @@
 - name: Download Maven
   tags: maven
   sudo: no
+  environment: proxy_env
   local_action: get_url
     dest={{ local_ansible_data_path }}/{{ maven_redis_filename }}
     url={{ maven_mirror }}/{{ maven_redis_filename }}

@@ -8,6 +8,7 @@
   register: jarfile
 
 - name: 'download sonar-runner'
+  environment: proxy_env
   get_url: url={{sonarrunner_url}} dest=/tmp
   retries: 3
   when: not jarfile.stat.exists

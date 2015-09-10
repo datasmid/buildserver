@@ -9,6 +9,7 @@
   when: features.ant
 
 - name: 'download Ant'
+  environment: proxy_env
   get_url: url={{ant_url}} dest=~
   retries: 3
   when: features.ant and not ant_installed.stat.exists

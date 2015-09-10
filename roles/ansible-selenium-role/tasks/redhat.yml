@@ -26,9 +26,9 @@
   tags: ['config']
   notify: selenium_restarted
 
-- name: Enable service
-  sudo: True
-  service: name=se_{{sel_role}} enabled=yes state=started
+#- name: Enable service
+#  sudo: True
+#  service: name=se_{{sel_role}} enabled=yes state=started
 
 - name: Install browser
   sudo: True

@@ -4,6 +4,7 @@
   tags: [ tomcat, setup ]
 
 - name: "download tar.gz file"
+  environment: proxy_env
   action: get_url url={{ tomcat_download_prefix }}/{{ tomcat_list[tomcat_version]['filename'] }} dest={{ tomcat_download_dir }}/apache-tomcat.tar.gz force=yes
 
 - name: "unpack tomcat"
@@ -28,6 +29,7 @@
   tags: [ tomcat, setup ]
 
 - name: "copy extra libs"
+  environment: proxy_env
   action: get_url url={{ tomcat_download_prefix }}/{{ item.src }} dest={{ tomcat_install_dir }}/{{ tomcat_list[tomcat_version]['dirname'] }}/{{ item.dest }} force=yes
   with_items: tomcat_extra_libs
   when: "item.state == 'enabled'"

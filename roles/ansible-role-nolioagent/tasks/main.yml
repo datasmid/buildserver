@@ -13,6 +13,7 @@
   when: not cara_cached.stat.exists
 
 - name: "download nolio from VM on localhost"
+  environment: proxy_env
   local_action: get_url url={{ cara_baseurl }}/apps/{{ cara_file }} dest={{cur_dir}}/{{ cara_file }} timeout=100
   sudo: no
   register: nolio

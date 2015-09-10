@@ -12,6 +12,7 @@
   when: features.maven
 
 - name: 'download maven'
+  environment: proxy_env
   get_url: url={{maven_url}} dest=~
   retries: 3
   when: features.maven and not mvn_installed.stat.exists

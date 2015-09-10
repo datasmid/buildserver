@@ -26,6 +26,7 @@
   register: download
 
 - name: 'download artifactory'
+  environment: proxy_env
   get_url: url={{artifactory_url}} dest=/tmp/{{artifactory_file}}
   retries: 3
   when: not download.stat.exists

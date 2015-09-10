@@ -21,6 +21,7 @@
 - name: Download Ant (local)
   tags: ant
   sudo: no
+  environment: proxy_env
   local_action: get_url
     dest={{ ansible_data_path }}/{{ ant_redis_filename }}
     url={{ ant_mirror }}/{{ ant_redis_filename }}

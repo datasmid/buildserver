@@ -4,10 +4,12 @@
 
 - name: download selenium
   sudo: False
+  environment: proxy_env
   win_get_url: url={{download_url}} dest={{selenium_dir}}//selenium-server.jar
 
 - name: download selenium driver for IE
   sudo: False
+  environment: proxy_env
   win_get_url: url={{iedriver_url}} dest={{selenium_dir}}//{{iedriver_name}}
 
 
