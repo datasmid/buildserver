@@ -12,4 +12,4 @@ sel_role: standalone
 hub: ''
 java_opts: ''
 extra_args: ''
-port: ''
+port: '80'
