@@ -1,0 +1,11 @@
+---
+
+- name: Selenium Grid Hub
+  hosts: hub
+  sudo: True
+  gather_facts: yes
+
+  roles:
+    - httpd
+    - ansible-selenium-role
+

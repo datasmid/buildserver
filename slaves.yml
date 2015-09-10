@@ -1,0 +1,10 @@
+---
+- name: Slave servers
+  hosts: slave
+  sudo: yes
+  vars:
+    homedir: "{{ lookup('env','HOME') }}"
+
+  roles:
+    - ansible-jenkins-slave
+
