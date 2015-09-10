@@ -1,7 +1,6 @@
 ---
-- name: Build Server
+- name: Jenkins Master
   hosts: build
-  remote_user: ansible
   sudo: yes
 
   roles:
@@ -9,18 +8,13 @@
 #    - firewall
     - jenkins                           # Use Jenkins to build
     - hullufred.nexus                   # Nexus is used as library repository
-    - geerlingguy.java
     - pcextreme.mariadb                 # Artifactory & sonar use mariadb
     - bbaassssiiee.artifactory          # Artifactory is our build repository
 #    - bbaassssiiee.sonar                # SonarQube reports on code quality
-    - ansible-selenium-role
 
-  tasks:
-    - include: tasks/settings.yml
 
-- name: Selenium Hub
+- name: Selenium Grid Hub
   hosts: hub
-  remote_user: ansible
   sudo: True
   gather_facts: yes
 
@@ -28,23 +22,12 @@
     - httpd
     - ansible-selenium-role
 
-- name: Target server
+- name: Slave servers
   hosts: slave
-  remote_user: ansible
   sudo: yes
   vars:
     homedir: "{{ lookup('env','HOME') }}"
 
-  pre_tasks:
-    - include: tasks/settings.yml
-
   roles:
-    - common
-    #- geerlingguy.java
-    #- hudecof.tomcat
     - ansible-jenkins-slave
-    - ansible-selenium-role
-
-  tasks:
-    - include: tasks/tomcat_settings.yml
 
