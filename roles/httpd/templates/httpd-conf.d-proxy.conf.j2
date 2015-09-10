@@ -22,6 +22,10 @@ ProxyPass /sonar http://localhost:9000/sonar
 ProxyPassreverse /sonar http://localhost:9000/sonar
 ProxyPassReverse  /sonar  http://{{inventory_hostname}}:9000/sonar
 
+ProxyPass /grid http://localhost:4444/grid
+ProxyPassreverse /grid http://localhost:4444/grid
+ProxyPassReverse  /grid  http://{{inventory_hostname}}:4444/grid
+
 RequestHeader set X-Forwarded-Proto "https"
 RequestHeader set X-Forwarded-Port "443"
 
