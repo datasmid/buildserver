@@ -1,0 +1,25 @@
+---
+
+- name: 'make sure directory exists for sonar-runner'
+  file: dest=/opt/sonar/runner state=directory mode=0755
+
+- name: 'verify presence of sonar-runner'
+  stat: path=/opt/sonar/runner/sonar-runner-2.4/lib/sonar-runner-dist-2.4.jar
+  register: jarfile
+
+- name: 'download sonar-runner'
+  get_url: url={{sonarrunner_url}} dest=/tmp
+  retries: 3
+  when: not jarfile.stat.exists
+
+- name: 'unzip sonar-runner'
+  command: unzip -o  /tmp/{{sonarrunner_zipfile}} -d /opt/sonar/runner creates=/opt/sonar/runner/sonar-runner-2.4
+  when: not jarfile.stat.exists
+
+- name: 'verify presence of sonar-runner download'
+  stat: path=/tmp/{{sonarrunner_zipfile}}
+  register: sonarrunner_download
+
+- name: 'cleanup sonar-runner download'
+  file: dest=/tmp/{{sonarrunner_zipfile}} state=absent
+  when: sonarrunner_download.stat.exists

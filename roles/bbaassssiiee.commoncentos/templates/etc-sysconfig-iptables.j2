@@ -1,0 +1,21 @@
+# iptables for {{ ansible_hostname }} managed through ansible
+
+*filter
+:INPUT DROP [0:0]
+:FORWARD DROP [0:0]
+:OUTPUT ACCEPT [9:900]
+# Allow outgoing connections
+-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT 
+# First, we start with blocking null packets.
+-A INPUT -p tcp -m tcp --tcp-flags FIN,SYN,RST,PSH,ACK,URG NONE -j DROP 
+# reject a syn-flood attack.
+-A INPUT -p tcp -m tcp ! --tcp-flags FIN,SYN,RST,ACK SYN -m state --state NEW -j DROP 
+# reject  XMAS packets, also a recon packet.
+-A INPUT -p tcp -m tcp --tcp-flags FIN,SYN,RST,PSH,ACK,URG FIN,SYN,RST,PSH,ACK,URG -j DROP 
+# allow loopback
+-A INPUT -i lo -j ACCEPT 
+# allow web server traffic:
+-A INPUT -p tcp -m tcp --dport 80 -j ACCEPT 
+-A INPUT -p tcp -m tcp --dport 443 -j ACCEPT 
+-A INPUT -p tcp -m tcp --dport 22 -j ACCEPT 
+COMMIT

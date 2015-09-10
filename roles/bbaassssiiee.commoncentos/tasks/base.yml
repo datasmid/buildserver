@@ -1,0 +1,49 @@
+---
+# tasks file for bbaassssiiee.commoncentos
+# We need some packages from the EPEL repository.
+# By default Yum starts looking for mirrors using ipv6. That can fail on home networks
+
+# EPEL Yum repository adds Extra Packages for Enterprise Linux
+- name: 'add EPEL yum repo'
+  yum: name=epel-release state=present
+
+- name: 'install packages for systems management'
+  yum: name={{ item }} state=present
+  with_items:
+   - libselinux-python
+   - libsemanage-python
+   - python-httplib2
+   - unzip
+   - ansible # so you can use it as a control host too
+   - acpid
+
+- name: 'enable ACPI shutdown'
+  service: name=acpid enabled=true
+  notify: 'start acpid'
+
+- name: 'set SELinux to permissive'
+  sudo: yes
+  selinux: policy=targeted state=permissive
+
+# postfix need to update its aliases and needs a dot in the hostname
+- name: 'set hostname for postfix'
+  hostname: name=localhost.localdomain
+
+- name: 'persist localhost in hosts file'
+  lineinfile: dest=/etc/hosts regexp='{{inventory_hostname}}'
+              line='127.0.0.1   localhost.localdomain localhost'
+              state=present
+
+- name: 'add public resolver'
+  lineinfile: dest=/etc/resolv.conf regexp='^nameserver'
+              line='nameserver {{dns_nameserver}}' state=present
+
+- name: 'disable ipv6 persistently'
+  lineinfile: dest=/etc/sysconfig/network regexp='^NETWORKING_IPV6'
+              line='NETWORKING_IPV6=no' state=present
+
+# fix Virtualbox annoyances when commuting/roaming networks
+- name: 'dissociate name of network adapter with MAC address.'
+  file: name=/etc/udev/rules.d/70-persistent-net.rules state=absent
+- name: 'avoid associating name of network adapter with MAC address.'
+  file: name=/lib/udev/rules.d/75-persistent-net-generator.rules state=absent

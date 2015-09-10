@@ -1,0 +1,8 @@
+---
+# tasks file for ferhaty.jenkins-slave
+
+- include: redhat.yml
+  when: ansible_os_family == 'RedHat'
+
+- include: darwin.yml
+  when: ansible_os_family == 'Darwin'

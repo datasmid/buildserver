@@ -1,0 +1,38 @@
+---
+
+- name: 'make sure postgresql packages are installed'
+  yum: name={{item}} state=installed
+  with_items:
+  - 'python-psycopg2'
+  - 'python-psycopg2-doc'
+  when: features.postgresql and ansible_os_family == "RedHat"
+  tags:
+    - database
+    - postgresql
+
+- name: 'sonar could use either postgresql or mysql'
+  service: name=postgresql-9.3 state=started
+  when: features.postgresql
+  tags:
+    - database
+    - postgresql
+
+- name: 'Install MySQL-python when sonar needs it'
+  yum: name=MySQL-python state=installed
+  when: features.mysql
+  tags:
+    - database
+    - mysql
+
+- name: 'sonar could use either postgresql or mysql'
+  service: name=mysql state=started
+  when: features.mysql
+  tags:
+    - database
+    - mysql
+
+- name: 'make sure sonar packages are installed'
+  yum: name={{item}} state=installed
+  when: ansible_os_family == "RedHat"
+  with_items: sonar_dependencies
+  notify: restart sonar

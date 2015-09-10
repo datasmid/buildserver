@@ -1,0 +1,13 @@
+---
+# defaults file for bbaassssiiee.commoncentos
+yum_packages:
+   - libselinux-python
+   - libsemanage-python
+   - python-httplib2
+   - unzip
+   - ansible # so you can use it as a control host too
+   - acpid
+
+dns_nameserver: 8.8.8.8
+# override when using the RHEL-STIG role
+rhel6stig_cat1: false

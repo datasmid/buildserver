@@ -1,0 +1,169 @@
+---
+# tasks file for bbaassssiiee.commoncentos
+
+- name: 'add packages for security requirements'
+  yum: name={{ item }} state=present
+  with_items:
+   - ntp
+   - policycoreutils-python
+   - iptables
+   - aide
+   - openswan
+   - screen
+
+- name: 'start synchronizing the system clock'
+  service: name=ntpd state=started enabled=yes
+
+- name: 'System security patches and updates must be installed and up-to-date'
+  yum: name=* state=latest
+
+- name: 'build and write /etc/sysconfig/iptables file'
+  template: src={{ item }} dest=/etc/sysconfig/iptables owner=root group=root mode=0600 backup=no
+  with_first_found:
+    - etc-sysconfig-iptables.j2
+  notify:
+  - restart iptables
+
+- name: 'build and write /etc/sysconfig/iptables-config file'
+  template: src=etc-sysconfig-iptables-config.j2 dest=/etc/sysconfig/iptables-config owner=root group=root mode=0600 backup=yes
+  notify:
+  - restart iptables
+  tags:
+    - config
+
+- name: 'copy the /etc/logrotate.d/iptables template'
+  template: src=etc-logrotate.d-iptables.j2 dest=/etc/logrotate.d/iptables owner=root group=root mode=0644 backup=yes
+  tags:
+    - logrotate
+    - config
+
+- name: 'make sure iptables logfile exists'
+  file: dest=/var/log/iptables.log owner=root group=root mode=0640 state=touch
+
+- name: 'start the system firewall'
+  service: name=iptables state=started enabled=yes
+
+- name: 'default umask in /etc/profile must be 077'
+  replace: backup=no dest={{ item }} regexp="umask \d\d\d" replace="umask 077"
+  with_items:
+    - /etc/profile
+    - /etc/bashrc
+
+- name: 'default umask for the csh shell must be 077'
+  replace: backup=no dest=/etc/csh.cshrc regexp="umask \d\d\d" replace="umask 077"
+
+- name: "protect /etc/gshadow file"
+  file: path=/etc/gshadow owner=root group=root mode=0000
+
+- name: "SSH daemon must not permit user environment settings"
+  lineinfile: "state=present backup=no dest=/etc/ssh/sshd_config regexp='^PermitUserEnvironment' line='PermitUserEnvironment no'"
+
+- name: "SSH daemon needs a ClientAliveInterval"
+  lineinfile: "state=present backup=no dest=/etc/ssh/sshd_config regexp='^ClientAliveInterval' line='ClientAliveInterval 36000'"
+
+- name: "SSH daemon must set a timeout count on idle sessions."
+  lineinfile: "state=present backup=no dest=/etc/ssh/sshd_config regexp='^ClientAliveCountMax' line='ClientAliveCountMax 0'"
+
+- name: 'make sure the secure shell daemon is restarted'
+  service: name=sshd state=restarted enabled=yes
+
+- name: 'prevent the root account from logging in from virtual consoles'
+  lineinfile: state=absent dest=/etc/securetty regexp='^.*vc/?\d' backup=yes
+
+- name: 'weird kernel modules better be disabled'
+  kernel_blacklist: name={{ item }}
+  with_items:
+    - bluetooth
+    - usb-storage
+    - net-pf-31
+    - tipc
+    - sctp
+    - dccp
+
+- name: 'The RDS protocol must be disabled unless required.'
+  copy: backup=no src=disable-rds.conf dest=/etc/modprobe.d/disable-rds.conf owner=root group=root mode=0644
+
+# sysctl kernel settings
+- name: 'limit the ability of processes to have simultaneous write and execute access to memory'
+  sysctl: name=kernel.exec-shield value=1 state=present reload=yes ignoreerrors=yes
+
+- name: 'implement virtual address space randomization'
+  sysctl: name=kernel.randomize_va_space state=present reload=yes ignoreerrors=yes
+
+# sysctl network settings
+- name: 'do not accept IPv4 source-routed packets on any interface'
+  sysctl: name=net.ipv4.conf.all.accept_source_route value=0 state=present reload=yes ignoreerrors=yes
+
+- name: 'do not accept ICMPv4 redirect packets on any interface'
+  sysctl: name=net.ipv4.conf.all.accept_redirects value=0 state=present reload=yes ignoreerrors=yes
+
+- name: 'IP forwarding for IPv4 must not be enabled, unless the system is a router.'
+  sysctl: name=net.ipv4.ip_forward value=0 state=present reload=yes ignoreerrors=yes
+
+- name: 'do not accept ICMPv4 secure redirect packets on any interface'
+  sysctl: name=net.ipv4.conf.all.secure_redirects value=0 state=present reload=yes ignoreerrors=yes
+
+- name: 'use a reverse-path filter for IPv4 network traffic'
+  sysctl: name=net.ipv4.conf.all.rp_filter value=1 state=present reload=yes ignoreerrors=yes
+
+- name: 'do must not accept ICMPv4 secure redirect packets by default'
+  sysctl: name=net.ipv4.conf.default.secure_redirects value=0 state=present reload=yes ignoreerrors=yes
+
+- name: 'ignore ICMPv6 redirects by default'
+  sysctl: name=net.ipv6.conf.default.accept_redirects value=0 state=present reload=yes ignoreerrors=yes
+
+- name: 'do not send ICMPv4 redirects by default'
+  sysctl: name=net.ipv4.conf.default.send_redirects value=0 state=present reload=yes ignoreerrors=yes
+
+- name: 'do not send ICMPv4 redirects from any interface'
+  sysctl: name=net.ipv4.conf.all.send_redirects value=0 state=present reload=yes ignoreerrors=yes
+
+- name: 'log Martian packets'
+  sysctl: name=net.ipv4.conf.all.log_martians value=1 state=present reload=yes  ignoreerrors=yes
+
+- name: 'ignore IPv4 ICMP redirect messages.'
+  sysctl: name=net.ipv4.conf.default.accept_redirects value=0 state=present reload=yes ignoreerrors=yes
+
+- name: 'do not respond to ICMPv4 sent to a broadcast address.'
+  sysctl: name=net.ipv4.icmp_echo_ignore_broadcasts value=1 state=present reload=yes ignoreerrors=yes
+
+- name: 'ignore ICMPv4 bogus error responses.'
+  sysctl: name=net.ipv4.icmp_ignore_bogus_error_responses value=1 state=present reload=yes ignoreerrors=yes
+
+- name: 'disable TCP timestamp responses'
+  sysctl: name=net.ipv4.tcp_timestamps value=0 state=present reload=yes ignoreerrors=yes
+
+- name: 'limit users to 10 simultaneous system logins'
+  lineinfile: "state=present backup=no dest=/etc/security/limits.conf insertbefore='^# End of file' regexp='^#?\\*.*maxlogins' line='*               hard    maxlogins       10'"
+
+- name: 'specify the number of inactive days before password expiry'
+  lineinfile: "state=present backup=no dest=/etc/default/useradd regexp='^INACTIVE=' line='INACTIVE=35'"
+
+- name: 'disable process core dumps'
+  lineinfile: "state=present backup=no dest=/etc/security/limits.conf regexp='^#?\\*.*(hard|soft).*core' line='*               hard    core            0'"
+
+- name: 'forward audit records to the syslog service'
+  lineinfile: "state=present backup=no dest=/etc/audisp/plugins.d/syslog.conf regexp='^active' line='active = yes'"
+
+- name: 'verify presence of gconftool-2'
+  stat: path=/usr/bin/gconftool-2
+  register: gconftool_installed
+
+- name: 'graphical desktop environment must have automatic lock enabled'
+  command: "gconftool-2 --direct --config-source xml:readwrite:/etc/gconf/gconf.xml.mandatory --type bool --set /apps/gnome-screensaver/lock_enabled true"
+  when: gconftool_installed.stat.exists
+
+- name: 'display a publicly-viewable pattern during a graphical desktop environment session lock'
+  command: "gconftool-2 --direct --config-source xml:readwrite:/etc/gconf/gconf.xml.mandatory --type string --set /apps/gnome-screensaver/mode blank-only"
+  when: gconftool_installed.stat.exists
+
+- name: 'the graphical desktop environment must set the idle timeout to no more than 15 minutes'
+  command: "gconftool-2 --direct --config-source xml:readwrite:/etc/gconf/gconf.xml.mandatory --type int --set /apps/gnome-screensaver/idle_delay 15"
+  when: gconftool_installed.stat.exists
+
+- name: 'the graphical desktop environment must automatically lock after 15 minutes of inactivity and the system must require user to re-authenticate to unlock the environment'
+  command: "gconftool-2 --direct --config-source xml:readwrite:/etc/gconf/gconf.xml.mandatory --type bool --set /apps/gnome-screensaver/idle_activation_enabled true"
+  when: gconftool_installed.stat.exists
+
+- name: 'set SELinux to enforcing'
+  selinux: policy=targeted state=enforcing

@@ -1,0 +1,45 @@
+#Thu March 06 2014
+#Benny Van de Sompele
+#verify system parameter exist   DYNAMIC_AGENT_MAPPING_ENABLED=true
+#if not add that system parameter under ADMINISTRATION and restart automation center
+#launch installer with command ./nolio_agent_<replace-with-versionnbr>.sh -q -varfile deployer.silent.varfile
+
+#####################
+#Mandatory parameters
+#####################
+
+#set parameters for the agent
+nolio.nimi.port={{ nolio_nimi_port }}
+nolio.nimi.node.id={{ inventory_hostname }}
+sys.installationDir=/usr/local/NolioAgent1
+
+#set parameters for the execution server
+#nolio.nimi.supernode=123.456.789.7\:6600
+nolio.execution.name={{ nolio_execution_name }}
+nolio.execution.port={{ nolio_execution_port }}
+
+#####################
+#Optional parameters
+#####################
+#only required in case of automatic mapping to server type and environment
+nolio.agent.mapping.application=
+nolio.agent.mapping.environment=
+nolio.agent.mapping.servertype=
+
+#only required for agent installation on Windwos
+nolio.service.pw=
+nolio.service.user=
+
+#change hidden port (JMX port) to true and add number different then 8282
+#only required in case you have multiple agents on same server or port is in use already
+nolio.hiddenport$Boolean=false
+port.hidden=
+
+#change to true in case agent to ES communication should be encrypted
+nolio.nimi.secured$Boolean=false
+
+#system parameters
+sys.adminRights$Boolean=true
+sys.programGroupDisabled$Boolean=true
+sys.languageId=en
+sys.component.336$Boolean=true

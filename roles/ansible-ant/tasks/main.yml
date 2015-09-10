@@ -1,0 +1,64 @@
+---
+# Main list of tasks to be executed.
+#
+#   Fail the play if it runs on an unsupported platform.
+- name: Assert platform is supported
+  tags: ant
+  assert:
+    that:
+      - ansible_os_family in ['Archlinux', 'Debian', 'RedHat', 'Suse']
+
+
+- name: Install Ant download directory (local)
+  tags: ant
+  sudo: no
+  local_action: file
+    state=directory
+    mode=0755
+    dest={{ ansible_data_path }}
+
+
+- name: Download Ant (local)
+  tags: ant
+  sudo: no
+  local_action: get_url
+    dest={{ ansible_data_path }}/{{ ant_redis_filename }}
+    url={{ ant_mirror }}/{{ ant_redis_filename }}
+    mode=0644
+#    sha512sum={{ ant_redis_sha512sum }}
+
+
+- name: Install Ant installation directory
+  tags: ant
+  file:
+    state=directory
+    owner=0
+    group=0
+    mode=0755
+    dest={{ ant_install_dir }}
+
+
+- name: Install Ant
+  tags: ant
+  unarchive:
+    src={{ ansible_data_path }}/{{ ant_redis_filename }}
+    dest={{ ant_install_dir }}
+
+
+- name: Install Ant bin directory
+  tags: ant
+  file:
+    state=directory
+    owner=0
+    group=0
+    mode=0755
+    dest={{ ant_bin_path }}
+
+
+- name: Install Ant binary
+  tags: ant
+  file:
+    state=link
+    force=true
+    src={{ ant_install_dir }}/apache-ant-{{ ant_version }}/bin/ant
+    dest={{ ant_bin_path }}/ant

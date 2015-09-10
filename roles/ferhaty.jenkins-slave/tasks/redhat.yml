@@ -1,0 +1,26 @@
+---
+
+- name: create a group jenkins
+  group: name=jenkins state=present
+
+- name: create a user jenkins
+  user: name=jenkins group=jenkins home=/home/jenkins createhome=yes
+        shell=/bin/bash state=present
+
+- name: create a log directory
+  file: dest=/var/log/jenkins_slave
+        state=directory
+        recurse=yes
+        owner=jenkins
+        group=jenkins
+        mode=755
+
+- name: download swarm client
+  get_url: url=http://maven.jenkins-ci.org/content/repositories/releases/org/jenkins-ci/plugins/swarm-client/{{ swarm_client_version }}/swarm-client-{{ swarm_client_version }}-jar-with-dependencies.jar
+           dest=/home/jenkins/swarm-client.jar owner=jenkins group=jenkins
+
+- name: install init script
+  template: src=redhat_init.j2 dest=/etc/init.d/jenkins_slave owner=root group=root mode=0755 backup=no
+
+- name: run jenkins slave
+  service: name=jenkins_slave state=restarted enabled=yes

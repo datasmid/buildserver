@@ -1,0 +1,7 @@
+---
+- name: 'get the repo for Sonar'
+  get_url: url={{sonar_repo}}
+             owner=root group=root mode=0700
+             dest=/etc/yum.repos.d/sonar.repo
+  when: ansible_os_family == "RedHat"
+  retries: 300

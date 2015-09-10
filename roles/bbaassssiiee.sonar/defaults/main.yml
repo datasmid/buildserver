@@ -1,0 +1,8 @@
+---
+# defaults file for bbaassssiiee.sonar
+
+sonar_username: 'sonar'
+sonar_dependencies:
+  - 'java-1.7.0-openjdk'
+  - 'sonar-4.5'
+sonar_repo: 'http://downloads.sourceforge.net/project/sonar-pkg/rpm/sonar.repo'
