@@ -62,7 +62,6 @@ rpm_dependencies:
   - 'rpm-build'
   - 'rpmdevtools'
   - 'rpmlint'
-  - 'mock'
   - 'yum-utils'
   - 'createrepo'
 
