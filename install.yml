@@ -10,11 +10,6 @@
 
   tasks:
 
-    - name: "check network"
-      get_url: url=https://galaxy.ansible.com dest=/dev/null
-
-    - name: "ansible-galaxy install --force -r requirements.yml"
-      command: ansible-galaxy install --force -r requirements.yml
 
     - name: 'ensure permissions on directory for certificates'
       file: name=pki state=directory mode=0700

@@ -4,7 +4,6 @@
   with_items:
       - httpd
       - mod_ssl
-      - mod_security
   when: ansible_os_family == "RedHat"
 
 - name: 'create proxy configuration file'
@@ -26,11 +25,6 @@
   lineinfile: dest=/etc/httpd/conf/httpd.conf regexp='^ServerTokens '
               line='ServerTokens Prod' state=present
 
-- name: 'configure upload size limit'
-  lineinfile: dest=/etc/httpd/conf.d/mod_security.conf regexp='^    SecRequestBodyLimit '
-              line='    SecRequestBodyLimit 209715200' state=present
-  notify:
-    - restart httpd
 
 - name: 'start httpd service'
   service: name=httpd enabled=true

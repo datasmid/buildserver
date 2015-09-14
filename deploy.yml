@@ -30,6 +30,7 @@
       delay: 10
 
     - name: "download the warfile from artifactory into apache-tomcat"
+      environment: proxy_env
       action: get_url url={{ deployable_warfile }}
           force=yes dest=/opt/apache-tomcat/webapps owner=tomcat group=tomcat mode=0644
       retries: 5
