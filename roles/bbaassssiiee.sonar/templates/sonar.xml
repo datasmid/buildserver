@@ -1,4 +1,0 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<hudson.plugins.sonar.SonarPlugin plugin="sonar@2.1">
-  <configVersion>1</configVersion>
-</hudson.plugins.sonar.SonarPlugin>

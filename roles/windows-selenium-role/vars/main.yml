@@ -1,5 +1,0 @@
-
-iedriver_version: 2.47
-iedriver_name: IEDriverServer_Win32_{{iedriver_version}}.0.zip
-iedriver_url: http://selenium-release.storage.googleapis.com/{{iedriver_version}}/{{iedriver_name}}
-

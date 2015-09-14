@@ -1,5 +1,0 @@
----
-# vars file for ferhaty.jenkins-slave
-
-swarm_client_version: '1.22'
-swarm_executors: 4

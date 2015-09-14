@@ -1,4 +1,0 @@
-# Basic setup running in Vagrant
-- include: base.yml
-# Implement basic requirements for RHEL-STIG role to complete
-# - include: stig.yml
