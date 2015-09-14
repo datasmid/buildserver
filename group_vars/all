@@ -9,6 +9,8 @@ input_nexus_password: admin123
 
 input_artifactory_password: password
 
+proxy_env:
+  dummy: value
 
 # Jenkins
 swarm_master: "https://{{ hostvars['dev']['ansible_ssh_host'] }}/jenkins"
