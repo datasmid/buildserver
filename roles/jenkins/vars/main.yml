@@ -11,6 +11,7 @@ gradle_version: 2.2.1
 java_home: /usr/lib/jvm/java
 
 plugins:
+  - 'ansible'
   - 'analysis-collector'
   - 'analysis-core'    # for findbugs
   - 'artifactory'      # connect to build repository
