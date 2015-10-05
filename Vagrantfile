@@ -85,7 +85,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
     test_config.vm.provider "virtualbox" do |vb|
       vb.customize ["modifyvm", :id, "--memory", "#$MEMSIZE", "--natnet1", "172.16.1/24"]
-      vb.gui = true
+      vb.gui = false
       vb.name = "test"
     end
     test_config.vm.provider "vmware_fusion" do |vmware|
@@ -153,7 +153,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     lab_config.vm.network "forwarded_port", guest: 8080, host: 8080, auto_correct: true
 
     lab_config.vm.provider "virtualbox" do |vb|
-      vb.customize ["modifyvm", :id, "--memory", "#$MEMSIZE", "--natnet1", "172.16.1/24"]
+      vb.customize ["modifyvm", :id, "--memory", "3076", "--natnet1", "172.16.1/24"]
       vb.gui = false
       vb.name = "lab"
     end
