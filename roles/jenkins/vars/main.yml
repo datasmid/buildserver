@@ -17,8 +17,10 @@ plugins:
   - 'artifactory'      # connect to build repository
   - 'checkstyle'       # source code formatting reports
 #  - 'cobertura'
+  - 'copyartifact'
   - 'dashboard-view'
   - 'delivery-pipeline-plugin'
+  - 'dependency-check-jenkins-plugin'
 #  - 'dry'              # don't repeat yourself
   - 'findbugs'          # common bugs can be squashed
 #  - 'fortify360'
@@ -31,7 +33,9 @@ plugins:
 #  - 'ldap'            # installed by default
 # - 'mailer'           # installed by default
   - 'm2release'
+  - 'parameterized-trigger'
   - 'pmd'              #
+  - 'promoted-builds'
   - 'release'
 #  - 'role-strategy'
 #  - 'ssh-agent'
