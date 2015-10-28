@@ -14,11 +14,12 @@
     - geerlingguy.java
     - pcextreme.mariadb                 # Artifactory & sonar use mariadb
     - bbaassssiiee.artifactory          # Artifactory is our build repository
-#    - bbaassssiiee.sonar                # SonarQube reports on code quality
+    - bbaassssiiee.sonar                # SonarQube reports on code quality
     - ansible-selenium-role
 
   tasks:
     - include: tasks/settings.yml
+    - include: tasks/install_docker.yml
 
 
 - name: Target server
