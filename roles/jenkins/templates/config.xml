@@ -55,7 +55,7 @@
           </default>
           <int>1</int>
           <string>PATH</string>
-          <string>/bin:/usr/bin:/usr/lib/jvm/java-1.7.0:{{jenkins_data}}/tools/hudson.tasks.Ant_AntInstallation/apache-ant-1.9.4/bin:{{jenkins_data}}/tools/hudson.tasks.Maven_MavenInstallation/apache-maven-3.2.5/bin</string>
+          <string>/bin:/usr/bin:/usr/lib/jvm/java-1.7.0:{{jenkins_data}}/tools/hudson.tasks.Ant_AntInstallation/apache-ant-1.9.4/bin:{{jenkins_data}}/tools/hudson.tasks.Maven_MavenInstallation/apache-maven-3.3.3/bin</string>
         </tree-map>
       </envVars>
     </hudson.slaves.EnvironmentVariablesNodeProperty>
