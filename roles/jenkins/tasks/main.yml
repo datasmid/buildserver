@@ -5,13 +5,14 @@
 # Install dependencies (git, svn, etc)
 - include: dependencies.yml
 
+# Install jenkins
+- include: jenkins.yml
+
 # Install build tools
 - include: ant.yml
 - include: maven.yml
 - include: gradle.yml
 
-# Install jenkins
-- include: jenkins.yml
 
 # Run configuration
 - include: config.yml
