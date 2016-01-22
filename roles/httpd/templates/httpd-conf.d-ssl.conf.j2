@@ -33,7 +33,7 @@ SSLProtocol All -SSLv2 -SSLv3
 
 # General setup for the virtual host, inherited from global configuration
 #DocumentRoot "/var/www/html"
-ServerName {{ ansible_hostname }}:443
+ServerName {{ inventory_hostname }}:443
 
 # Use separate log files for the SSL virtual host; note that LogLevel
 # is not inherited from httpd.conf.
