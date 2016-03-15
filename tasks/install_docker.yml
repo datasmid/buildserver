@@ -42,7 +42,7 @@
       yum: name=docker state=installed
 
     - name: 'group: ensure the dockerroot is present'
-      group: name=dockerroot gid=991 state=present system=yes
+      group: name=dockerroot state=present system=yes
 
     - name: 'user: ensure vagrant is member of dockerroot group'
       user: name=vagrant groups=dockerroot append=yes

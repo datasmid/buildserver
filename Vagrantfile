@@ -29,8 +29,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: true
 
   config.vm.define :dev,  primary: true do |dev_config|
-    dev_config.vm.box = "dockpack/centos6"
-    dev_config.vm.box_url = "https://atlas.hashicorp.com/dockpack/boxes/centos6"
+    dev_config.vm.box = "dockpack/centos7"
+    dev_config.vm.box_url = "https://atlas.hashicorp.com/dockpack/boxes/centos7"
     dev_config.vm.box_check_update = true
     # This host only network for use of Apache as a reverse proxy.
     dev_config.vm.network "private_network", ip: "192.168.10.16", :netmask => "255.255.255.0",  auto_config: true
