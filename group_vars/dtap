@@ -19,5 +19,3 @@ jenkins_data: "/home/jenkins"
 artifactory_version: "4.5.1"
 artifactory_database: mysql
 
-# Ant patch version number
-ant_version_patch: '7'
