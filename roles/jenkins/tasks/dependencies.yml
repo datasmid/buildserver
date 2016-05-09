@@ -4,7 +4,7 @@
   when: ansible_os_family == "RedHat"
   register: installed
   retries: 3
-  with_items: rpm_dependencies
+  with_items: '{{ rpm_dependencies }}'
 
 - name: 'install /etc/profile.d/jdk.sh'
   template: src=etc-profile-d-jdk-sh.j2 dest=/etc/profile.d/jdk.sh

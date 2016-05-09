@@ -6,7 +6,7 @@
   when: features.gradle
 
 - name: 'download Gradle'
-  environment: proxy_env
+  environment: '{{ proxy_env }}'
   get_url: url={{gradle_url}} dest=~
   retries: 3
   when: features.gradle and not gradle_installed.stat.exists

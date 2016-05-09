@@ -2,7 +2,7 @@
 - name: Build Server
   hosts: dev:lab
   remote_user: vagrant
-  sudo: yes
+  become: yes
 
   roles:
     - bbaassssiiee.commoncentos
@@ -25,7 +25,7 @@
 - name: Target server
   hosts: target
   remote_user: vagrant
-  sudo: yes
+  become: yes
   vars:
     homedir: "{{ lookup('env','HOME') }}"
 
@@ -48,14 +48,13 @@
 - name: Ubuntu Box
   hosts: ubuntu
   remote_user: vagrant
-  sudo: yes
+  become: yes
   gather_facts: yes
 
   roles:
 #    - briancoca.oracle_java7
     - geerlingguy.java
     - ansible-maven
-    - ansible-eclipse
     - ansible-selenium-role
     - ansible-jenkins-slave
 

@@ -2,7 +2,7 @@
 
 - name: 'create jenkins config files'
   template: src={{item}} dest={{jenkins_data}}/{{item}} owner=jenkins group=jenkins mode=0600
-  with_items: jenkins_configs
+  with_items: '{{ jenkins_configs }}'
   tags:
     - config
   when: ansible_os_family == "RedHat"
