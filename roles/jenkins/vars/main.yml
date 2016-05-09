@@ -5,7 +5,7 @@ features:
   gradle: True
   system_auth: False
 
-ant_version: 1.9.6
+ant_version: 1.9.7
 maven_version: 3.3.3
 gradle_version: 2.2.1
 java_home: /usr/lib/jvm/java
@@ -59,8 +59,8 @@ jenkins_repo_key: "{{jenkins_base_url}}/jenkins-ci.org.key"
 jenkins_phrase: "ask_devops"
 
 rpm_dependencies:
-  - 'java-1.7.0-openjdk'
-  - 'java-1.7.0-openjdk-devel'
+  - 'java-1.8.0-openjdk'
+  - 'java-1.8.0-openjdk-devel'
   - 'jenkins'
   - 'curl'
   - 'unzip'
