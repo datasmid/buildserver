@@ -18,8 +18,8 @@
   </markupFormatter>
   <jdks>
     <jdk>
-      <name>JDK7</name>
-      <home>/usr/lib/jvm/java-1.7.0-openjdk.x86_64/</home>
+      <name>JDK*</name>
+      <home>/usr/lib/jvm/java-1.8.0-openjdk.x86_64/</home>
       <properties/>
     </jdk>
   </jdks>
