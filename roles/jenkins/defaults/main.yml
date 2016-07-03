@@ -110,6 +110,7 @@ jenkins_configs:
   - 'jobConfigHistory.xml'
   - 'nodeMonitors.xml'
   - 'org.jenkinsci.plugins.gitclient.JGitTool.xml'
+  - 'org.jenkinsci.plugins.ansible.AnsibleInstallation.xml'
   - 'org.jfrog.hudson.ArtifactoryBuilder.xml'
   - 'org.jvnet.hudson.plugins.fortify360.FPRPublisher.xml'
   - 'sonar.xml'
