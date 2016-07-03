@@ -1,7 +1,6 @@
 ---
 - name: Build Server
   hosts: dev:lab
-  remote_user: vagrant
   become: yes
 
   roles:
