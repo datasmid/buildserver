@@ -12,3 +12,7 @@
 
 - name: 'make sure jenkins_tools directory is accessible'
   file: path={{jenkins_tools}} recurse=yes owner=jenkins group=jenkins state=directory
+
+- name: 'copy theme file'
+  copy: src=jenkins-material-theme.css dest=/var/www/html mode=0644
+
