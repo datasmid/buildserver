@@ -3,7 +3,7 @@ features:
   ant: True
   maven: True
   gradle: True
-  system_auth: True
+  system_auth: False
 
 ant_version: 1.9.7
 maven_version: 3.3.9
