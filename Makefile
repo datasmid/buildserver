@@ -57,7 +57,6 @@ cleanroles:
 	rm -rf roles/bbaassssiiee.artifactory/
 	rm -rf roles/bbaassssiiee.sonar/
 	rm -rf roles/ansible-ant/
-	rm -rf roles/ansible-eclipse/
 	rm -rf roles/ansible-maven/
 	rm -rf roles/ansible-oasis-maven/
 	rm -rf roles/geerlingguy.java/
