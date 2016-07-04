@@ -3,16 +3,25 @@
 - name: 'create jenkins config files'
   template: src={{item}} dest={{jenkins_data}}/{{item}} owner=jenkins group=jenkins mode=0600
   with_items: '{{ jenkins_configs }}'
-  tags:
-    - config
   when: ansible_os_family == "RedHat"
+  tags:
+    - jenkins
+    - config
 
 - name: 'make sure jenkins tmp directory is accessible'
   file: path=/home/jenkins/tmp owner=jenkins group=jenkins state=directory
+  tags:
+    - jenkins
+    - config
 
 - name: 'make sure jenkins_tools directory is accessible'
   file: path={{jenkins_tools}} recurse=yes owner=jenkins group=jenkins state=directory
+  tags:
+    - jenkins
+    - config
 
 - name: 'copy theme file'
   copy: src=jenkins-material-theme.css dest=/var/www/html mode=0644
-
+  tags:
+    - jenkins
+    - config

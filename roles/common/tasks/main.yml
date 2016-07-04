@@ -1,9 +1,9 @@
 - name: 'set hostname' 
-  sudo: yes
+  become: yes
   hostname: name='{{inventory_hostname}}'
 
 - name: 'persist hostname in hosts file'
-  sudo: yes
+  become: yes
   lineinfile: dest=/etc/hosts regexp='{{inventory_hostname}}'
               line='{{ansible_all_ipv4_addresses[1]}}   {{inventory_hostname}}'
               state=present

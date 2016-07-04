@@ -2,7 +2,7 @@
 
 - name: Selenium Grid Hub
   hosts: hub
-  sudo: True
+  become: True
   gather_facts: yes
 
   roles:

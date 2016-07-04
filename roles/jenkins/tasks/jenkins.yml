@@ -1,4 +1,5 @@
 ---
+
 - name: 'Create jenkins with a 2048-bit SSH key for automation'
   user: name=jenkins home=/var/lib/jenkins generate_ssh_key=yes ssh_key_passphrase={{jenkins_phrase}} ssh_key_bits=2048
   tags:
@@ -7,16 +8,23 @@
 - name: 'add jenkins to group root for pam based authorization'
   shell: usermod -G root -a jenkins
   when: ansible_os_family == "RedHat" and features.system_auth
+  tags:
+    - jenkins
 
 - name: 'allow jenkins to check passwords'
   file: path=/etc/shadow mode=0640
   when: ansible_os_family == "RedHat" and features.system_auth
+  tags:
+    - jenkins
 
 - name: 'Create a 2048-bit SSH key for jenkins automation'
   user: name=jenkins generate_ssh_key=yes ssh_key_passphrase={{jenkins_phrase}} ssh_key_bits=2048
+  tags:
+    - jenkins
 
 - name: 'restart jenkins on reboot'
   service: name=jenkins enabled=yes
   tags:
     - init
     - config
+    - jenkins

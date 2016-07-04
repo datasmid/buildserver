@@ -44,6 +44,6 @@
 #      register: devkey
 
 #    - name: "import buildserverCA root cert in Linux Java trust store"
-#      sudo: yes
+#      become: yes
 #      command: "keytool -importcert -trustcacerts -file pki/buildserverCA.cer -storepass changeit -noprompt -alias dev -keystore /etc/pki/java/cacerts"
 #      when: linux_location.stat.exists and devkey.rc == 1 and sudoing.exists == true

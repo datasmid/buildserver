@@ -3,6 +3,14 @@ http_port: 80
 https_port: 443
 slaveAgentPort: 8079
 
+features:
+  ant: True
+  maven: True
+  gradle: True
+  mysql: True
+  postgresql: False
+  system_auth: True
+
 yum_packages:
    - libselinux-python
    - libsemanage-python
@@ -16,6 +24,5 @@ java_packages:
 
 jenkins_data: "/home/jenkins"
 
-artifactory_version: "4.5.1"
+artifactory_version: "4.7.1"
 artifactory_database: mysql
-

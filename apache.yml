@@ -2,7 +2,7 @@
 - name: Apache
   hosts: dev
   remote_user: vagrant
-  sudo: yes
+  become: yes
 
   roles:
     - httpd

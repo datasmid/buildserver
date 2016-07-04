@@ -1,8 +1,7 @@
 - name: Test server
   hosts: target
-  user: root
   remote_user: vagrant
-  sudo: yes
+  become: yes
 
   vars:
     - deployable_warfile: "http://dev/artifactory/ext-snapshot-local/gameoflife-web/target/gameoflife.war"
@@ -13,12 +12,12 @@
       wait_for: port=8080 timeout=300
 
     - name: 'verify connectivity to Artifactory'
-      sudo: no
+      become: no
       local_action: uri url=https://dev/artifactory/webapp/browserepo.html?
                         validate_certs=no status_code=200
 
     - name: 'verify availability of deployable_warfile'
-      sudo: no
+      become: no
       register: deployable_http
       local_action: uri url={{ deployable_warfile }} status_code=200
             return_content=no 

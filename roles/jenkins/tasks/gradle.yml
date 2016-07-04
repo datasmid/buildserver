@@ -1,38 +1,63 @@
 ---
+
 ### Gradle
 - name: 'verify presence of Gradle'
   stat: path={{gradle_home}}/bin/gradle
   register: gradle_installed
   when: features.gradle
+  tags:
+    - jenkins
+    - gradle
 
 - name: 'download Gradle'
   environment: '{{ proxy_env }}'
   get_url: url={{gradle_url}} dest=~
   retries: 3
   when: features.gradle and not gradle_installed.stat.exists
-
+  tags:
+    - jenkins
+    - gradle
+    
 - name: 'create directory for Gradle installations'
   file: dest={{jenkins_tools}}/hudson.plugins.gradle.GradleInstallation
         state=directory owner=jenkins group=jenkins
+  tags:
+    - jenkins
+    - gradle
 
 - name: 'unzip Gradle'
   command: unzip -o  ~/{{gradle_zipfile}} -d {{jenkins_tools}}/hudson.plugins.gradle.GradleInstallation creates={{gradle_home}}
   when: features.gradle
+  tags:
+    - jenkins
+    - gradle
 
 - name: 'install /etc/profile.d/gradle.sh'
   template: src=etc-profile-d-gradle-sh.j2 dest=/etc/profile.d/gradle.sh
           owner=root group=root mode=0644
   when: features.gradle
+  tags:
+    - jenkins
+    - gradle
 
 - name: 'verify presence of Gradle download'
   stat: path=~/{{gradle_zipfile}}
   register: gradle_download
   when: features.gradle
+  tags:
+    - jenkins
+    - gradle
 
 - name: 'cleanup Gradle download'
   file: dest=~/{{gradle_zipfile}} state=absent
   when: features.gradle and gradle_download.stat.exists
+  tags:
+    - jenkins
+    - gradle
 
 - name: 'make sure Gradle directory is absent'
   file: dest={{gradle_home}} state=absent
   when: not features.gradle
+  tags:
+    - jenkins
+    - gradle

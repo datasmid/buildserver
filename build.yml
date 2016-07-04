@@ -1,8 +1,7 @@
 - name: build application with Jenkins
   hosts: dev
-  user: root
   remote_user: vagrant
-  sudo: no
+  become: no
 
   tasks:
     - name: 'waiting for listening socket for Jenkins'
@@ -28,5 +27,5 @@
 
 
     - name: 'trigger the build'
-      sudo: yes
+      become: yes
       shell: "java -jar {{jenkins_data}}/jenkins-cli.jar -s https://dev/jenkins/ build game-of-life"
