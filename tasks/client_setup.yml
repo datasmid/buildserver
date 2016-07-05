@@ -28,7 +28,7 @@
       template: src=../roles/jenkins/templates/settings_xml.j2 dest=/home/vagrant/.m2/settings.xml owner=vagrant group=vagrant mode=0600
 
     - name: 'checkout buildserver project'
-      sudo: no
+      become: no
       git: dest=/home/vagrant/buildserver
            repo=https://github.com/bbaassssiiee/buildserver.git
 

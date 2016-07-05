@@ -4,18 +4,18 @@
   user: root
   gather_facts: no
   remote_user: vagrant
-  sudo: yes
-
+  become: yes
+  
   tasks:
 
   - name: 'verify tcp listening socket for TomCat'
     wait_for: host=target port=8080 timeout=5
 
   - name: 'verify http connectivity to TomCat'
-    sudo: no
+    become: no
     local_action: uri url=http://target:8080/ status_code=200
 
   - name: 'verify http connectivity to App'
-    sudo: no
+    become: no
     local_action: uri url=http://target:8080/gameoflife/ status_code=200
 

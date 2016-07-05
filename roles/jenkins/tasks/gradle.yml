@@ -1,6 +1,10 @@
 ---
 
 ### Gradle
+
+- name: "make sure ca-certificates is latest"
+  yum: name=ca-certificates state=latest
+
 - name: 'verify presence of Gradle'
   stat: path={{gradle_home}}/bin/gradle
   register: gradle_installed

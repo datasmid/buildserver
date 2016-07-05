@@ -1,10 +1,3 @@
 ---
-# for alban.andrieu.eclipse
-eclipse_plugins_m2e_enabled: yes
-eclipse_plugins_subclipse_enabled: no
-eclipse_plugins_yedit_enabled: no
-eclipse_plugins_shelled_enabled: no
-eclipse_Xmx: "2048m"
 
 user: vagrant
-eclipse_owner_home: /home/vagrant

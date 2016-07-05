@@ -7,9 +7,11 @@ features:
   ant: True
   maven: True
   gradle: True
-  mysql: True
-  postgresql: False
+  mysql: False
+  postgresql: True
   system_auth: True
+
+nexus_version: 'latest'
 
 yum_packages:
    - libselinux-python
@@ -24,5 +26,3 @@ java_packages:
 
 jenkins_data: "/home/jenkins"
 
-artifactory_version: "4.7.1"
-artifactory_database: mysql
