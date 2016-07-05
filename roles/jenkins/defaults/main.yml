@@ -113,4 +113,5 @@ jenkins_configs:
   - 'org.jenkinsci.plugins.ansible.AnsibleInstallation.xml'
   - 'org.jfrog.hudson.ArtifactoryBuilder.xml'
   - 'org.jvnet.hudson.plugins.fortify360.FPRPublisher.xml'
+  - 'org.codefirst.SimpleThemeDecorator.xml'
   - 'sonar.xml'
