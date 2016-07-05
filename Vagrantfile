@@ -36,13 +36,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     dev_config.vm.network "private_network", ip: "192.168.10.16", :netmask => "255.255.255.0",  auto_config: true
     # To access this host use: 'vagrant ssh dev'
     dev_config.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2222, auto_correct: true
+    dev_config.vm.hostname = "dev"
     # HTTPS for reverse proxy
     #dev_config.vm.network "forwarded_port", guest: 443, host: 8443, auto_correct: true
 
     dev_config.vm.provider "virtualbox" do |vb|
       vb.customize ["modifyvm", :id, "--memory", "3072", "--natnet1", "172.16.1/24"]
       vb.customize ["modifyvm", :id, "--ioapic", "on"  ]
-      vb.name = "dev"
+      vb.name = "buildserver"
       vb.gui = false
     end
 
