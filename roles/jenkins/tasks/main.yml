@@ -28,7 +28,7 @@
 - include: demo.yml
 
 # enable LDAP
-- include: security.yml
+#- include: security.yml
 
 # Test jenkins
 - include: test.yml tags=test
