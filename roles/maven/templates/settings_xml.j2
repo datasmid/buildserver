@@ -1,0 +1,47 @@
+<settings>
+  <localRepository>{{jenkins_data}}/repository</localRepository>
+  <servers>
+    <server>
+      <id>central</id>
+      <username>{{ artifactory_username }}</username>
+      <password>{{ mvn_artifactory_password.stdout }}</password>
+    </server>
+    <server>
+      <id>snapshots</id>
+      <username>{{ artifactory_username }}</username>
+      <password>{{ mvn_artifactory_password.stdout }}</password>
+    </server>
+  </servers>
+
+  <profiles>
+    <profile>
+      <id>Artifactory</id>
+      <repositories>
+        <repository>
+          <id>central</id>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+          <name>releases</name>
+          <url>{{maven_releases_url}}
+          </url>
+        </repository>
+        <repository>
+          <id>snapshots</id>
+          <snapshots />
+          <name>snapshots</name>
+          <url>{{maven_snapshots_url}}
+          </url>
+        </repository>
+      </repositories>
+    </profile>
+  </profiles>
+  <mirrors>
+    <mirror>
+      <mirrorOf>*</mirrorOf>
+      <id>artifactory</id>
+      <name>Artifactory</name>
+      <url>{{maven_mirror_url}}</url>
+    </mirror>
+  </mirrors>
+</settings>
