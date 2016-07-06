@@ -1,4 +1,4 @@
----
+#!/usr/bin/env ansible-playbook
 # Usage: ansible-playbook -v -i ansible.ini -l local install.yml
 - name: "install.yml"
   hosts: localhost

@@ -12,6 +12,7 @@ install:
 
   # Install dependencies.
   - git clone https://github.com/bbaassssiiee/commoncentos.git roles/bbaassssiiee.commoncentos
+  - git clone https://github.com/bbaassssiiee/el_postgres_role.git roles/bbaassssiiee.el_postgres_role
   - git clone https://github.com/bbaassssiiee/artifactory.git roles/bbaassssiiee.artifactory
   - git clone https://github.com/bbaassssiiee/sonar.git roles/bbaassssiiee.sonar
   - git clone https://github.com/AlbanAndrieu/ansible-eclipse.git roles/ansible-eclipse

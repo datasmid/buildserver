@@ -8,19 +8,19 @@
   tasks:
 
   - name: 'verify tcp listening socket for Apache'
-    wait_for: port=443 timeout=180 delay=10
+    wait_for: port=443 timeout=80 delay=1
 
   - name: 'verify tcp listening socket for Postgres'
-    wait_for: port=5432 timeout=300
+    wait_for: port=5432 timeout=30
 
   - name: 'verify tcp listening socket for Jenkins'
-    wait_for: port=8080 timeout=300
+    wait_for: port=8080 timeout=30
 
   - name: 'verify tcp listening socket for Artifactory'
-    wait_for: port=8081 timeout=300
+    wait_for: port=8081 timeout=30
 
   - name: 'verify tcp listening socket for Nexus'
-    wait_for: port=8082 timeout=300
+    wait_for: port=8082 timeout=30
 
   - name: 'verify tcp listening socket for Sonar'
     wait_for: port=9000 timeout=10
@@ -29,7 +29,7 @@
   - name: 'verify local import of pki/buildserverCA.cer'
     become: no
     changed_when: no
-    local_action: get_url url=https://dev/ validate_certs=yes timeout=100 dest=/dev/null
+    local_action: get_url url=https://dev/ validate_certs=yes timeout=10 dest=/dev/null
 
   - name: 'verify https connectivity to Jenkins'
     become: no
@@ -41,7 +41,8 @@
 
   - name: 'verify https connectivity to Artifactory'
     become: no
-    local_action: uri url=https://dev/artifactory/webapp/browserepo.html? validate_certs=no status_code=200
+    local_action: uri url=https://dev/artifactory/webapp/#/artifacts/browse/tree/General/ext-release-local 
+                  status_code=200 validate_certs=no
 
   - name: 'verify https connectivity to Jenkins'
     become: no
