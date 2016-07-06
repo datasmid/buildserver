@@ -1,0 +1,9 @@
+---
+
+- name: 'install required RPMs'
+  yum: name={{ item }} state=present
+  with_items: '{{ perl_rpms }}'
+  tags:
+    - perl
+    
+  
