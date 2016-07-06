@@ -8,7 +8,7 @@
     - common
     - firewall
     - httpd
-    - php
+i#    - php
     - cplusplus    
     - git
     - nodejs
