@@ -28,7 +28,7 @@
 
 - name: 'Set the NPM package root config'
   become: no
-  shell: npm config set prefix '~/npm-global'
+  shell: source ~/.bash_profile;npm config set prefix '~/npm-global'
   tags:
     - npm
 
