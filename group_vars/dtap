@@ -13,6 +13,12 @@ features:
 
 nexus_version: 'latest'
 
+input_nexus_password: admin123
+input_artifactory_password: password
+artifactory_version: "4.9.0"
+artifactory_database: postgres
+
+# packages for systems management
 yum_packages:
    - libselinux-python
    - libsemanage-python

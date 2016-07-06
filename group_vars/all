@@ -5,16 +5,14 @@ mvn_deploy_url: https://dev/artifactory
 mvn_proxy_url: https://dev/nexus
 mvn_master_password: Mvn_Password
 
-input_nexus_password: admin123
-
-input_artifactory_password: password
-artifactory_version: "4.9.0"
-artifactory_database: postgres
-
+pg_ip: 192.168.10.16        # The IP address of the primary or master database
+pg_username: dba            # This is your user
+pg_password: 0r@cl3         # This is your password
+pg_subnet: 192.168.10.0/24 
 proxy_env:
   dummy: value
 
-# Jenkins
+# Swarm agents rely on broadcasts, might not be available on your network.
 swarm_master: "https://{{ hostvars['dev']['ansible_ssh_host'] }}/jenkins"
 
 # Selenium

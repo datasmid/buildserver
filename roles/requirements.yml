@@ -5,9 +5,6 @@
 - src: hudecof.tomcat
   path: ./roles
 
-- src: pcextreme.mariadb
-  path: ./roles/
-
 - src: bbaassssiiee.artifactory
   path: ./roles/
 
@@ -20,9 +17,6 @@
 - src: geerlingguy.java
   path: ./roles/
 
-- src: briancoca.oracle_java7
-  path: ./roles
-
 - src: https://github.com/bbaassssiiee/ansible-maven.git
   path: ./roles/
 
@@ -34,10 +28,6 @@
 
 - src: https://github.com/bbaassssiiee/ansible-ant.git
   path: ./roles
-
-# deploy Nolio with nolio.yml
-- src: https://github.com/bbaassssiiee/ansible-role-nolioagent.git
-  path: ./roles/
 
 # Setup Windows machine as a Jenkins slave
 - src: https://github.com/ferhaty/ferhaty.jenkins-slave.git

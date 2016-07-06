@@ -8,13 +8,13 @@
     - common
     - httpd
     - firewall
+    - oracle_java8
     - jenkins                           # Use Jenkins to build
+    - bbaassssiiee.el_postgres_role     # Artifactory & sonar can use postgres
     - hullufred.nexus                   # Nexus is used as library repository
-    - geerlingguy.java
-    - pcextreme.mariadb                 # Artifactory & sonar use mariadb
     - bbaassssiiee.artifactory          # Artifactory is our build repository
     - bbaassssiiee.sonar                # SonarQube reports on code quality
-    - ansible-selenium-role
+#    - ansible-selenium-role
 
   tasks:
     - include: tasks/settings.yml
@@ -34,7 +34,7 @@
   roles:
     - bbaassssiiee.commoncentos
     - common
-    - geerlingguy.java
+#    - geerlingguy.java
     - hudecof.tomcat
     - postgres
     - ansible-jenkins-slave
@@ -51,8 +51,7 @@
   gather_facts: yes
 
   roles:
-#    - briancoca.oracle_java7
-    - geerlingguy.java
+#    - geerlingguy.java
     - ansible-maven
     - ansible-selenium-role
     - ansible-jenkins-slave
