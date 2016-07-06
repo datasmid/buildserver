@@ -10,13 +10,6 @@
     - jenkins
     - dependencies
     
-- name: 'install /etc/profile.d/jdk.sh'
-  template: src=etc-profile-d-jdk-sh.j2 dest=/etc/profile.d/jdk.sh
-          owner=root group=root mode=0644
-  tags:
-    - jenkins
-    - dependencies
-    
 - name: 'print red letters if import needed of CA root cert in Java trust store'
   command: "keytool -list -alias dev -keystore {{java_home}}/jre/lib/security/cacerts -storepass changeit -noprompt"
   ignore_errors: yes
@@ -28,14 +21,6 @@
 - name: "import buildserverCA root cert in Java trust store"
   command: "keytool -importcert -trustcacerts -file /var/www/html/buildserverCA.cer -storepass changeit -noprompt -alias {{inventory_hostname}} -keystore {{java_home}}/jre/lib/security/cacerts"
   when: devkey.rc == 1
-  tags:
-    - jenkins
-    - dependencies
-
-- name: 'install software group "Development tools"'
-  yum: name="@Development tools" state=present
-  retries: 3
-  when: ansible_os_family == "RedHat"
   tags:
     - jenkins
     - dependencies

@@ -6,10 +6,23 @@
   roles:
     - bbaassssiiee.commoncentos
     - common
-    - httpd
     - firewall
+    - httpd
+    - php
+    - cplusplus    
+    - git
+    - nodejs
+    - npm
+    - perl
+    - python
+    - golang
     - oracle_java8
+    
     - jenkins                           # Use Jenkins to build
+    - ant
+    - maven
+    - gradle
+    
     - bbaassssiiee.el_postgres_role     # Artifactory & sonar can use postgres
     - hullufred.nexus                   # Nexus is used as library repository
     - bbaassssiiee.artifactory          # Artifactory is our build repository
@@ -18,8 +31,6 @@
 
   tasks:
     - include: tasks/settings.yml
-    - include: tasks/install_docker.yml
-
 
 - name: Target server
   hosts: target

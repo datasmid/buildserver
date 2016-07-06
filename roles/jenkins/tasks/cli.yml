@@ -2,10 +2,10 @@
 
 - name: "starting jenkins"
   become: yes
-  service: name=jenkins state=started
+  service: name=jenkins state=started enabled=yes
   tags:
     - jenkins
-    - cli
+
 - name: "create jenkins CLI destination directory"
   become: yes
   file: path={{ jenkins_data }} state=directory
@@ -15,7 +15,7 @@
 
 # if jenkins is installed or updated, wait for pulling the jenkins CLI
 - name: "wait one minute for jenkins to warm up."
-  wait_for: port=8080 delay=60
+  wait_for: port={{jenkins_http}} delay=60
   retries: 5
   tags:
     - jenkins
@@ -25,7 +25,7 @@
 - name: "get jenkins CLI"
   become: yes
   environment: '{{ proxy_env }}'
-  get_url: url="http://127.0.0.1:8080/jenkins/jnlpJars/jenkins-cli.jar" dest={{jenkins_cli}} mode=0440 timeout=300
+  get_url: url="http://127.0.0.1:{{jenkins_http}}/jenkins/jnlpJars/jenkins-cli.jar" dest={{jenkins_cli}} mode=0440 timeout=300
   retries: 50
   delay: 10
   tags:

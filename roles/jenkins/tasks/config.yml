@@ -1,9 +1,14 @@
 ---
+- name: 'check presence of config file'
+  stat: path={{jenkins_data}}/config.xml
+  register: configured
+  tags:
+    - jenkins
 
 - name: 'create jenkins config files'
   template: src={{item}} dest={{jenkins_data}}/{{item}} owner=jenkins group=jenkins mode=0600
-  with_items: '{{ jenkins_configs }}'
-  when: ansible_os_family == "RedHat"
+  with_items: jenkins_configs
+  when: not configured.stat.exists
   tags:
     - jenkins
     - config
@@ -25,3 +30,17 @@
   tags:
     - jenkins
     - config
+
+- name: 'create deploy script'
+  copy: src=deploy-file.sh dest=/usr/local/bin/deploy-file.sh
+                  owner=jenkins group=jenkins mode=0700
+  tags:
+    - jenkins
+    - promotion
+
+- name: 'create promote script'
+  copy: src=promote-file.sh dest=/usr/local/bin/promote-file.sh
+                  owner=jenkins group=jenkins mode=0700
+  tags:
+    - jenkins
+    - promotion
