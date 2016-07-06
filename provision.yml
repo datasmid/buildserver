@@ -36,7 +36,6 @@
     - common
 #    - geerlingguy.java
     - hudecof.tomcat
-    - postgres
     - ansible-jenkins-slave
     - ansible-selenium-role
 
