@@ -1,0 +1,10 @@
+npm:
+  packages:
+    - bower
+    - grunt
+    - karma
+    - mocha
+    - socket.io
+    - redis
+    - react
+    - request

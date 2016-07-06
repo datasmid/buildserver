@@ -1,0 +1,41 @@
+---
+
+- name: 'Update to NPM 3'
+  become: yes
+  npm: name=npm version=3.8 state=present global=yes
+  tags:
+    - npm
+    
+- name: 'Create NPM package location'
+  become: no
+  file: path=~/npm-global state=directory mode=0755
+  tags:
+    - npm
+
+- name: 'Set NPM module path in the bash_profile'
+  become: no
+  lineinfile: dest=~/.bash_profile regexp='^export PATH' line="export PATH=~/npm-global/bin:$PATH" create=yes
+  tags:
+    - npm
+
+- name: 'Reload the bash_profile'
+  become: no
+  shell: source ~/.bash_profile
+  args:
+       executable: /bin/bash
+  tags:
+    - npm
+
+- name: 'Set the NPM package root config'
+  become: no
+  shell: npm config set prefix '~/npm-global'
+  tags:
+    - npm
+
+- name: 'Install NPM packages'
+  become: no
+  npm: name={{ item }} global=yes state=present
+  with_items: "{{npm.packages}}"
+  register: command_result
+  tags:
+    - npm
