@@ -1,0 +1,6 @@
+---
+
+go_tarball: "go1.6.2.linux-amd64.tar.gz"
+go_tarball_checksum: "e40c36ae71756198478624ed1bb4ce17597b3c19d243f3f0899bb5740d56212a"
+go_version_target: "go version go1.6.2 linux/amd64"
+go_download_location: "https://storage.googleapis.com/golang/{{ go_tarball }}"
