@@ -1,7 +1,6 @@
----
+#!/usr/bin/env ansible-playbook
 - name: Build Server
   hosts: dev:lab
-  user: root
   gather_facts: no
   remote_user: vagrant
   become: yes
@@ -11,8 +10,8 @@
   - name: 'verify tcp listening socket for Apache'
     wait_for: port=443 timeout=180 delay=10
 
-  - name: 'verify tcp listening socket for MySQL'
-    wait_for: port=3306 timeout=300
+  - name: 'verify tcp listening socket for Postgres'
+    wait_for: port=5432 timeout=300
 
   - name: 'verify tcp listening socket for Jenkins'
     wait_for: port=8080 timeout=300
