@@ -1,15 +1,6 @@
 ---
-- src: bbaassssiiee.commoncentos
-  path: ./roles/
-
 - src: hudecof.tomcat
   path: ./roles
-
-- src: bbaassssiiee.artifactory
-  path: ./roles/
-
-- src: bbaassssiiee.sonar
-  path: ./roles/
 
 - src: hullufred.nexus
   path: ./roles/
@@ -17,23 +8,34 @@
 - src: geerlingguy.java
   path: ./roles/
 
+- src: bbaassssiiee.artifactory
+  path: ./roles/
+
+- src: bbaassssiiee.sonar
+  path: ./roles/
+
 - src: https://github.com/bbaassssiiee/ansible-maven.git
-  path: ./roles/
-
-- src: https://github.com/bbaassssiiee/ansible-selenium-role.git
-  path: ./roles/
-
-- src: https://github.com/bbaassssiiee/windows-selenium-role.git
   path: ./roles/
 
 - src: https://github.com/bbaassssiiee/ansible-ant.git
   path: ./roles
 
+- src: bbaassssiiee.commoncentos
+  path: ./roles/
+
+- src: bbaassssiiee.el_postgres_role
+  path: ./roles/
+
 # Setup Windows machine as a Jenkins slave
 - src: https://github.com/ferhaty/ferhaty.jenkins-slave.git
+  path: ./roles/
+- src: https://github.com/bbaassssiiee/windows-selenium-role.git
   path: ./roles/
 
 # For unix use a separate role
 - src: https://github.com/bbaassssiiee/ansible-jenkins-slave.git
   path: ./roles
+- src: https://github.com/bbaassssiiee/ansible-selenium-role.git
+  path: ./roles/
+
 
