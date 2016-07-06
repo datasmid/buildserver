@@ -30,7 +30,7 @@
     - gradle
 
 - name: 'unzip Gradle'
-  command: unzip -o  ~/{{gradle_zipfile}} -d {{jenkins_tools}}/hudson.plugins.gradle.GradleInstallation creates={{gradle_home}}
+  command: unzip -q -o  ~/{{gradle_zipfile}} -d {{jenkins_tools}}/hudson.plugins.gradle.GradleInstallation creates={{gradle_home}}
   when: features.gradle
   tags:
     - jenkins
