@@ -1,0 +1,41 @@
+---
+- name: 'install python_rpms from default repo'
+  become: yes
+  yum: name={{ item }} state=installed
+  with_items: "{{ python_rpms }}"
+  tags:
+    - python
+  
+- name: 'make sure directory exists'
+  become: yes
+  file: dest=/root/.pip state=directory owner=root group=root
+  when: internet is not defined
+  tags:
+    - python
+
+- name: 'deploy our own pip.conf config file'
+  become: yes
+  template: src=pip.j2 dest=/root/.pip/pip.conf
+  when: internet is not defined
+  tags:
+    - python
+
+- name: 'upgrade pip from the pypi mirror'
+  become: yes
+  shell: pip install pip --upgrade
+  tags:
+    - python
+    - test
+
+- name: 'copy requirements.txt'
+  copy: src=requirements.txt dest=/tmp/requirements.txt
+  when: internet is defined
+  tags:
+    - python
+    
+- name: 'pip install dependencies'
+  pip: requirements=/tmp/requirements.txt state=present
+  when: internet is defined
+  tags:
+    - python
+    
