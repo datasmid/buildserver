@@ -1,0 +1,7 @@
+---
+
+- name: 'install Git from default repo'
+  become: yes
+  yum: name=git state=present
+  tags:
+    - git
