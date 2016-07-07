@@ -1,4 +1,4 @@
----
+#!/usr/bin/env ansible-playbook
 - name: Build Server
   hosts: dev:lab
   become: yes
@@ -8,7 +8,7 @@
     - common
     - firewall
     - httpd
-i#    - php
+#    - php
     - cplusplus    
     - git
     - nodejs
@@ -18,16 +18,15 @@ i#    - php
     - golang
     - oracle_java8
     
-    - jenkins                           # Use Jenkins to build
+    - jenkins                           
     - ant
     - maven
     - gradle
     
-    - bbaassssiiee.el_postgres_role     # Artifactory & sonar can use postgres
-    - hullufred.nexus                   # Nexus is used as library repository
-    - bbaassssiiee.artifactory          # Artifactory is our build repository
-    - bbaassssiiee.sonar                # SonarQube reports on code quality
-#    - ansible-selenium-role
+    - bbaassssiiee.el_postgres_role    
+    - hullufred.nexus                 
+    - bbaassssiiee.artifactory       
+    - bbaassssiiee.sonar            
 
   tasks:
     - include: tasks/settings.yml
