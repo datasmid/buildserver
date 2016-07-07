@@ -1,0 +1,37 @@
+---
+
+- name: 'ensure timezone is set in apache2 php.ini'
+  lineinfile: dest=/etc/php.ini
+              regexp='date.timezone ='
+              line='date.timezone = UTC'
+
+- name: 'ensure expose_php is set off'
+  lineinfile: dest=/etc/php.ini
+              regexp='expose_php ='
+              line='expose_php = Off'
+
+- name: 'enabling opcache'
+  lineinfile: dest=/etc/php.ini
+              regexp=';?opcache.enable=\d'
+              line='opcache.enable=1'
+
+- name: 'verify presence of xdebug.ini'
+  stat: path=/etc/php.d/xdebug.ini
+  register: xdebug_ini
+
+- name: 'enabling xdebug'
+  lineinfile: dest=/etc/php.d/xdebug.ini
+              line='xdebug.remote_enable = 1'
+  when: xdebug_ini.stat.exists is defined and xdebug_ini.stat.exists
+
+- name: 'set xdebug remote_autostart'
+  lineinfile: dest=/etc/php.d/xdebug.ini
+              line='xdebug.remote_autostart = 1'
+  when: xdebug_ini.stat.exists is defined and xdebug_ini.stat.exists
+
+- name: 'set xdebug remote_connect_back'
+  lineinfile: dest=/etc/php.d/xdebug.ini
+              line='xdebug.remote_connect_back = 1'
+  when: xdebug_ini.stat.exists is defined and xdebug_ini.stat.exists
+
+

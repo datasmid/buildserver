@@ -1,0 +1,32 @@
+---
+
+- name: 'Clean yum cache'
+  command: yum clean all
+
+- name: 'Install webtatic RPM with command'
+  command: yum install -y https://mirror.webtatic.com/yum/el7/webtatic-release.rpm
+  ignore_errors: yes
+
+- name: 'Install base php packages'
+  become: yes
+  yum: name={{ item }} state=latest
+  with_items:
+    - php70w
+
+- name: 'Install php fpm'
+  become: yes
+  yum: name={{ item }} state=latest
+  with_items:
+    - php70w-fpm
+
+- name: 'Install PHP Packages'
+  become: yes
+  yum: name={{ item }} state=latest
+  with_items: "{{ php.packages }}"
+  when: php.packages is defined
+
+- name: 'Set var directory permissions'
+  file: path=/var/lib/php owner=nginx group=nginx recurse=yes state=directory
+
+- include: mod-php.yml
+#- include: php-fpm.yml
