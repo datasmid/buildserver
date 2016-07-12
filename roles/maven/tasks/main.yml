@@ -48,7 +48,7 @@
     - maven
 
 - name: 'create master password for Maven'
-  sudo: yes
+  become: yes
   command: "{{maven_home}}/bin/mvn --encrypt-master-password {{ mvn_master_password }}"
   register: encrypted_mvn_password
   when: features.maven
@@ -56,7 +56,7 @@
     - maven
 
 - name: 'install settings-security.xml'
-  sudo: yes
+  become: yes
   template: src=settings-security-xml.j2 dest={{jenkins_home}}/.m2/settings-security.xml mode=0600 owner=jenkins group=jenkins
   when: features.maven
   tags:
@@ -73,7 +73,7 @@
     - maven
 
 - name: 'create Artifactory password for Maven'
-  sudo: yes
+  become: yes
   command: "{{maven_home}}/bin/mvn --encrypt-password {{ artifactory_password }}"
   register: mvn_artifactory_password
   when: features.maven
@@ -81,7 +81,7 @@
     - maven
 
 - name: 'create settings.xml'
-  sudo: yes
+  become: yes
   template: src=settings_xml.j2 dest={{jenkins_home}}/.m2/settings.xml
             owner=jenkins mode=0644
   tags:
