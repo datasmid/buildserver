@@ -3,11 +3,9 @@
 python_rpms:
   - ansible
   - python-pip
-  - Django14
   - MySQL-python
   - pexpect
   - pymongo
-  - python-celery
   - python-click
   - python-configparser
   - python-crypto
@@ -20,12 +18,9 @@ python_rpms:
   - python-jinja2
   - python-keyczar
   - python-ldap
-  - python-markdown2
   - python-markupsafe
   - python-netaddr
   - python-nose
-  - python-nose1.1-docs
-  - python-numeric
   - python-pep8
   - python-psycopg2
   - python-psycopg2-doc
@@ -33,11 +28,8 @@ python_rpms:
   - python-pymongo
   - python-redis
   - python-requests
-  - python-requests
-  - python-rest-client
   - python-setuptools
   - python-sqlalchemy
-  - python-sqlite2
   - python-testtools
   - python-virtualenv
   - python-werkzeug

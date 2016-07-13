@@ -10,12 +10,9 @@ perl_rpms:
   - perl-Test-Perl-Critic
   - perl-Test-Harness
   - perl-Test-Unit
-  - perl-PDL
-  - perl-Statistics-Descriptive
   - perl-Term-ReadLine-Gnu
   - perl-TermReadKey
   - perl-DBD-Pg
-  - perl-DBD-MySQL
   - perl-Digest-Perl-MD5
   - perl-Digest-SHA
   - perl-Expect
@@ -28,4 +25,3 @@ perl_rpms:
   - perl-XML-Dumper
   - perl-YAML-LibYAML
   - perl-libwww-perl
-  - postgresql-plperl
