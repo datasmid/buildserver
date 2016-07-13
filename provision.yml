@@ -25,7 +25,7 @@
     - gradle
     
     - bbaassssiiee.el_postgres_role    
-    - hullufred.nexus                 
+    - ansible-nexus                 
     - bbaassssiiee.artifactory       
     - bbaassssiiee.sonar            
 

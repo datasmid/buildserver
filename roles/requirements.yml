@@ -2,7 +2,7 @@
 - src: hudecof.tomcat
   path: ./roles
 
-- src: hullufred.nexus
+- src: https://github.com/jhinrichsen/ansible-nexus.git
   path: ./roles/
 
 - src: geerlingguy.java

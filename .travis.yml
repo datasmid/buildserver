@@ -24,7 +24,7 @@ install:
   - git clone https://github.com/hudecof/ansible_tomcat.git roles/hudecof.tomcat
   - git clone https://github.com/PCextreme/ansible-role-mariadb.git roles/pcextreme.mariadb
 
-  - git clone https://github.com/jhinrichsen/ansible-nexus.git roles/jhinrichsen.nexus
+  - git clone https://github.com/jhinrichsen/ansible-nexus.git roles/ansible-nexus
   - git clone https://github.com/bcoca/ansible-oracle_java7-role.git roles/briancoca.oracle_java7
 
   - git clone https://github.com/bbaassssiiee/ansible-selenium-role.git roles/ansible-selenium-role
