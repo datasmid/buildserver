@@ -63,7 +63,7 @@ bash install.sh</command>
     <org.jfrog.hudson.generic.ArtifactoryGenericConfigurator plugin="artifactory@2.3.1">
       <details>
         <artifactoryName>1370808660@1424157802485</artifactoryName>
-        <artifactoryUrl>https://dev/artifactory</artifactoryUrl>
+        <artifactoryUrl>https://{{ inventory_hostname }}/artifactory</artifactoryUrl>
         <deployReleaseRepository>
           <keyFromText></keyFromText>
           <keyFromSelect>ext-snapshot-local</keyFromSelect>
