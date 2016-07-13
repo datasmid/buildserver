@@ -149,7 +149,7 @@
         <artifactoryName>1370808660@1424157802485</artifactoryName>
         <repositoryKey>ext-snapshot-local</repositoryKey>
         <snapshotsRepositoryKey>ext-snapshot-local</snapshotsRepositoryKey>
-        <artifactoryUrl>https://dev/artifactory</artifactoryUrl>
+        <artifactoryUrl>https://build/artifactory</artifactoryUrl>
         <stagingPlugin/>
       </details>
       <deployPattern>**/target/*.war</deployPattern>
