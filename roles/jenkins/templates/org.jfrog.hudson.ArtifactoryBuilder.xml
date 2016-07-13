@@ -3,7 +3,7 @@
   <artifactoryServers>
     <org.jfrog.hudson.ArtifactoryServer>
       <timeout>300</timeout>
-      <url>https://dev/artifactory</url>
+      <url>https://{{ inventory_hostname }}/artifactory</url>
       <id>1370808660@1424157802485</id>
       <deployerCredentials>
         <username>admin</username>
