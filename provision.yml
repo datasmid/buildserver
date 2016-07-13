@@ -6,7 +6,7 @@
   roles:
     - bbaassssiiee.commoncentos
     - common
-    - firewall
+#    - firewall
     - RHEL7-CIS
     - httpd
 #    - php
@@ -14,9 +14,9 @@
     - git
     - nodejs
     - npm
-    - perl
-    - python
-    - golang
+#    - perl
+#    - python
+#    - golang
     - oracle_java8
     
     - jenkins                           
