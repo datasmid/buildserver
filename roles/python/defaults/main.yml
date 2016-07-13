@@ -1,6 +1,7 @@
 ---
 
 python_rpms:
+  - ansible
   - python-pip
   - Django14
   - MySQL-python
@@ -10,6 +11,7 @@ python_rpms:
   - python-click
   - python-configparser
   - python-crypto
+  - python-devel
   - python-elasticsearch
   - python-flask
   - python-flask-doc

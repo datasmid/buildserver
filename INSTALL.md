@@ -15,7 +15,7 @@ If you are a fan of cows install package: cowsay.
 Ansible logs will look like:
 ```
  ___________________________________________
-< NOTIFIED: postgres | start postgresql-9.3 >
+< NOTIFIED: postgres | start postgresql-9.4 >
  -------------------------------------------
         \   ^__^
          \  (oo)\_______

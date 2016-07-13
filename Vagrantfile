@@ -28,7 +28,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # disable guest additions
   config.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: true
 
-  config.vm.define :dev,  primary: true do |dev_config|
+  config.vm.define :dev,  autostart: false do |dev_config|
     dev_config.vm.box = "dockpack/centos6"
     dev_config.vm.box_url = "https://atlas.hashicorp.com/dockpack/boxes/centos6"
     dev_config.vm.box_check_update = true
@@ -128,38 +128,20 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
-  config.vm.define :nolio, autostart: false do |nolio_config|
-    nolio_config.vm.box = "nolio"
-    nolio_config.vm.boot_timeout = 60
-    nolio_config.vm.box_url = "boxes/nolio.box"
-    nolio_config.vm.box_check_update = false
-    nolio_config.vm.network :private_network, ip: "192.168.10.36"
-    nolio_config.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2236, auto_correct: true
-    nolio_config.vm.network :forwarded_port, guest:8080, host:8080, auto_correct: true
-
-    nolio_config.vm.provider "virtualbox" do |vb|
-      vb.customize ["modifyvm", :id, "--memory", "2048"]
-      vb.customize ["modifyvm", :id, "--ioapic", "on"  ]
-      vb.customize ["modifyvm", :id, "--macaddress2", "4ca63b073f36"]
-      vb.name = "nolio"
+  config.vm.define :build, autostart: true do |build_config|
+    build_config.vm.box = "redesign/centos7"
+    build_config.vm.box_url = "https://atlas.hashicorp.com/redesign/boxes/centos7"
+    build_config.vm.box_check_update = false
+    build_config.vm.network "private_network", ip: "192.168.10.28", :netmask => "255.255.255.0",  auto_config: true
+    build_config.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2227, auto_correct: true
+    build_config.vm.network "forwarded_port", guest: 443, host: 443, auto_correct: true
+    build_config.vm.provider "virtualbox" do |vb|
+      vb.customize ["modifyvm", :id, "--memory", "4096", "--natnet1", "172.16.1/24"]
       vb.gui = false
-    end
-  end
-  config.vm.define :lab, autostart: false do |lab_config|
-    lab_config.vm.box = "chef/centos-7.1"
-    lab_config.vm.box_url = "https://atlas.hashicorp.com/chef/boxes/centos-7.1"
-    lab_config.vm.box_check_update = false
-    lab_config.vm.network "private_network", ip: "192.168.10.28", :netmask => "255.255.255.0",  auto_config: true
-    lab_config.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2227, auto_correct: true
-    lab_config.vm.network "forwarded_port", guest: 8080, host: 8080, auto_correct: true
-
-    lab_config.vm.provider "virtualbox" do |vb|
-      vb.customize ["modifyvm", :id, "--memory", "3076", "--natnet1", "172.16.1/24"]
-      vb.gui = false
-      vb.name = "lab"
+      vb.name = "build"
     end
 
-    lab_config.vm.provider "vmware_fusion" do |vmware|
+    build_config.vm.provider "vmware_fusion" do |vmware|
       vmware.gui = false
       vmware.vmx["memsize"] = "#$MEMSIZE"
       vmware.vmx["numvcpus"] = 2

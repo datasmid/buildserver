@@ -31,6 +31,6 @@
 #- include: security.yml
 
 # Test jenkins
-- include: test.yml tags=test
+- include: test.yml
 
 

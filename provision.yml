@@ -1,12 +1,13 @@
 #!/usr/bin/env ansible-playbook
 - name: Build Server
-  hosts: dev:lab
+  hosts: dev:build
   become: yes
 
   roles:
     - bbaassssiiee.commoncentos
     - common
     - firewall
+    - RHEL7-CIS
     - httpd
 #    - php
     - cplusplus    
