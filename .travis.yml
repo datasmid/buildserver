@@ -15,6 +15,7 @@ install:
   - git clone https://github.com/bbaassssiiee/el_postgres_role.git roles/bbaassssiiee.el_postgres_role
   - git clone https://github.com/bbaassssiiee/artifactory.git roles/bbaassssiiee.artifactory
   - git clone https://github.com/bbaassssiiee/sonar.git roles/bbaassssiiee.sonar
+  - git clone https://github.com/bbaassssiiee/RHEL7-CIS.git roles/RHEL7-CIS
   - git clone https://github.com/AlbanAndrieu/ansible-eclipse.git roles/ansible-eclipse
   - git clone https://github.com/bbaassssiiee/ansible-maven.git roles/ansible-maven
   - git clone https://github.com/geerlingguy/ansible-role-java.git roles/geerlingguy.java
@@ -23,7 +24,7 @@ install:
   - git clone https://github.com/hudecof/ansible_tomcat.git roles/hudecof.tomcat
   - git clone https://github.com/PCextreme/ansible-role-mariadb.git roles/pcextreme.mariadb
 
-  - git clone https://github.com/jhinrichsen/ansible-nexus.git roles/hullufred.nexus
+  - git clone https://github.com/jhinrichsen/ansible-nexus.git roles/jhinrichsen.nexus
   - git clone https://github.com/bcoca/ansible-oracle_java7-role.git roles/briancoca.oracle_java7
 
   - git clone https://github.com/bbaassssiiee/ansible-selenium-role.git roles/ansible-selenium-role
