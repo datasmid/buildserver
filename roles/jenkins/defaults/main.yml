@@ -39,7 +39,7 @@ plugins:
 #  - 'xcode-plugin' # Plugin for building Mac OS X applications
 
 jenkins_base_url: 'http://pkg.jenkins-ci.org/redhat'
-jenkins_data: "/home/jenkins"
+jenkins_data: "/data/jenkins"
 jenkins_home: "/var/lib/jenkins"
 jenkins_http: 8080
 jenkins_tools: "{{jenkins_data}}/tools"
