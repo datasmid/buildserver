@@ -14,7 +14,7 @@
     - config
 
 - name: 'make sure jenkins tmp directory is accessible'
-  file: path=/home/jenkins/tmp owner=jenkins group=jenkins state=directory
+  file: path={{ jenkins_data }}/tmp owner=jenkins group=jenkins state=directory
   tags:
     - jenkins
     - config
