@@ -14,12 +14,6 @@
 - src: bbaassssiiee.sonar
   path: ./roles/
 
-- src: https://github.com/bbaassssiiee/ansible-maven.git
-  path: ./roles/
-
-- src: https://github.com/bbaassssiiee/ansible-ant.git
-  path: ./roles
-
 - src: https://github.com/MindPointGroup/RHEL7-CIS.git
   path: ./roles
 
