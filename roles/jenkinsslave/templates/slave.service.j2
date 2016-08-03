@@ -1,0 +1,11 @@
+[Unit]
+Description=Slave for Jenkins
+After=network.target
+
+[Service]
+ExecStart= /bin/java -Djsse.enableSNIExtension=false -jar /home/{{ slave_user }}/slave.jar -noCertificateCheck  -jnlpUrl {{ jnlp_url }} -secret {{ jenkins_secret }}
+User={{ slave_user }}
+Group={{ slave_group }}
+
+[Install]
+WantedBy=multi-user.target

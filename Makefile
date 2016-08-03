@@ -11,8 +11,8 @@ help:
 	@echo "make test     -test build target windows virtual machines"
 	@echo "-------------------------------------------------------------"
 	@echo "make clean    -Cleanup vm's and  ansible roles"
-	@echo "make addboxes -Run once to 'vagrant box add' the 2 from ./boxes/"
 	@echo "make setup    -Setup ansible roles and python packages"
+	@echo "make addboxes -Run once to 'vagrant box add' the 2 from ./boxes/"
 	@echo "make install  -Install the virtual machines only"
 	@echo "make build    -Build the application game of life"
 	@echo "make deploy   -Deploy the application game of life to target"
@@ -34,7 +34,7 @@ addboxes:
 .PHONY: install
 install: setup
 	@echo Bring up 2 virtual machines:** 'build' the CI server, and 'target' the Tomcat server
-	vagrant up --no-provision
+	vagrant up --no-provision build target
 	@echo **Run the provisioner**
 	ansible-playbook -l build:target provision.yml
 	@echo **Install Docker on target too**
@@ -59,9 +59,8 @@ cleanroles:
 	rm -rf roles/ansible-oasis-maven/
 	rm -rf roles/geerlingguy.java/
 	rm -rf roles/hudecof.tomcat/
-	rm -rf roles/jhinrichsen.nexus/
-	rm -rf roles/pcextreme.mariadb/
-	rm -rf roles/briancoca.oracle_java7
+	rm -rf roles/ansible-nexus/
+	rm -rf roles/RHEL7-CIS
 	rm -rf roles/ansible-selenium-role
 	rm -rf roles/windows-selenium-role
 	rm -rf roles/ferhaty.jenkins-slave

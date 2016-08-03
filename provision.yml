@@ -10,7 +10,7 @@
     - RHEL7-CIS
     - httpd
 #    - php
-    - cplusplus    
+    - cplusplus
     - git
     - nodejs
     - npm
@@ -18,16 +18,16 @@
     - python
     - golang
     - oracle_java8
-    
-    - jenkins                           
+
+    - jenkins
     - ant
     - maven
     - gradle
-    
-    - bbaassssiiee.el_postgres_role    
-    - ansible-nexus                 
-    - bbaassssiiee.artifactory       
-    - bbaassssiiee.sonar            
+
+    - bbaassssiiee.el_postgres_role
+    - ansible-nexus
+    - bbaassssiiee.artifactory
+    - bbaassssiiee.sonar
 
   tasks:
     - include: tasks/settings.yml
@@ -45,10 +45,10 @@
   roles:
     - bbaassssiiee.commoncentos
     - common
-#    - geerlingguy.java
+    - oracle_java8
     - hudecof.tomcat
     - ansible-jenkins-slave
-    - ansible-selenium-role
+#    - ansible-selenium-role
 
   tasks:
     - include: tasks/tomcat_settings.yml
@@ -62,7 +62,7 @@
 
   roles:
 #    - geerlingguy.java
-    - ansible-maven
+    - oracle_java8
     - ansible-selenium-role
     - ansible-jenkins-slave
 

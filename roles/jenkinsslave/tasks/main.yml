@@ -1,0 +1,91 @@
+---
+
+- name: 'clean yum cache'
+  command: yum clean all
+  become: yes
+  when: ansible_os_family == "RedHat"
+  tags:
+    - jenkinsslave
+
+- name: 'make sure required packages are installed'
+  shell: yum -y install {{item}}
+  become: yes
+  when: ansible_os_family == "RedHat"
+  with_items: "{{jenkinsslave_dependencies}}"
+  tags:
+    - jenkinsslave
+
+- name: 'copy buildserverCA root cert to jenkinsslave machine'
+  copy: src=../../../pki/buildserverCA.cer dest=/etc/pki/ca-trust/source/anchors/buildserverCA.cer
+  when: ansible_os_family == "RedHat"
+  become: yes
+  tags:
+    - jenkinsslave
+
+- name: "enable ca-trust"
+  command: update-ca-trust force-enable
+  when: ansible_os_family == "RedHat"
+  become: yes
+  tags:
+    - jenkinsslave
+
+- name: "import buildserverCA root cert into Linux ca-trust"
+  command: update-ca-trust extract
+  when: ansible_os_family == "RedHat"
+  become: yes
+  tags:
+    - jenkinsslave
+
+- name: 'create a slave group'
+  group: name={{ slave_group }} state=present
+  become: yeis
+  tags:
+    - jenkinsslave
+
+- name: 'create a slave user'
+  user: name={{ slave_user }} group={{ slave_group }}  home=/home/{{ slave_user }} createhome=yes
+        shell=/bin/bash state=present
+  become: yes
+  when: slave_user == 'slave'
+  tags:
+    - jenkinsslave
+
+- name: 'create a log directory'
+  file: dest=/var/log/jenkins_slave
+        state=directory
+        recurse=yes
+        owner={{ slave_user }}
+        group={{ slave_group }}
+        mode=755
+  become: yes
+  tags:
+    - jenkinsslave
+
+- name: 'download jenkins slave client'
+  get_url: url={{jenkins_url}}/jnlpJars/slave.jar dest=/home/{{ slave_user }}/slave.jar
+           owner={{ slave_user }}
+           group={{ slave_group }}
+           validate_certs=no
+  become: yes
+  tags:
+    - jenkinsslave
+
+- name: 'install init script'
+  template: src=redhat_init.j2 dest=/etc/init.d/slave owner=root group=root mode=0755 backup=no
+  become: yes
+  notify: start slave
+  when: ansible_os_family == "RedHat" and ansible_distribution_version < 7
+  tags:
+    - jenkinsslave
+
+- name: 'install service script'
+  template: src=slave.service.j2 dest=/etc/systemd/system/slave.service owner=root group=root mode=0755 backup=no
+  become: yes
+  when: ansible_os_family == "RedHat" and ansible_distribution_version >= 7
+  tags:
+    - jenkinsslave
+
+- name: 'reload systemd service script'
+  command: systemctl daemon-reload
+  notify: restart slave
+  when: ansible_os_family == "RedHat" and ansible_distribution_version >= 7

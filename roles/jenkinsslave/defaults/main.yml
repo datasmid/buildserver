@@ -1,0 +1,16 @@
+---
+slave_user: slave
+slave_group: slave
+
+jenkinsslave_dependencies:
+  - 'java-1.8.0-openjdk'
+  - 'openssl'
+  - 'ansible'
+  - 'ca-certificates'
+  - 'make'
+  - 'curl'
+  - 'tar'
+  - 'git'
+  - 'gzip'
+
+jnlp_url: '{{ jenkins_url }}/computer/{{ slave_name }}/slave-agent.jnlp'

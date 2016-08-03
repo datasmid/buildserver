@@ -20,12 +20,9 @@ install:
   - git clone https://github.com/bbaassssiiee/ansible-maven.git roles/ansible-maven
   - git clone https://github.com/geerlingguy/ansible-role-java.git roles/geerlingguy.java
 
-  - git clone https://github.com/ginsys/ansible-role-omnibus-gitlab.git roles/Ginsys.omnibus-gitlab
   - git clone https://github.com/hudecof/ansible_tomcat.git roles/hudecof.tomcat
-  - git clone https://github.com/PCextreme/ansible-role-mariadb.git roles/pcextreme.mariadb
 
   - git clone https://github.com/jhinrichsen/ansible-nexus.git roles/ansible-nexus
-  - git clone https://github.com/bcoca/ansible-oracle_java7-role.git roles/briancoca.oracle_java7
 
   - git clone https://github.com/bbaassssiiee/ansible-selenium-role.git roles/ansible-selenium-role
   - git clone https://github.com/bbaassssiiee/windows-selenium-role.git roles/windows-selenium-role
