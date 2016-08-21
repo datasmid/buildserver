@@ -23,11 +23,6 @@
     wait_for: port=9000 timeout=10
     ignore_errors: yes
 
-  - name: 'verify local import of pki/buildserverCA.cer'
-    become: no
-    changed_when: no
-    local_action: get_url url=https://build/ validate_certs=yes timeout=10 dest=/build/null
-
   - name: 'verify https connectivity to Jenkins'
     become: no
     local_action: uri url=https://build/jenkins/jobConfigHistory/ validate_certs=no status_code=200
@@ -40,3 +35,9 @@
   - name: 'verify https connectivity to Jenkins'
     become: no
     local_action: uri url=https://build/jenkins/ method=GET validate_certs=no status_code=200
+
+  - name: 'verify local import of pki/buildserverCA.cer'
+    become: no
+    changed_when: no
+    local_action: get_url url=https://build/ validate_certs=yes timeout=10 dest=/build/null
+    ignore_errors: yes
