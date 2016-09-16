@@ -4,6 +4,7 @@ java_home: /usr/java/default/
 
 plugins:
   - 'ansible'
+  - 'ansicolor'
   - 'analysis-collector'
   - 'analysis-core'    # for findbugs
   - 'artifactory'      # connect to build repository
