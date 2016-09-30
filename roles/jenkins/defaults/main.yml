@@ -27,7 +27,7 @@ plugins:
   - 'pmd'              #
   - 'promoted-builds'
 #  - 'release'
-#  - 'role-strategy'
+  - 'role-strategy'
 #  - 'ssh-agent'
   - 'scm-sync-configuration'
   - 'simple-theme-plugin'
