@@ -129,7 +129,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.define :build, autostart: true do |build_config|
-    build_config.vm.box = "redesign/centos7"
+    build_config.vm.box = "centos/7"
     build_config.vm.box_url = "https://atlas.hashicorp.com/centos/7"
     build_config.vm.box_check_update = false
     build_config.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: false
