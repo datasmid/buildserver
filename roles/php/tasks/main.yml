@@ -1,32 +1,75 @@
 ---
 
-- name: 'Clean yum cache'
-  command: yum clean all
+- name: Install webtatic RPM with command
+  yum:
+    state: present
+    update_cache: yes
+    name: "https://mirror.webtatic.com/yum/el7/webtatic-release.rpm"
+  retries: 5
+  tags:
+    - php
 
-- name: 'Install webtatic RPM with command'
-  command: yum install -y https://mirror.webtatic.com/yum/el7/webtatic-release.rpm
-  ignore_errors: yes
-
-- name: 'Install base php packages'
+- name: Install base php packages
   become: yes
-  yum: name={{ item }} state=latest
+  yum:
+    name: "{{ item }}"
+    state: present
+  retries: 5
   with_items:
     - php70w
-
-- name: 'Install php fpm'
-  become: yes
-  yum: name={{ item }} state=latest
-  with_items:
     - php70w-fpm
+  notify: restart php-fpm
+  tags:
+    - php
 
-- name: 'Install PHP Packages'
+- name: Install PHP Packages
   become: yes
-  yum: name={{ item }} state=latest
-  with_items: "{{ php.packages }}"
+  yum:
+    name: "{{ item }}"
+    state: present
+  retries: 5
+  with_items: '{{ php.packages }}'
   when: php.packages is defined
+  notify: restart php-fpm
+  tags:
+    - php
 
-- name: 'Set var directory permissions'
-  file: path=/var/lib/php owner=nginx group=nginx recurse=yes state=directory
+- name: Configure error logging to syslog
+  lineinfile:
+    dest: /etc/php.ini
+    line: 'error_log = syslog'
+    state: present
+  tags:
+    - php
+
+- name: Configure upload_max_filesize
+  lineinfile:
+    dest: /etc/php.ini
+    regexp: '^upload_max_filesize'
+    line: 'upload_max_filesize = {{ upload_max_filesize }}M'
+    state: present
+  tags:
+    - php
+
+- name: Configure client_max_body_size
+  lineinfile:
+    dest: /etc/php.ini
+    regexp: '^post_max_size'
+    line: 'post_max_size = {{ client_max_body_size }}M'
+    state: present
+  tags:
+    - php
+
+- name: Set var directory permissions
+  file:
+    path: /var/lib/php
+    owner: nginx
+    group: nginx
+    recurse: yes
+    state: directory
+  tags:
+    - php
 
 - include: mod-php.yml
-#- include: php-fpm.yml
+- include: php-fpm.yml
+- include: tests.yml

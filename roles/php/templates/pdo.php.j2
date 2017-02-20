@@ -1,0 +1,15 @@
+#!/usr/bin/php
+<?php
+// mysql -u '{{ mysql_users[0].name }}' -h '{{ groups['mysql'][0]}}' -p'{{ mysql_users[0].password }}' -e 'show databases;'
+
+ini_set('display_errors', 'On');
+
+$pdo = new \PDO('mysql:dbname={{ mysql_databases[0] }};host={{ groups['mysql'][0]}}', '{{ mysql_users[0].name }}', '{{ mysql_users[0].password }}');
+
+$q = "SHOW DATABASES";
+$stmt = $pdo->prepare($q);
+$stmt->execute();
+
+var_dump($stmt->fetchAll());
+
+?>

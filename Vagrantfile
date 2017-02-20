@@ -132,7 +132,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     build_config.vm.box = "centos/7"
     build_config.vm.box_url = "https://atlas.hashicorp.com/centos/7"
     build_config.vm.box_check_update = false
-    build_config.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: false
+    build_config.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: true
     build_config.vm.network "private_network", ip: "192.168.10.28", :netmask => "255.255.255.0",  auto_config: true
     build_config.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2227, auto_correct: true
     build_config.vm.network "forwarded_port", guest: 443, host: 443, auto_correct: true

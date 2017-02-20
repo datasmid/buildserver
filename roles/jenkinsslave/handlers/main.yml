@@ -2,8 +2,8 @@
 
 - name: start slave
   service: name=slave state=started enabled=yes
-  sudo: yes
+  become: yes
 
 - name: restart slave
   service: name=slave state=restarted enabled=yes
-  sudo: yes
+  become: yes

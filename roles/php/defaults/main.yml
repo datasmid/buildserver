@@ -1,0 +1,18 @@
+---
+php:
+  install: '1'
+  packages: [php70w-common,
+             php70w-intl,
+             php70w-bcmath,
+             php70w-cli,
+             php70w-mcrypt,
+             php70w-mbstring,
+             php70w-opcache,
+             php70w-pdo,
+             php70w-mysql,
+             php70w-xml,
+             php70w-gd,
+             php70w-soap]
+
+upload_max_filesize: 4
+client_max_body_size: 1

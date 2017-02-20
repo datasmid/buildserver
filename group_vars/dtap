@@ -24,6 +24,9 @@ features:
   postgresql: True
   system_auth: True
 
+el_postgres_user: dba
+el_postgres_pass: dba_pass
+el_postgres_net: samenet
 nexus_version: 'latest'
 
 input_nexus_password: admin123
@@ -39,9 +42,6 @@ yum_packages:
    - unzip
    - ansible # so you can use it as a control host too
    - acpid
-
-java_packages:
-  - java-1.8.0-openjdk-devel
 
 jenkins_data: "/opt/jenkins"
 

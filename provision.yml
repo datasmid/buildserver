@@ -5,30 +5,29 @@
 
   roles:
     - bbaassssiiee.commoncentos
-    - common
-    - ntp
+    - { role: common, tags: 'common' }
+    - { role: ntp, tags: 'ntp' }
 #    - firewall
     - RHEL7-CIS
-    - httpd
-#    - php
-    - cplusplus
-    - git
-    - nodejs
-    - npm
-    - perl
-    - python
-    - golang
-    - oracle_java8
+    - { role: bbaassssiiee.el_postgres_role, tags: 'postgres' }
+    - { role: httpd, tags: 'httpd' }
+#    - { role: php, tags: 'php' } needs nginx
+    - { role: cplusplus, tags: 'cplusplus' }
+    - { role: git, tags: 'git' }
+    - { role: nodejs, tags: 'nodejs' }
+    - { role: npm, tags: 'npm' }
+    - { role: perl, tags: 'perl' }
+    - { role: python, tags: 'python' }
+    - { role: golang, tags: 'golang' }
 
-    - jenkins
-    - ant
-    - maven
-    - gradle
-
-    - bbaassssiiee.el_postgres_role
-    - ansible-nexus
-    - bbaassssiiee.artifactory
-    - bbaassssiiee.sonar
+    - { role: oracle_java8, tags: 'oracle_java8' }
+    - { role: bbaassssiiee.artifactory, tags: 'artifactory' }
+    - { role: jenkins, tags: 'jenkins' }
+    - { role: ansible-nexus, tags: 'ansible-nexus' }
+    - { role: bbaassssiiee.sonar, tags: 'sonar' }
+    - { role: ant, tags: 'ant' }
+    - { role: maven, tags: 'maven' }
+    - { role: gradle, tags: 'gradle' }
 
   tasks:
     - include: tasks/settings.yml
@@ -44,11 +43,11 @@
     - include: tasks/settings.yml
 
   roles:
-    - bbaassssiiee.commoncentos
+    - bbaassssiiee.commoncentos 
     - common
     - ntp
     - oracle_java8
-    - hudecof.tomcat
+#    - hudecof.tomcat
     - ansible-jenkins-slave
 #    - ansible-selenium-role
 
