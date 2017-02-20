@@ -26,13 +26,13 @@ On Windows
 On Mac
 ----------------------
 Install/Upgrade **XCode** from the AppStore.
- **Brew**,
+ **HomeBrew**,
  **Caskroom**,
  **VirtualBox**,
  **Vagrant**,
  **Ansible**
 
- It is easiest to install brew first, from **[brew.sh](http://brew.sh)**, then:
+ It is easiest to install homebrew first, from **[brew.sh](http://brew.sh)**, then:
 
     brew install --upgrade python
     brew install --upgrade ansible
