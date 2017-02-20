@@ -18,7 +18,6 @@ install:
   - git clone https://github.com/bbaassssiiee/RHEL7-CIS.git roles/RHEL7-CIS
   - git clone https://github.com/AlbanAndrieu/ansible-eclipse.git roles/ansible-eclipse
   - git clone https://github.com/bbaassssiiee/ansible-maven.git roles/ansible-maven
-  - git clone https://github.com/geerlingguy/ansible-role-java.git roles/geerlingguy.java
 
   - git clone https://github.com/hudecof/ansible_tomcat.git roles/hudecof.tomcat
 
