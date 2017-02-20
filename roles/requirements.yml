@@ -5,9 +5,6 @@
 - src: https://github.com/jhinrichsen/ansible-nexus.git
   path: ./roles/
 
-- src: geerlingguy.java
-  path: ./roles/
-
 - src: bbaassssiiee.artifactory
   path: ./roles/
 
