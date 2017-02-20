@@ -6,6 +6,7 @@
   roles:
     - bbaassssiiee.commoncentos
     - common
+    - ntp
 #    - firewall
     - RHEL7-CIS
     - httpd
@@ -45,6 +46,7 @@
   roles:
     - bbaassssiiee.commoncentos
     - common
+    - ntp
     - oracle_java8
     - hudecof.tomcat
     - ansible-jenkins-slave
@@ -61,7 +63,6 @@
   gather_facts: yes
 
   roles:
-#    - geerlingguy.java
     - oracle_java8
     - ansible-selenium-role
     - ansible-jenkins-slave
