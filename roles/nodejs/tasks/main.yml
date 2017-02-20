@@ -3,12 +3,12 @@
 
 - name: 'Check nodejs_version variable'
   assert:
-    that: nodejs_version in [ "0.10", "0.12" ]
+    that: nodejs_version in [ '0.10', '0.12' ]
   tags:
     - nodejs
-    
+
 - name: 'Install Nodesource Yum repo'
-  shell: "curl -sL https://rpm.nodesource.com/setup_4.x | bash -"
+  shell: 'curl -sL https://rpm.nodesource.com/setup_6.x | bash -'
   tags:
     - nodejs
 
@@ -20,13 +20,13 @@
     - nodejs
 
 - name: 'Fix permissions for node_modules'
-  file: path=/usr/lib/node_modules 
+  file: path=/usr/lib/node_modules
         state=directory
         mode=og+rx
         recurse=yes
   tags:
     - nodejs
-  
+
 - name: 'Make sure C compiler is present'
   yum: name={{item}} state=present
   with_items:
