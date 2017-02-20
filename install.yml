@@ -33,10 +33,6 @@
 #      stat: path=/etc/pki/java/cacerts
 #      register: linux_location
 
-#    - name: 'inquire if sudo exists'
-#      stat: path=/usr/bin/sudo
-#      register: sudoing
-
 #    - name: 'print red letters if import needed of CA root cert in Linux Java trust store'
 #      command: "keytool -list -alias dev -keystore /etc/pki/java/cacerts -storepass changeit -noprompt"
 #      when: linux_location.stat.exists
