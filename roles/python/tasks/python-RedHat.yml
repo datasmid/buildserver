@@ -1,0 +1,48 @@
+---
+
+- name: install epel repository
+  become: yes
+  yum:
+    name: epel-release
+    state: present
+    update_cache: yes
+  tags:
+    - python
+    - pip
+
+- name: 'install python_rpms from rhel repositories'
+  become: yes
+  yum:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items: "{{ python_rhel }}"
+  tags:
+    - python
+
+- name: 'install python_rpms from epel repositories'
+  become: yes
+  yum:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items: "{{ python_epel }}"
+  tags:
+    - python
+    - pip
+
+- name: ugrade pip
+  pip:
+    name: pip
+    state: latest
+  tags:
+    - pip
+    - skip_ansible_lint
+
+- name: ugrade setuptools
+  pip:
+    name: setuptools
+    state: latest
+  tags:
+    - pip
+    - skip_ansible_lint

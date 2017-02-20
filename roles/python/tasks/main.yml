@@ -1,41 +1,75 @@
 ---
-- name: 'install python_rpms from default repo'
-  become: yes
-  yum: name={{ item }} state=installed
-  with_items: "{{ python_rpms }}"
+
+- include: python-RedHat.yml
+  when: ansible_os_family == 'RedHat'
   tags:
     - python
-  
+    - redhat
+
+- include: python-Debian.yml
+  when: ansible_distribution == 'Debian'
+  tags:
+    - python
+    - debian
+
+- include: python-Ubuntu.yml
+  when: ansible_distribution == 'Ubuntu'
+  tags:
+    - python
+    - ubuntu
+
+- name: 'update python setuptools'
+  pip:
+    name: setuptools
+    state: latest
+  tags:
+    - skip_ansible_lint
+    - python
+    - setuptools
+
 - name: 'make sure directory exists'
   become: yes
-  file: dest=/root/.pip state=directory owner=root group=root
-  when: internet is not defined
+  file:
+    dest: '/root/.pip'
+    state: directory
+    owner: root
+    group: root
   tags:
     - python
+    - pip
 
 - name: 'deploy our own pip.conf config file'
   become: yes
-  template: src=pip.j2 dest=/root/.pip/pip.conf
-  when: internet is not defined
+  template:
+    src: pip.j2
+    dest: '/etc/pip.conf'
   tags:
     - python
+    - pip
 
 - name: 'upgrade pip from the pypi mirror'
   become: yes
-  shell: pip install pip --upgrade
+  command: pip install pip --upgrade
+  changed_when: no
   tags:
     - python
+    - pip
     - test
 
+
 - name: 'copy requirements.txt'
-  copy: src=requirements.txt dest=/tmp/requirements.txt
-  when: internet is defined
+  copy:
+    src: requirements.txt
+    dest: '/tmp/requirements.txt'
+  changed_when: no # temp file
   tags:
     - python
-    
+    - pip
+
 - name: 'pip install dependencies'
-  pip: requirements=/tmp/requirements.txt state=present
-  when: internet is defined
+  pip:
+    requirements: '/tmp/requirements.txt'
+    state: present
   tags:
     - python
-    
+    - pip

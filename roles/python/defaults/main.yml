@@ -1,37 +1,27 @@
 ---
 
-python_rpms:
-  - ansible
-  - python-pip
-  - MySQL-python
-  - pexpect
-  - pymongo
-  - python-click
-  - python-configparser
+python_rhel:
+  - python
   - python-crypto
-  - python-devel
-  - python-elasticsearch
-  - python-flask
-  - python-flask-doc
-  - python-flask-sqlalchemy
-  - python-httplib2
-  - python-jinja2
-  - python-keyczar
-  - python-ldap
-  - python-markupsafe
   - python-netaddr
   - python-nose
-  - python-pep8
-  - python-psycopg2
-  - python-psycopg2-doc
-  - python-pyasn1
-  - python-pymongo
-  - python-redis
-  - python-requests
   - python-setuptools
-  - python-sqlalchemy
+  - pyOpenSSL
+
+python_epel:
+  - python-devel
+  - python-cryptography
+  - python-pip
+  - python-pyasn1
+  - libffi-devel
+  - openssl-devel
+  - python-httplib2
   - python-testtools
   - python-virtualenv
-  - python-werkzeug
-  - python-zmq
-  - python2-boto
+
+python_apts:
+    - python
+    - python-pip
+    - libffi-dev
+    - libssl-dev
+    - python-dev

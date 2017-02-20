@@ -1,4 +1,11 @@
-PyYAML
+virtualenv
+PyYAML==3.11
+requests==2.7.0
+Jinja2==2.8
+docker-py==1.8.0
 colorama
 dict.sorted
 six
+ansible
+ansible-lint
+ansible-container

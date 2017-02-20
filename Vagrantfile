@@ -30,7 +30,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.define :dev,  autostart: false do |dev_config|
     dev_config.vm.box = "dockpack/centos6"
-    dev_config.vm.box_url = "https://atlas.hashicorp.com/dockpack/boxes/centos6"
+    dev_config.vm.box_url = "https://atlas.hashicorp.com/centos/7"
     dev_config.vm.box_check_update = true
     # This host only network for use of Apache as a reverse proxy.
     dev_config.vm.network "private_network", ip: "192.168.10.16", :netmask => "255.255.255.0",  auto_config: true
@@ -56,7 +56,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.define :target, autostart: false do |target_config|
     target_config.vm.box = "dockpack/centos6"
-    target_config.vm.box_url = "https://atlas.hashicorp.com/dockpack/boxes/centos6"
+    target_config.vm.box_url = "https://atlas.hashicorp.com/centos/7"
     target_config.vm.box_check_update = true
     target_config.vm.network "private_network", ip: "192.168.10.18", :netmask => "255.255.255.0",  auto_config: true
     target_config.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2223, auto_correct: true
@@ -130,8 +130,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.define :build, autostart: true do |build_config|
     build_config.vm.box = "redesign/centos7"
-    build_config.vm.box_url = "https://atlas.hashicorp.com/redesign/boxes/centos7"
+    build_config.vm.box_url = "https://atlas.hashicorp.com/centos/7"
     build_config.vm.box_check_update = false
+    build_config.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: false
     build_config.vm.network "private_network", ip: "192.168.10.28", :netmask => "255.255.255.0",  auto_config: true
     build_config.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2227, auto_correct: true
     build_config.vm.network "forwarded_port", guest: 443, host: 443, auto_correct: true

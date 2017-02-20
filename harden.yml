@@ -4,4 +4,10 @@
   become: yes
 
   roles:
+  #  - ntp
     - RHEL7-CIS
+
+  tasks:
+
+    - name: install scap security guide
+      yum: name=scap-security-guide state=present

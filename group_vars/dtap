@@ -2,7 +2,7 @@
 rhel7cis_httpd: true
 
 rhel7cis_notauto: false
-rhel7cis_section1: false
+rhel7cis_section1: true
 rhel7cis_section2: true
 rhel7cis_section3: true
 rhel7cis_section4: true
