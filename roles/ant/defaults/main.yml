@@ -1,16 +1,10 @@
 ---
-
-features:
-  ant: True
-
-ant_home: "{{jenkins_tools}}/hudson.tasks.Ant_AntInstallation/{{ant_name}}"
-
-ant_version: 1.9.7
+ant_version: 1.10.1
 
 jenkins_data: "/home/jenkins"
 jenkins_home: "/var/lib/jenkins"
 jenkins_tools: "{{jenkins_data}}/tools"
-
+ant_base: "/opt"
 ant_name: "apache-ant-{{ant_version}}"
 ant_tarfile: "{{ant_name}}-bin.tar.gz"
-ant_url: http://apache.cs.uu.nl/ant/binaries/{{ant_tarfile}}
+ant_url: http://apache.cs.uu.nl//ant/binaries/{{ant_tarfile}}

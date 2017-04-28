@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<org.jvnet.hudson.plugins.fortify360.FPRPublisher_-DescriptorImpl plugin="fortify360@3.81">
-  <url></url>
-  <token></token>
-  <jarsPath></jarsPath>
-  <version></version>
-</org.jvnet.hudson.plugins.fortify360.FPRPublisher_-DescriptorImpl>

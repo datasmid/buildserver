@@ -9,7 +9,7 @@
   tags:
     - jenkins
     - repo
-    
+
 - name: 'get the key for the jenkins repo'
   environment: '{{ proxy_env }}'
   get_url: url={{jenkins_repo_key}} dest=/tmp/jk
@@ -25,3 +25,4 @@
   tags:
     - jenkins
     - repo
+    - skip_ansible_lint

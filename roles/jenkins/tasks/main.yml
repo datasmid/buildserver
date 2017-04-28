@@ -9,12 +9,6 @@
 # Install jenkins
 - include: jenkins.yml
 
-# Install build tools
-#- include: ant.yml
-#- include: maven.yml
-#- include: gradle.yml
-
-
 # Run configuration
 - include: config.yml
 
@@ -24,13 +18,8 @@
 # Install/update jenkins plugins
 - include: plugins.yml
 
-# Install demo job: game-of-life
-- include: demo.yml
-
-# enable LDAP
-#- include: security.yml
+# enable passwords
+- include: security.yml
 
 # Test jenkins
 - include: test.yml
-
-

@@ -8,7 +8,7 @@
 - name: 'create jenkins config files'
   template: src={{item}} dest={{jenkins_data}}/{{item}} owner=jenkins group=jenkins mode=0600
   with_items: "{{ jenkins_configs }}"
-  when: not configured.stat.exists
+#  when: not configured.stat.exists
   tags:
     - jenkins
     - config
@@ -24,7 +24,7 @@
   tags:
     - jenkins
     - config
-    
+
 - name: 'make sure jenkins_tools directory is accessible'
   file: path={{jenkins_tools}} recurse=yes owner=jenkins group=jenkins state=directory
   tags:
@@ -32,7 +32,7 @@
     - config
 
 - name: 'copy theme file'
-  copy: src=jenkins-material-theme.css dest=/var/www/html mode=0644
+  copy: src=jenkins-material-theme.css dest={{ jenkins_data }} mode=0644
   tags:
     - jenkins
     - config

@@ -33,7 +33,7 @@
     - jenkins
 
 - name: 'add jenkins to group root for pam based authorization'
-  shell: usermod -G root -a jenkins
+  command: usermod -G root -a jenkins
   when: ansible_os_family == "RedHat" and features.system_auth
   tags:
     - jenkins

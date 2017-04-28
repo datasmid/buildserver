@@ -1,38 +1,29 @@
 ---
-
 ### Maven
 - name: 'make sure directory for Maven exists'
-  file: dest={{maven_home}} state=directory owner=root group=root mode=0755
-  tags:
-    - maven
-
-- name: 'make sure directory for Maven local repository exists'
-  file: dest={{jenkins_data}}/repository state=directory owner=jenkins group=jenkins mode=0755
+  file: dest={{ maven_home }} state=directory owner=root group=root mode=0755
   tags:
     - maven
 
 - name: 'verify presence of maven'
-  stat: path={{maven_home}}/bin/mvn
+  stat: path={{ maven_home }}/bin/mvn
   register: mvn_installed
   when: features.maven
   tags:
     - maven
 
-- name: 'download maven'
-  get_url: url={{maven_url}} dest=~ validate_certs=no
+- name: 'untar maven'
+  unarchive:
+    src: "{{  maven_url }}"
+    dest: "{{  maven_location }}"
+    copy: no
   retries: 3
   when: features.maven and not mvn_installed.stat.exists
   tags:
     - maven
 
-- name: 'untar maven'
-  command: tar xfz ~/{{maven_tarfile}} -C {{jenkins_tools}}/hudson.tasks.Maven_MavenInstallation
-  when: features.maven and not mvn_installed.stat.exists
-  tags:
-    - maven
-
 - name: 'fix maven permissions'
-  file:  dest={{maven_home}}/{{item}}
+  file:  dest={{ maven_home }}/{{item}}
          state=directory mode=0755
   with_items:
     - bin
@@ -41,15 +32,21 @@
   tags:
     - maven
 
-- name: 'make sure jenkins ~/.m2 directory exists'
-  file: path={{jenkins_home}}/.m2 owner=jenkins group=jenkins mode=0750 state=directory
+- name: 'make sure .m2 directory exists'
+  file: path={{ maven_location }}/.m2 owner=root group=root mode=0750 state=directory
+  when: features.maven
+  tags:
+    - maven
+
+- name: 'make sure /root/.m2 directory exists'
+  file: path=/root/.m2 owner=root group=root mode=0750 state=directory
   when: features.maven
   tags:
     - maven
 
 - name: 'create master password for Maven'
   become: yes
-  command: "{{maven_home}}/bin/mvn --encrypt-master-password {{ mvn_master_password }}"
+  command: "{{ maven_home }}/bin/mvn --encrypt-master-password {{ mvn_master_password}}"
   register: encrypted_mvn_password
   when: features.maven
   tags:
@@ -57,33 +54,23 @@
 
 - name: 'install settings-security.xml'
   become: yes
-  template: src=settings-security-xml.j2 dest={{jenkins_home}}/.m2/settings-security.xml mode=0600 owner=jenkins group=jenkins
+  template: src=settings-security-xml.j2 dest=/root/.m2/settings-security.xml mode=0600 owner=root group=root
   when: features.maven
   tags:
     - maven
 
-- name: 'make m2 for root'
-  file: name=/root/.m2 state=directory
-  tags:
-    - maven
-
-- name: 'copy settings-security.xml'
-  command: cp {{jenkins_home}}/.m2/settings-security.xml /root/.m2
-  tags:
-    - maven
-
-- name: 'create Artifactory password for Maven'
+- name: 'create repository password for Maven'
   become: yes
-  command: "{{maven_home}}/bin/mvn --encrypt-password {{ artifactory_password }}"
-  register: mvn_artifactory_password
+  command: "{{ maven_home }}/bin/mvn --encrypt-password {{ mvn_repo_password}}"
+  register: mvn_repository_password
   when: features.maven
   tags:
     - maven
 
 - name: 'create settings.xml'
   become: yes
-  template: src=settings_xml.j2 dest={{jenkins_home}}/.m2/settings.xml
-            owner=jenkins mode=0644
+  template: src=settings_xml.j2 dest={{ maven_location }}/.m2/settings.xml
+            owner=root mode=0644
   tags:
     - config
     - maven
@@ -96,26 +83,21 @@
   tags:
     - maven
 
-- name: 'cleanup maven download'
-  file: dest=~/{{maven_tarfile}} state=absent
-  tags:
-    - maven
-
 - name: 'make sure maven directory is absent'
-  file: dest={{maven_home}} state=absent
+  file: dest={{ maven_home }} state=absent
   when: not features.maven
   tags:
     - maven
 
 - name: 'Test for presence of maven'
-  stat: path={{maven_home}}/bin/mvn
+  stat: path={{ maven_home }}/bin/mvn
   tags:
     - maven
     - test
 
 - name: 'Test running maven --version'
-  command: "{{maven_home}}/bin/mvn --version"
+  command: "{{ maven_home }}/bin/mvn --version"
+  changed_when: no
   tags:
     - maven
     - test
-

@@ -19,3 +19,4 @@
   tags:
     - config
     - init
+    - skip_ansible_lint

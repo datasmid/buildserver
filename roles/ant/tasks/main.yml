@@ -1,68 +1,50 @@
 ---
-
 ### Ant
 - name: 'make sure directory for Ant exists'
-  file: dest={{ant_home}} state=directory owner=root group=root mode=0755
-  tags:
-    - ant
+  file:
+    dest: "{{ ant_base }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
 
 - name: 'verify presence of Ant'
-  stat: path={{ant_home}}/bin/ant
+  stat:
+    path: "{{ ant_base }}/{{ ant_name }}/bin/ant"
   register: ant_installed
   when: features.ant
-  tags:
-    - ant
-
-- name: 'download Ant'
-  get_url: url={{ant_url}} dest=~ validate_certs=no
-  retries: 3
-  when: features.ant and not ant_installed.stat.exists
-  tags:
-    - ant
 
 - name: 'untar Ant'
-  unarchive: src=~/{{ant_tarfile}}  
-      dest={{jenkins_tools}}/hudson.tasks.Ant_AntInstallation 
-      copy=no
+  unarchive:
+    src: "{{ ant_url }}"
+    dest: "{{ ant_base }}"
+    copy: no
+  retries: 3
   when: features.ant and not ant_installed.stat.exists
-  tags:
-    - ant
 
 - name: 'install /etc/profile.d/ant.sh'
-  template: src=etc-profile-d-ant-sh.j2 dest=/etc/profile.d/ant.sh
-          owner=root group=root mode=0644
+  template:
+    src: etc-profile-d-ant-sh.j2
+    dest: /etc/profile.d/ant.sh
+    owner: root
+    group: root
+    mode: 0644
   when: features.ant
-  tags:
-    - ant
-
-- name: 'verify presence of Ant download'
-  stat: path=~/{{ant_tarfile}}
-  register: ant_download
-  when: features.ant
-  tags:
-    - ant
-
-- name: 'cleanup Ant download'
-  file: dest=~/{{ant_tarfile}} state=absent
-  when: features.ant and ant_download.stat.exists
-  tags:
-    - ant
 
 - name: 'make sure Ant directory is absent'
-  file: dest={{ant_home}} state=absent
+  file:
+    dest: "{{ ant_base }}"
+    state: absent
   when: not features.ant
-  tags:
-    - ant
 
 - name: 'Test for presence of Ant'
-  stat: path={{ant_home}}/bin/ant
+  stat:
+    path: "{{ ant_base }}/{{ ant_name }}/bin/ant"
   tags:
-    - ant
     - test
 
 - name: 'Test running Ant'
-  command: "{{ant_home}}/bin/ant -version"
+  command: "{{ ant_base }}/{{ ant_name }}/bin/ant -version"
+  changed_when: no
   tags:
-    - ant
     - test
-

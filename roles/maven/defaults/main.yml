@@ -1,23 +1,15 @@
----
-
-jenkins_data: "/home/jenkins"
-jenkins_home: "/var/lib/jenkins"
-
-
-java_home: /usr/lib/jvm/java
 mvn_master_password: you_need_to_set_this_in_your_secrets_file
-
-jenkins_tools: "{{jenkins_data}}/tools"
-
+mvn_repo_username: deployer
+mvn_repo_password: encryptit
 
 maven_version: 3.3.9
 maven_name: "apache-maven-{{maven_version}}"
 maven_tarfile: "{{maven_name}}-bin.tar.gz"
 maven_url: http://ftp.tudelft.nl/apache/maven/maven-3/{{maven_version}}/binaries/{{maven_tarfile}}
-maven_home: "{{jenkins_tools}}/hudson.tasks.Maven_MavenInstallation/{{maven_name}}"
+maven_location: '/opt/maven'
+maven_home: "{{ maven_location }}/{{ maven_name }}"
 
-
+mavenprofilename: profile
 maven_mirror_url: "https://dev/artifactory/repo"
 maven_snapshots_url: https://dev/artifactory/libs-snapshot
 maven_releases_url: https://dev/artifactory/libs-release
-

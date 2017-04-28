@@ -1,6 +1,5 @@
 gradle_version: 2.14
-gradle_home: "{{jenkins_tools}}/hudson.plugins.gradle.GradleInstallation/{{gradle_name}}"
 
 gradle_name: "gradle-{{gradle_version}}"
 gradle_zipfile: "{{gradle_name}}-bin.zip"
-gradle_url: "https://services.gradle.org/distributions//{{gradle_zipfile}}"
+gradle_url: https://services.gradle.org/distributions/{{gradle_zipfile}}

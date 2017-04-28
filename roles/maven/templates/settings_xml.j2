@@ -3,19 +3,19 @@
   <servers>
     <server>
       <id>central</id>
-      <username>{{ artifactory_username }}</username>
-      <password>{{ mvn_artifactory_password.stdout }}</password>
+      <username>{{ mvn_repo_username }}</username>
+      <password>{{ mvn_repository_password.stdout }}</password>
     </server>
     <server>
       <id>snapshots</id>
-      <username>{{ artifactory_username }}</username>
-      <password>{{ mvn_artifactory_password.stdout }}</password>
+      <username>{{ mvn_repo_username }}</username>
+      <password>{{ mvn_repository_password.stdout }}</password>
     </server>
   </servers>
 
   <profiles>
     <profile>
-      <id>Artifactory</id>
+      <id>{{mavenprofilename}}</id>
       <repositories>
         <repository>
           <id>central</id>
@@ -45,3 +45,4 @@
     </mirror>
   </mirrors>
 </settings>
+

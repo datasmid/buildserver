@@ -2,38 +2,42 @@
 
 java_home: /usr/java/default/
 
+proxy_env:
+  dummy: value
+  #http_proxy: http://proxy:8080
+
 plugins:
   - 'ansible'
   - 'ansicolor'
-  - 'analysis-collector'
-  - 'analysis-core'    # for findbugs
+#  - 'analysis-collector'
+#  - 'analysis-core'    # for findbugs
   - 'artifactory'      # connect to build repository
-  - 'checkstyle'       # source code formatting reports
+#  - 'checkstyle'       # source code formatting reports
 #  - 'cobertura'
 # - 'copyartifact'
   - 'dashboard-view'
 # - 'delivery-pipeline-plugin'
-  - 'dependency-check-jenkins-plugin'
-  - 'dry'              # don't repeat yourself
-  - 'findbugs'          # common bugs can be squashed
+#  - 'dependency-check-jenkins-plugin'
+#  - 'dry'              # don't repeat yourself
+#  - 'findbugs'          # common bugs can be squashed
 #  - 'fortify360'
   - 'git'              # connect to git
-  - 'gradle'           # build tool
+#  - 'gradle'           # build tool
 # - 'jacoco'           # test coverage
 #  - 'jira'             # Atlassian Jira API
   - 'jobConfigHistory' # save changes in job configuration
 # - 'm2release'
 #  - 'parameterized-trigger'
-  - 'pmd'              #
+#  - 'pmd'              #
   - 'promoted-builds'
 #  - 'release'
   - 'role-strategy'
 #  - 'ssh-agent'
   - 'scm-sync-configuration'
   - 'simple-theme-plugin'
-  - 'sonar'            # source code quality
+#  - 'sonar'            # source code quality
   - 'thinBackup'       # backup job configurations
-  - 'violations'       #
+#  - 'violations'       #
   - 'ws-cleanup'       # Workspace cleanup
 #  - 'swarm'     # Swarm plugin for build slaves
 #  - 'msbuild'     # Plugin for building Microsoft applications
@@ -42,7 +46,7 @@ plugins:
 jenkins_base_url: 'http://pkg.jenkins-ci.org/redhat'
 jenkins_data: "/home/jenkins"
 jenkins_home: "/var/lib/jenkins"
-jenkins_http: 8080
+jenkins_http: 8082
 jenkins_tools: "{{jenkins_data}}/tools"
 jenkins_https: ""
 jenkins_cli: '{{ jenkins_data }}/jenkins-cli.jar' # Jenkins CLI executable
@@ -53,42 +57,27 @@ jenkins_phrase: "ask_devops"
 
 rpm_dependencies:
   - 'jenkins'
-  - 'curl'
   - 'unzip'
-  - 'sshpass'
-  - 'rpm-build'
-  - 'rpmdevtools'
-  - 'rpmlint'
-  - 'yum-utils'
-  - 'createrepo'
+#  - 'sshpass'
+#  - 'rpm-build'
+#  - 'rpmdevtools'
+#  - 'rpmlint'
+#  - 'yum-utils'
+#  - 'createrepo'
 
 jenkins_configs:
   - 'config.xml'
-  - 'hudson.maven.MavenModuleSet.xml'
-  - 'hudson.model.UpdateCenter.xml'
-  - 'hudson.plugins.analysis.core.GlobalSettings.xml'
   - 'hudson.plugins.git.GitSCM.xml'
   - 'hudson.plugins.git.GitTool.xml'
-  - 'hudson.plugins.gradle.Gradle.xml'
-  - 'hudson.plugins.jira.JiraProjectProperty.xml'
-  - 'hudson.plugins.sonar.SonarPublisher.xml'
-  - 'hudson.plugins.sonar.SonarRunnerInstallation.xml'
-  - 'hudson.scm.CVSSCM.xml'
-  - 'hudson.scm.SubversionSCM.xml'
-  - 'hudson.tasks.Ant.xml'
   - 'hudson.tasks.Mailer.xml'
-  - 'hudson.tasks.Maven.xml'
   - 'hudson.tasks.Shell.xml'
   - 'hudson.triggers.SCMTrigger.xml'
   - 'jenkins.model.ArtifactManagerConfiguration.xml'
   - 'jenkins.model.DownloadSettings.xml'
   - 'jenkins.model.JenkinsLocationConfiguration.xml'
-  - 'jenkins.mvn.GlobalMavenConfig.xml'
   - 'jobConfigHistory.xml'
   - 'nodeMonitors.xml'
   - 'org.jenkinsci.plugins.gitclient.JGitTool.xml'
   - 'org.jenkinsci.plugins.ansible.AnsibleInstallation.xml'
   - 'org.jfrog.hudson.ArtifactoryBuilder.xml'
-  - 'org.jvnet.hudson.plugins.fortify360.FPRPublisher.xml'
   - 'org.codefirst.SimpleThemeDecorator.xml'
-  - 'sonar.xml'

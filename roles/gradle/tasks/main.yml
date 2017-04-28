@@ -1,5 +1,4 @@
 ---
-
 ### Gradle
 - name: 'verify presence of Gradle'
   stat: path={{gradle_home}}/bin/gradle
@@ -8,22 +7,16 @@
   tags:
     - gradle
 
+- name: 'install unzip'
+  yum: name=unzip state=present
+  when: features.gradle
+  tags:
+    - gradle
+
 - name: 'download Gradle'
-  get_url: url={{gradle_url}} dest=~ validate_certs=no
+  unarchive: copy=no src={{gradle_url}} dest=/opt validate_certs=no
   retries: 3
   when: features.gradle and not gradle_installed.stat.exists
-  tags:
-    - gradle
-
-- name: 'create directory for Gradle installations'
-  file: dest={{jenkins_tools}}/hudson.plugins.gradle.GradleInstallation
-        state=directory owner=jenkins group=jenkins mode=0755
-  tags:
-    - gradle
-
-- name: 'unzip Gradle'
-  command: unzip -q -o  ~/{{gradle_zipfile}} -d {{jenkins_tools}}/hudson.plugins.gradle.GradleInstallation creates={{gradle_home}}
-  when: features.gradle
   tags:
     - gradle
 
@@ -35,15 +28,9 @@
     - gradle
 
 - name: 'verify presence of Gradle download'
-  stat: path=~/{{gradle_zipfile}}
+  stat: path=/tmp/{{gradle_zipfile}}
   register: gradle_download
   when: features.gradle
-  tags:
-    - gradle
-
-- name: 'cleanup Gradle download'
-  file: dest=~/{{gradle_zipfile}} state=absent
-  when: features.gradle and gradle_download.stat.exists
   tags:
     - gradle
 
@@ -61,7 +48,6 @@
     - test
 
 - name: 'Test for presence of Gradle'
-  become: no
   stat: path={{gradle_home}}/bin/gradle
   tags:
     - gradle
@@ -80,4 +66,3 @@
   tags:
     - gradle
     - test
-

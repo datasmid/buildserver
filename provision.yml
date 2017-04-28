@@ -8,14 +8,14 @@
     - { role: common, tags: 'common' }
     - { role: ntp, tags: 'ntp' }
 #    - firewall
-    - RHEL7-CIS
+#    - RHEL7-CIS
     - { role: bbaassssiiee.el_postgres_role, tags: 'postgres' }
     - { role: httpd, tags: 'httpd' }
 #    - { role: php, tags: 'php' } needs nginx
     - { role: cplusplus, tags: 'cplusplus' }
     - { role: git, tags: 'git' }
     - { role: nodejs, tags: 'nodejs' }
-    - { role: npm, tags: 'npm' }
+#    - { role: npm, tags: 'npm' }
     - { role: perl, tags: 'perl' }
     - { role: python, tags: 'python' }
     - { role: golang, tags: 'golang' }
@@ -23,7 +23,7 @@
     - { role: oracle_java8, tags: 'oracle_java8' }
     - { role: bbaassssiiee.artifactory, tags: 'artifactory' }
     - { role: jenkins, tags: 'jenkins' }
-    - { role: ansible-nexus, tags: 'ansible-nexus' }
+#    - { role: ansible-nexus, tags: 'ansible-nexus' }
     - { role: bbaassssiiee.sonar, tags: 'sonar' }
     - { role: ant, tags: 'ant' }
     - { role: maven, tags: 'maven' }
@@ -48,7 +48,7 @@
     - ntp
     - oracle_java8
 #    - hudecof.tomcat
-    - ansible-jenkins-slave
+#    - ansible-jenkins-slave
 #    - ansible-selenium-role
 
   tasks:
@@ -61,20 +61,20 @@
   become: yes
   gather_facts: yes
 
-  roles:
-    - oracle_java8
-    - ansible-selenium-role
-    - ansible-jenkins-slave
+  roles: []
+#    - oracle_java8
+#    - ansible-selenium-role
+#    - ansible-jenkins-slave
 
 - name: Windows client
   hosts: windows
   remote_user: IEUser
   gather_facts: no
 
-  roles:
-  - ansible-oasis
-  - ferhaty.jenkins-slave
-  - windows-selenium-role
+  roles: []
+#  - ansible-oasis
+#  - ferhaty.jenkins-slave
+#  - windows-selenium-role
 
   tasks:
     - include: tasks/windows_settings.yml

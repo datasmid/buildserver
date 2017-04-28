@@ -10,4 +10,5 @@
     - security
 
 - name: 'restart Jenkins once more'
-  command: service jenkins restart
+  debug: msg="restart jenkins"
+  notify: restart jenkins

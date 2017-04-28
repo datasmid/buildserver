@@ -9,17 +9,21 @@
   tags:
     - jenkins
     - dependencies
-    
+
 - name: 'print red letters if import needed of CA root cert in Java trust store'
   command: "keytool -list -alias {{ inventory_hostname }} -keystore {{java_home}}/jre/lib/security/cacerts -storepass changeit -noprompt"
+  changed_when: no
   ignore_errors: yes
   register: devkey
   tags:
     - jenkins
     - dependencies
 
-- name: "import buildserverCA root cert in Java trust store"
-  command: "keytool -importcert -trustcacerts -file /var/www/html/buildserverCA.cer -storepass changeit -noprompt -alias {{inventory_hostname}} -keystore {{java_home}}/jre/lib/security/cacerts"
+- name: 'copy RootCA.crt to webserver'
+  copy: src=files/RootCA.cer dest=/etc/pki/tls/certs/RootCA.cer owner=root group=root mode=0644
+
+- name: "import RootCA root cert in Java trust store"
+  command: "keytool -importcert -trustcacerts -file /etc/pki/tls/certs/RootCA.cer -storepass changeit -noprompt -alias {{inventory_hostname}} -keystore {{java_home}}/jre/lib/security/cacerts"
   when: devkey.rc == 1
   tags:
     - jenkins
