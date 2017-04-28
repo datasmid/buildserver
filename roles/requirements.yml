@@ -17,9 +17,6 @@
 - src: bbaassssiiee.commoncentos
   path: ./roles/
 
-- src: bbaassssiiee.el_postgres_role
-  path: ./roles/
-
 # Setup Windows machine as a Jenkins slave
 - src: https://github.com/ferhaty/ferhaty.jenkins-slave.git
   path: ./roles/
@@ -32,6 +29,30 @@
   path: ./roles
 
 - src: https://github.com/bbaassssiiee/ansible-selenium-role.git
+  path: ./roles/
+
+- src: https://github.com/bbaassssiiee/base_java8.git
+  path: ./roles/
+
+- src: https://github.com/bbaassssiiee/base_ant.git
+  path: ./roles/
+
+- src: https://github.com/bbaassssiiee/base_maven.git
+  path: ./roles/
+
+- src: https://github.com/bbaassssiiee/base_gradle.git
+  path: ./roles/
+
+- src: https://github.com/bbaassssiiee/base_groovy.git
+  path: ./roles/
+
+- src: https://github.com/bbaassssiiee/base_postgres.git
+  path: ./roles/
+
+- src: https://github.com/bbaassssiiee/base_cplusplus.git
+  path: ./roles/
+
+- src: https://github.com/bbaassssiiee/base_python.git
   path: ./roles/
 
 
