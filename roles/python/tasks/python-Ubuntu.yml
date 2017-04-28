@@ -1,9 +1,0 @@
----
-
-- name: install ubuntu python packages
-  become: yes
-  apt: name={{ item }} state=present
-  with_items: "{{ python_apts }}"
-  tags:
-    - python
-    - pip
