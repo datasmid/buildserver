@@ -24,9 +24,9 @@ features:
   postgresql: True
   system_auth: True
 
-el_postgres_user: dba
-el_postgres_pass: dba_pass
-el_postgres_net: samenet
+base_postgres_user: dba
+base_postgres_pass: dba_pass
+base_postgres_net: samenet
 nexus_version: 'latest'
 
 input_nexus_password: admin123

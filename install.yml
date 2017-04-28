@@ -12,34 +12,34 @@
 
 
     - name: 'ensure permissions on directory for certificates'
-      file: name=pki state=directory mode=0700
+      file: name=files state=directory mode=0700
 
     - name: 'ensure permissions on insecure_private_key for SSH'
-      file: name=pki/vagrant.rsa state=file mode=0600
+      file: name=files/vagrant.rsa state=file mode=0600
 
     - name: 'make sure directory for TLS certificates exists'
-      file: name=pki state=directory mode=0700
+      file: name=files state=directory mode=0700
 
     - name: 'generate CA key'
-      command: "openssl genrsa -out pki/buildserverCA.key 1024 creates=pki/buildserverCA.key"
+      command: "openssl genrsa -out files/buildserverCA.key 1024 creates=files/buildserverCA.key"
 
     - name: 'self-sign CA key'
-      command: "openssl req -x509 -new -nodes -key pki/buildserverCA.key -days 1024 -out pki/buildserverCA.pem -subj '/C=AA/ST=NN/L=Ansible/O=localroot/CN=Buildserver CA' creates=pki/buildserverCA.pem"
+      command: "openssl req -x509 -new -nodes -key files/buildserverCA.key -days 1024 -out files/buildserverCA.pem -subj '/C=AA/ST=NN/L=Ansible/O=localroot/CN=Buildserver CA' creates=files/buildserverCA.pem"
 
     - name: 'convert pem to der for webserver'
-      command: "openssl x509 -in pki/buildserverCA.pem -outform der -out pki/buildserverCA.cer creates=pki/buildserverCA.cer"
+      command: "openssl x509 -in files/buildserverCA.pem -outform der -out files/buildserverCA.cer creates=files/buildserverCA.cer"
 
-#    - name: 'inquire /etc/pki/java location of Java trust store'
-#      stat: path=/etc/pki/java/cacerts
+#    - name: 'inquire /etc/files/java location of Java trust store'
+#      stat: path=/etc/files/java/cacerts
 #      register: linux_location
 
 #    - name: 'print red letters if import needed of CA root cert in Linux Java trust store'
-#      command: "keytool -list -alias dev -keystore /etc/pki/java/cacerts -storepass changeit -noprompt"
+#      command: "keytool -list -alias dev -keystore /etc/files/java/cacerts -storepass changeit -noprompt"
 #      when: linux_location.stat.exists
 #      ignore_errors: yes
 #      register: devkey
 
 #    - name: "import buildserverCA root cert in Linux Java trust store"
 #      become: yes
-#      command: "keytool -importcert -trustcacerts -file pki/buildserverCA.cer -storepass changeit -noprompt -alias dev -keystore /etc/pki/java/cacerts"
+#      command: "keytool -importcert -trustcacerts -file files/buildserverCA.cer -storepass changeit -noprompt -alias dev -keystore /etc/files/java/cacerts"
 #      when: linux_location.stat.exists and devkey.rc == 1 and sudoing.exists == true
