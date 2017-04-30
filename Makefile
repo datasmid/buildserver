@@ -50,6 +50,7 @@ build:
 
 .PHONY: cleanroles
 cleanroles:
+	rm -rf roles/base_*
 	rm -rf roles/bbaassssiiee.artifactory/
 	rm -rf roles/bbaassssiiee.sonar/
 	rm -rf roles/ansible-oasis-maven/
