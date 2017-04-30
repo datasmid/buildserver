@@ -1,6 +1,6 @@
 #!/usr/bin/env ansible-playbook
 - name: Build Server
-  hosts: build
+  hosts: build_master
   become: yes
 
   roles:
