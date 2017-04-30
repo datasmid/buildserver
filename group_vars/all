@@ -1,13 +1,21 @@
 location: Appsterdam
 internet: True
 
+features:
+  ant: True
+  maven: True
+  gradle: True
+  mysql: False
+  postgresql: True
+  system_auth: False
+
 mvn_deploy_url: https://dev/artifactory
 mvn_proxy_url: https://dev/nexus
 mvn_master_password: Mvn_Password
 
 pg_ip: 192.168.10.16        # The IP address of the primary or master database
-pg_username: dba            # This is your user
-pg_password: 0r@cl3         # This is your password
+base_postgres_user: 'dba'            # This is your user
+base_postgres_pass: '0r@cl3'         # This is your password
 pg_subnet: 192.168.10.0/24 
 proxy_env:
   dummy: value

@@ -32,17 +32,17 @@
   tags:
     - jenkins
 
-- name: 'add jenkins to group root for pam based authorization'
-  command: usermod -G root -a jenkins
-  when: ansible_os_family == "RedHat" and features.system_auth
-  tags:
-    - jenkins
+#- name: 'add jenkins to group root for pam based authorization'
+#  command: 'usermod -G root -a jenkins'
+#  when: ansible_os_family == 'RedHat' and features.system_auth
+#  tags:
+#    - jenkins
 
-- name: 'allow jenkins to check passwords'
-  file: path=/etc/shadow mode=0640
-  when: ansible_os_family == "RedHat" and features.system_auth
-  tags:
-    - jenkins
+#- name: 'allow jenkins to check passwords'
+#  file: path=/etc/shadow mode=0640
+#  when: ansible_os_family == "RedHat" and features.system_auth
+#  tags:
+#    - jenkins
 
 - name: 'restart jenkins on reboot'
   service: name=jenkins enabled=yes

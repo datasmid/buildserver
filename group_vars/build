@@ -16,14 +16,6 @@ http_port: 80
 https_port: 443
 slaveAgentPort: 8079
 
-features:
-  ant: True
-  maven: True
-  gradle: True
-  mysql: False
-  postgresql: True
-  system_auth: True
-
 base_postgres_user: dba
 base_postgres_pass: dba_pass
 base_postgres_net: samenet

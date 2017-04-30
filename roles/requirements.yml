@@ -38,6 +38,10 @@
 - src: https://github.com/bbaassssiiee/base_perl.git
   path: ./roles/
 
+- src: https://github.com/bbaassssiiee/base_ansible.git
+  path: ./roles/
+
+
 #- src: bbaassssiiee.artifactory
 #  path: ./roles
 
