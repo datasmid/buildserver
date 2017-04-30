@@ -54,7 +54,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     tartget_slave.vm.box_url = "https://atlas.hashicorp.com/centos/7"
     tartget_slave.vm.box_check_update = true
     tartget_slave.vm.network "private_network", ip: "192.168.10.18", :netmask => "255.255.255.0",  auto_config: true
-    tartget_slave.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2223, auto_correct: true
+    tartget_slave.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2226, auto_correct: true
 
     tartget_slave.vm.provider "virtualbox" do |vb|
       vb.customize ["modifyvm", :id, "--memory", "#$MEMSIZE", "--natnet1", "172.16.1/24"]
