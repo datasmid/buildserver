@@ -11,8 +11,8 @@ install:
   - pip install ansible==$ANSIBLE_VERSION
 
   # Install dependencies.
-  make setup
-  ansible-playbook install.yml -vv
+  - make setup
+  - ansible-playbook install.yml -vv
 
 script:
   - ansible --version
