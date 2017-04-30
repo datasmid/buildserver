@@ -1,4 +1,5 @@
 .vagrant
+roles/base_*
 pki
 .rnd
 .DS_Store
