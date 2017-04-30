@@ -12,6 +12,7 @@ install:
 
   # Install dependencies.
   make setup
+  ansible-playbook install.yml -vv
 
 script:
   - ansible --version
