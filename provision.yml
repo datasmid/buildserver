@@ -17,13 +17,13 @@
     - { role: base_postgres, tags: 'postgres' }
     - { role: base_ansible, tags: 'ansible' }
     - { role: jenkins, tags: 'jenkins' }
-#    - { role: httpd, tags: 'httpd' }
+    - { role: httpd, tags: 'httpd' }
 
   tasks:
     - include: tasks/settings.yml
 
-- name: Target server
-  hosts: target
+- name: system under test
+  hosts: target_slave
   remote_user: vagrant
   become: yes
   vars:
@@ -42,19 +42,19 @@
 #    - include: tasks/tomcat_settings.yml
 #    - include: tasks/install_docker.yml
 
-- name: Ubuntu Box
-  hosts: ubuntu
+- name: test system
+  hosts: test_slave
   remote_user: vagrant
   become: yes
   gather_facts: yes
 
-  roles: []
-#    - base_java8
+  roles:
+    - base_java8
 #    - ansible-selenium-role
 #    - ansible-jenkins-slave
 
 - name: Windows client
-  hosts: windows
+  hosts: win_slave
   remote_user: IEUser
   gather_facts: no
 

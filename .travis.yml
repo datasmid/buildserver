@@ -11,28 +11,12 @@ install:
   - pip install ansible==$ANSIBLE_VERSION
 
   # Install dependencies.
-  - git clone https://github.com/bbaassssiiee/commoncentos.git roles/bbaassssiiee.commoncentos
-  - git clone https://github.com/bbaassssiiee/el_postgres_role.git roles/bbaassssiiee.el_postgres_role
-  - git clone https://github.com/bbaassssiiee/artifactory.git roles/bbaassssiiee.artifactory
-  - git clone https://github.com/bbaassssiiee/sonar.git roles/bbaassssiiee.sonar
-  - git clone https://github.com/bbaassssiiee/RHEL7-CIS.git roles/RHEL7-CIS
-  - git clone https://github.com/AlbanAndrieu/ansible-eclipse.git roles/ansible-eclipse
-  - git clone https://github.com/bbaassssiiee/ansible-maven.git roles/ansible-maven
-
-  - git clone https://github.com/hudecof/ansible_tomcat.git roles/hudecof.tomcat
-
-  - git clone https://github.com/jhinrichsen/ansible-nexus.git roles/ansible-nexus
-
-  - git clone https://github.com/bbaassssiiee/ansible-selenium-role.git roles/ansible-selenium-role
-  - git clone https://github.com/bbaassssiiee/windows-selenium-role.git roles/windows-selenium-role
-  - git clone https://github.com/ferhaty/ansible-oasis-maven.git roles/ansible-oasis-maven
-  - git clone https://github.com/ferhaty/ferhaty.jenkins-slave.git roles/ferhaty.jenkins-slave
-  - git clone https://github.com/bbaassssiiee/ansible-jenkins-slave.git roles/ansible-jenkins-slave
-
+  make setup
 
 script:
   - ansible --version
-  - ansible-playbook -i ansible.ini --syntax-check provision.yml
-  - ansible-playbook -i ansible.ini --list-tasks provision.yml
-  - chmod 700 pki
-  - chmod 600 pki/vagrant.rsa
+  - ansible-playbook --syntax-check provision.yml
+  - ansible-playbook --list-hosts provision.yml
+  - ansible-playbook -i travis.ini --check provision.yml
+  - chmod 700 files
+  - chmod 600 files/vagrant.rsa

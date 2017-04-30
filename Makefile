@@ -67,6 +67,9 @@ cleanroles:
 
 .PHONY: destroy
 destroy:
+	vagrant halt build
+	vagrant halt target
+	vagrant halt windows
 	@echo Destroys virtual images
 	vagrant destroy -f build
 	vagrant destroy -f target
