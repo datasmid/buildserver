@@ -4,8 +4,8 @@
   yum: name=ca-certificates state=latest
   tags:
     - httpd
-- name: 'copy buildserverCA.crt to webserver'
-  copy: src=pki/buildserverCA.cer dest=/var/www/html/buildserverCA.cer owner=apache group=apache mode=0644
+- name: 'copy RootCA.crt to webserver'
+  copy: src=files/RootCA.cer dest=/var/www/html/RootCA.cer owner=apache group=apache mode=0644
   tags:
     - httpd
     
@@ -20,18 +20,18 @@
     - httpd
 
 - name: 'fetch certficate signing request'
-  fetch: src={{inventory_hostname}}.csr dest=pki/{{inventory_hostname}}.csr flat=yes
+  fetch: src={{inventory_hostname}}.csr dest=files/{{inventory_hostname}}.csr flat=yes
   tags:
     - httpd
     
 - name: 'CA-sign buildserver key in a way to avoid https://github.com/mitchellh/vagrant/issues/2646'
   become: no
-  local_action: shell /bin/bash --login -c 'openssl x509 -req -in pki/{{inventory_hostname}}.csr -CA pki/buildserverCA.pem -CAkey pki/buildserverCA.key -CAcreateserial -out pki/{{inventory_hostname}}.crt -days 180'
+  local_action: shell /bin/bash --login -c 'openssl x509 -req -in files/{{inventory_hostname}}.csr -CA files/RootCA.pem -CAkey files/RootCA.key -CAcreateserial -out files/{{inventory_hostname}}.crt -days 180'
   tags:
     - httpd
     
 - name: 'copy signed certificate to webserver'
-  copy: src=pki/{{inventory_hostname}}.crt dest=/etc/pki/tls/certs/{{inventory_hostname}}.crt
+  copy: src=files/{{inventory_hostname}}.crt dest=/etc/pki/tls/certs/{{inventory_hostname}}.crt
   tags:
     - httpd
     
@@ -47,8 +47,8 @@
   tags:
     - httpd
     
-- name: "copy buildserverCA root cert"
-  command: cp /var/www/html/buildserverCA.cer /etc/pki/ca-trust/source/anchors
+- name: "copy RootCA root cert"
+  command: cp /var/www/html/RootCA.cer /etc/pki/ca-trust/source/anchors
   tags:
     - httpd
     
@@ -57,7 +57,7 @@
   tags:
     - httpd
     
-- name: "import buildserverCA root cert into Linux ca-trust"
+- name: "import RootCA root cert into Linux ca-trust"
   command: update-ca-trust extract
   tags:
     - httpd
