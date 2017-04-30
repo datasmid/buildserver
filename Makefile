@@ -50,16 +50,10 @@ build:
 
 .PHONY: cleanroles
 cleanroles:
-	rm -rf roles/bbaassssiiee.commoncentos/
 	rm -rf roles/bbaassssiiee.artifactory/
 	rm -rf roles/bbaassssiiee.sonar/
-	rm -rf roles/bbaassssiiee.el_postgres_role/
-	rm -rf roles/ansible-ant/
-	rm -rf roles/ansible-maven/
 	rm -rf roles/ansible-oasis-maven/
-	rm -rf roles/hudecof.tomcat/
 	rm -rf roles/ansible-nexus/
-	rm -rf roles/RHEL7-CIS
 	rm -rf roles/ansible-selenium-role
 	rm -rf roles/windows-selenium-role
 	rm -rf roles/ferhaty.jenkins-slave
