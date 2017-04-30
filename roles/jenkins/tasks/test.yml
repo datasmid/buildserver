@@ -1,4 +1,4 @@
 ---
 
 - name: 'test Jenkins listening socket'
-  wait_for: host={{ inventory_hostname }} port={{ jenkins_http }} timeout=30
+  wait_for: host={{ inventory_hostname }} port={{ jenkins_http }} timeout=120

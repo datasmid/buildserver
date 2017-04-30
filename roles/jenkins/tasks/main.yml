@@ -19,7 +19,7 @@
 - include: plugins.yml
 
 # enable passwords
-- include: security.yml
+#- include: security.yml
 
 # Test jenkins
-- include: test.yml
+#- include: test.yml
