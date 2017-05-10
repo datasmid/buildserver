@@ -17,11 +17,11 @@
     - { role: base_postgres, tags: 'postgres' }
     - { role: base_ansible, tags: 'ansible' }
     - { role: jenkins, tags: 'jenkins' }
+    - { role: httpd, tags: 'httpd' }
 #   - { role: hullufred.nexus, tags: 'nexus' } # symlink issue
     - { role: bbaassssiiee.artifactory, tags: 'artifactory' } # for built stuff
-    - { role: bbaassssiiee.sonar, tags: 'sonar' }
     - { role: ansible-selenium-role, tags: 'ansible-selenium-role' }
-    - { role: httpd, tags: 'httpd' }
+    - { role: bbaassssiiee.sonar, tags: 'sonar' }
 
   tasks:
     - include: tasks/settings.yml
