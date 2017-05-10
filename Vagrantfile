@@ -50,7 +50,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # target: system under test
   config.vm.define :target, autostart: false do |tartget_slave|
-    tartget_slave.vm.box = "dockpack/centos6"
+    tartget_slave.vm.box = "centos/7"
     tartget_slave.vm.box_url = "https://atlas.hashicorp.com/centos/7"
     tartget_slave.vm.box_check_update = true
     tartget_slave.vm.network "private_network", ip: "192.168.10.18", :netmask => "255.255.255.0",  auto_config: true
