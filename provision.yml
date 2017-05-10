@@ -17,13 +17,17 @@
     - { role: base_postgres, tags: 'postgres' }
     - { role: base_ansible, tags: 'ansible' }
     - { role: jenkins, tags: 'jenkins' }
+#   - { role: hullufred.nexus, tags: 'nexus' } # symlink issue
+    - { role: bbaassssiiee.artifactory, tags: 'artifactory' } # for built stuff
+    - { role: bbaassssiiee.sonar, tags: 'sonar' }
+    - { role: ansible-selenium-role, tags: 'ansible-selenium-role' }
     - { role: httpd, tags: 'httpd' }
 
   tasks:
     - include: tasks/settings.yml
 
 - name: system under test
-  hosts: target_slave
+  hosts: target
   remote_user: vagrant
   become: yes
   vars:
@@ -31,16 +35,13 @@
 
   roles:
     - base_common
-    - base_common
     - base_ntp
     - base_java8
+    - base_docker
 #   - base_tomcat
-#    - ansible-jenkins-slave
-#    - ansible-selenium-role
 
 #  tasks:
 #    - include: tasks/tomcat_settings.yml
-#    - include: tasks/install_docker.yml
 
 - name: test system
   hosts: test_slave
@@ -50,8 +51,8 @@
 
   roles:
     - base_java8
-#    - ansible-selenium-role
-#    - ansible-jenkins-slave
+    - ansible-selenium-role
+    - ansible-jenkins-slave
 
 - name: Windows client
   hosts: win_slave

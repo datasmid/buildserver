@@ -8,6 +8,9 @@
 - src: https://github.com/bbaassssiiee/base_git.git
   path: ./roles/
 
+- src: https://github.com/bbaassssiiee/base_docker.git
+  path: ./roles/
+
 - src: https://github.com/bbaassssiiee/base_java8.git
   path: ./roles/
 
@@ -41,19 +44,14 @@
 - src: https://github.com/bbaassssiiee/base_ansible.git
   path: ./roles/
 
+- src: bbaassssiiee.artifactory
+  path: ./roles
 
-#- src: bbaassssiiee.artifactory
-#  path: ./roles
+- src: bbaassssiiee.sonar
+  path: ./roles/
 
-#- src: bbaassssiiee.sonar
-#  path: ./roles/
-
-#- src: hudecof.tomcat
-#  path: ./roles
-
-#- src: https://github.com/jhinrichsen/ansible-nexus.git
-#  path: ./roles/
-
+- src: hudecof.tomcat
+  path: ./roles
 
 #- src: https://github.com/MindPointGroup/RHEL7-CIS.git
 #  path: ./roles
@@ -62,17 +60,17 @@
 #  path: ./roles/
 
 # Setup Windows machine as a Jenkins slave
-#- src: https://github.com/ferhaty/ferhaty.jenkins-slave.git
-#  path: ./roles/
+- src: https://github.com/ferhaty/ferhaty.jenkins-slave.git
+  path: ./roles/
 
-#- src: https://github.com/bbaassssiiee/windows-selenium-role.git
-#  path: ./roles/
+- src: https://github.com/bbaassssiiee/windows-selenium-role.git
+  path: ./roles/
 
 # For unix use a separate role
-#- src: https://github.com/bbaassssiiee/ansible-jenkins-slave.git
-#  path: ./roles
+- src: https://github.com/bbaassssiiee/ansible-jenkins-slave.git
+  path: ./roles
 
-#- src: https://github.com/bbaassssiiee/ansible-selenium-role.git
-#  path: ./roles/
+- src: https://github.com/bbaassssiiee/ansible-selenium-role.git
+  path: ./roles/
 
 

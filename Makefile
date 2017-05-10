@@ -8,7 +8,7 @@ help:
 	@echo "General tasks:"
 	@echo "make  (all)   -builds build target windows virtual machines"
 	@echo "               all: clean setup install deploy"
-	@echo "make test     -test build target windows virtual machines"
+	@echo "make test     -test build target win_slave test_slave virtual machines"
 	@echo "-------------------------------------------------------------"
 	@echo "make clean    -Cleanup vm's and  ansible roles"
 	@echo "make setup    -Setup ansible roles and python packages"
@@ -29,32 +29,32 @@ setup:
 
 .PHONY: addboxes
 addboxes:
-	vagrant box add -f -name windows boxes/windows.box
+	vagrant box add -f -name win_slave boxes/windows.box
 
 .PHONY: install
 install: setup
-	@echo Bring up 2 virtual machines:** 'build' the CI server, and 'target' the Tomcat server
-	vagrant up --no-provision build target
+	@echo Bring up 2 virtual machines:** 'build_master' the CI server, and 'target'.
+	vagrant up --no-provision build_master target
 	@echo **Run the provisioner**
-	ansible-playbook -l build:target provision.yml
+	ansible-playbook -l build_master:target provision.yml
 	@echo **Install Docker on target too**
-	ansible-playbook -l target playbook.yml
+	ansible-playbook -l target provision.yml
 	@echo **Bring up the windows 7 VM, and provision it:**
-	vagrant up --no-provision windows
-	ansible-playbook -l windows provision.yml
+	vagrant up --no-provision win_slave
+	ansible-playbook -l win_slave provision.yml
 
 .PHONY: build
 build:
-	@echo Triggers build jobs Jenkins on [build].
-	ansible-playbook -vv -i ansible.ini -l build build.yml
+	@echo Triggers build jobs Jenkins on [build_master].
+	ansible-playbook -vv -i ansible.ini -l build_master build.yml
 
 .PHONY: cleanroles
 cleanroles:
 	rm -rf roles/base_*
-	rm -rf roles/bbaassssiiee.artifactory/
-	rm -rf roles/bbaassssiiee.sonar/
-	rm -rf roles/ansible-oasis-maven/
-	rm -rf roles/ansible-nexus/
+	rm -rf roles/bbaassssiiee.*
+	rm -rf roles/ansible-oasis
+	rm -rf roles/ansible-nexus
+	rm -rf roles/hudecof.tomcat
 	rm -rf roles/ansible-selenium-role
 	rm -rf roles/windows-selenium-role
 	rm -rf roles/ferhaty.jenkins-slave
@@ -62,13 +62,15 @@ cleanroles:
 
 .PHONY: destroy
 destroy:
-	vagrant halt build
+	vagrant halt build_master
 	vagrant halt target
-	vagrant halt windows
+	vagrant halt test_slave
+	vagrant halt win_slave
 	@echo Destroys virtual images
-	vagrant destroy -f build
+	vagrant destroy -f build_master
 	vagrant destroy -f target
-	vagrant destroy -f windows
+	vagrant destroy -f test_slave
+	vagrant destroy -f win_slave
 
 .PHONY: clean
 clean: cleanroles destroy
@@ -77,34 +79,31 @@ clean: cleanroles destroy
 deploy:
 	ansible-playbook -vv -i ansible.ini -l target deploy.yml
 
-
-
 .PHONY: smoketest
 smoketest:
-	ansible-playbook -vv -i ansible.ini -l build:target smoketest.yml
+	ansible-playbook -vv -i ansible.ini -l build_master:target smoketest.yml
 .PHONY: webtest
 webtest:
 	ansible-playbook -vv -i ansible.ini -l target webtest.yml
 .PHONY: test
 test: smoketest webtest
 
-
 .PHONY: all
 all: clean setup install deploy
 
 build.box:
-	vagrant halt build
-	vagrant package --base build --output boxes/build.box
+	vagrant halt build_master
+	vagrant package --base build_master --output boxes/build.box
 
 boxes/target.box:
 	vagrant halt target
 	vagrant package --base target --output boxes/target.box
 boxes/test.box:
-	vagrant halt test
-	vagrant package --base test --output boxes/test.box
+	vagrant halt test_slave
+	vagrant package --base test_slave --output boxes/test.box
 boxes/windows.box:
-	vagrant halt windows
-	vagrant package --base windows --output boxes/windows.box
+	vagrant halt win_slave
+	vagrant package --base win_slave --output boxes/windows.box
 
 .PHONY: boxes
 boxes: boxes/build.box boxes/target.box boxes/test.box boxes/windows.box

@@ -27,14 +27,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   # buildserver
-  config.vm.define :build, autostart: true do |build_master|
+  config.vm.define :build_master, autostart: true do |build_master|
     build_master.vm.box = "centos/7"
     build_master.vm.box_url = "https://atlas.hashicorp.com/centos/7"
     build_master.vm.box_check_update = false
     build_master.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: true
     build_master.vm.network "private_network", ip: "192.168.10.28", :netmask => "255.255.255.0",  auto_config: true
     build_master.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2227, auto_correct: true
-    build_master.vm.network "forwarded_port", guest: 443, host: 443, auto_correct: true
+    build_master.vm.network "forwarded_port", guest: 443, host: 8443, auto_correct: true
     build_master.vm.provider "virtualbox" do |vb|
       vb.customize ["modifyvm", :id, "--memory", "4096", "--natnet1", "172.16.1/24"]
       vb.gui = false
@@ -70,7 +70,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   # testserver: tests the target above
-  config.vm.define :test, autostart: false do |test_slave|
+  config.vm.define :test_slave, autostart: false do |test_slave|
     test_slave.vm.box = "ubuntu14"
     test_slave.vm.box_url = "https://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box"
     test_slave.vm.network "private_network", ip: "192.168.10.20", :netmask => "255.255.255.0",  auto_config: true
@@ -93,7 +93,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   # windows: has Exporer for web testing
-  config.vm.define :jenkins_windows_slave, autostart: false do |win_slave|
+  config.vm.define :win_slave, autostart: false do |win_slave|
     win_slave.vm.box = "ferhaty/win7ie10winrm"
     win_slave.vm.box_url = "https://atlas.hashicorp.com/ferhaty/boxes/win7ie10winrm"
     win_slave.vm.guest = :windows
