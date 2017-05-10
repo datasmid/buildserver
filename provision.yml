@@ -21,7 +21,7 @@
 #   - { role: hullufred.nexus, tags: 'nexus' } # symlink issue
     - { role: bbaassssiiee.artifactory, tags: 'artifactory' } # for built stuff
     - { role: ansible-selenium-role, tags: 'ansible-selenium-role' }
-    - { role: bbaassssiiee.sonar, tags: 'sonar' }
+#    - { role: bbaassssiiee.sonar, tags: 'sonar' }
 
   tasks:
     - include: tasks/settings.yml
