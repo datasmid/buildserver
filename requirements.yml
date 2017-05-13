@@ -1,0 +1,39 @@
+- src: bbaassssiiee.base_ntp
+  name: ntp
+  version: v0.1.1
+
+- src: bbaassssiiee.base_git
+  name: git
+  version: v0.1.1
+
+- src: bbaassssiiee.base_java8
+  version: v0.1.1
+
+- src: bbaassssiiee.base_ant
+  name: ant
+  version: v0.1.1
+
+- src: bbaassssiiee.base_maven
+  name: maven
+  version: v0.1.1
+
+- src: bbaassssiiee.base_gradle
+  name: gradle
+  version: v0.1.1
+
+- src: bbaassssiiee.base_perl
+  name: perl
+  version: v0.1.2
+
+- src: bbaassssiiee.base_erlang
+  name: erlang
+  version: v0.1.1
+
+- src: bbaassssiiee.base_ansible
+  name: ansible
+  version: v0.1.1
+
+- src: bbaassssiiee.base_docker
+  name: docker
+  version: v0.1.2
+

@@ -1,0 +1,54 @@
+#!/usr/bin/env ansible-playbook --ask-become-pass
+# Establish self-signed certificate authority for components
+
+- name: "trust_me.yml"
+  hosts: localhost
+  connection: local
+  gather_facts: False
+
+  tasks:
+    - name: 'ensure permissions on directory for our files'
+      become: no
+      file:
+        name: files
+        state: directory
+        mode: 0700
+      tags:
+        - ssh
+        - ssl
+
+    - name: 'local permissions on vagrant insecure_private_key'
+      become: no
+      file:
+        name: 'files/vagrant.rsa'
+        state: file
+        mode: 0600
+      tags:
+        - ssh
+
+    - name: 'generate RootCA key for self-signed Root certificate'
+      become: no
+      command: "openssl genrsa -out files/RootCA.key 1024 creates=files/RootCA.key"
+      tags:
+        - ssl
+
+    - name: 'self-sign RootCA key, creates a root certificate'
+      become: no
+      command: "openssl req -x509 -new -nodes -key files/RootCA.key -days 1024 -out files/RootCA.pem -subj '/C=NL/ST=Amsterdam/L=Schiphol/O=AirportControl/CN=AirportControl Root CA' creates=files/RootCA.pem"
+      register: rootca
+      tags:
+        - ssl
+
+    - name: 'convert PEM to DER for servers'
+      become: no
+      command: "openssl x509 -in files/RootCA.pem -outform der -out files/RootCA.cer creates=files/RootCA.cer"
+      tags:
+        - ssl
+
+    - name: 'import RootCA in OSX system trust'
+      become: yes
+      when: rootca.changed
+      command: security add-trusted-cert -d -r trustRoot -k "/Library/Keychains/System.keychain" "files/RootCA.cer"
+      tags:
+        - ssl
+        - skip_ok
