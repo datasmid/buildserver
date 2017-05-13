@@ -1,5 +1,6 @@
 .vagrant
 roles/base_*
+roles_galaxy/*
 files/*
 pki
 .rnd

@@ -12,7 +12,7 @@ install:
 
   # Install dependencies.
   - make setup
-  - ansible-playbook install.yml -vv
+  - ansible-playbook galaxy_import.yml -vv
 
 script:
   - ansible --version

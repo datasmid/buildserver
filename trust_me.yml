@@ -47,7 +47,7 @@
 
     - name: 'import RootCA in OSX system trust'
       become: yes
-      when: rootca.changed
+      when: rootca.changed and ansible_os_family == 'Darwin'
       command: security add-trusted-cert -d -r trustRoot -k "/Library/Keychains/System.keychain" "files/RootCA.cer"
       tags:
         - ssl

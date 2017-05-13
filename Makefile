@@ -20,10 +20,10 @@ help:
 .PHONY: setup
 setup:
 	@echo Install Ansible galaxy roles and dependent python packages.
-	ansible-galaxy install -p ./roles --force --role-file roles/requirements.yml
+	./galaxy_import.yml
 	@echo Installing galaxy roles
 	chmod 644 ansible.ini
-	ansible-playbook -vv -i ansible.ini -l local install.yml
+	ansible-playbook -vv -i ansible.ini -l local trust_me.yml
 	@echo Installing python extensions
 	pip install --upgrade -r requirements.txt
 

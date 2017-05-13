@@ -1,27 +1,27 @@
 #!/usr/bin/env ansible-playbook
 - name: Build Server
-  hosts: build_master
+  hosts: buildserver
   become: yes
 
   roles:
-    - { role: base_ntp, tags: 'ntp' }
-    - { role: base_cplusplus, tags: 'cplusplus' }
-    - { role: base_perl, tags: 'perl' }
-    - { role: base_python, tags: 'python' }
-    - { role: base_git, tags: 'git' }
-    - { role: base_java8, tags: 'java8' }
-    - { role: base_ant, tags: 'ant' }
-    - { role: base_maven, tags: 'maven' }
-    - { role: base_gradle, tags: 'gradle' }
-    - { role: base_golang, tags: 'golang' }
-    - { role: base_postgres, tags: 'postgres' }
-    - { role: base_ansible, tags: 'ansible' }
+    - { role: ntp, tags: 'ntp' }
+    - { role: epel, tags: 'epel' }
+    - { role: bbaassssiiee.base_cplusplus, tags: 'cplusplus' }
+    - { role: bbaassssiiee.base_java8, tags: 'java8' }
+    - { role: bbaassssiiee.base_python, tags: 'python' }
+    - { role: perl, tags: 'perl' }
+    - { role: git, tags: 'git' }
+    - { role: ant, tags: 'ant' }
+    - { role: maven, tags: 'maven' }
+    - { role: gradle, tags: 'gradle' }
+    - { role: postgres, tags: 'postgres' }
+    - { role: ansible, tags: 'ansible' }
     - { role: jenkins, tags: 'jenkins' }
     - { role: httpd, tags: 'httpd' }
 #   - { role: hullufred.nexus, tags: 'nexus' } # symlink issue
     - { role: bbaassssiiee.artifactory, tags: 'artifactory' } # for built stuff
-    - { role: ansible-selenium-role, tags: 'ansible-selenium-role' }
-#    - { role: bbaassssiiee.sonar, tags: 'sonar' }
+#   - { role: ansible-selenium-role, tags: 'ansible-selenium-role' }
+    - { role: bbaassssiiee.sonar, tags: 'sonar' }
 
   tasks:
     - include: tasks/settings.yml
@@ -34,10 +34,10 @@
     homedir: "{{ lookup('env','HOME') }}"
 
   roles:
-    - base_common
-    - base_ntp
-    - base_java8
-    - base_docker
+    - common
+    - ntp
+    - bbaassssiiee.base_java8
+    - docker
 #   - base_tomcat
 
 #  tasks:
@@ -50,8 +50,8 @@
   gather_facts: yes
 
   roles:
-    - base_java8
-    - ansible-selenium-role
+    - bbaassssiiee.base_java8
+#    - ansible-selenium-role
     - ansible-jenkins-slave
 
 - name: Windows client
