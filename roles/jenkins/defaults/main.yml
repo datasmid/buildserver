@@ -46,7 +46,7 @@ plugins:
 jenkins_base_url: 'http://pkg.jenkins-ci.org/redhat'
 jenkins_data: "/home/jenkins"
 jenkins_home: "/var/lib/jenkins"
-jenkins_http: 8082
+jenkins_http: 8080
 jenkins_tools: "{{jenkins_data}}/tools"
 jenkins_https: ""
 jenkins_cli: '{{ jenkins_data }}/jenkins-cli.jar' # Jenkins CLI executable
