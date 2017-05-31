@@ -1,18 +1,18 @@
     - name: 'set hostname'
       hostname: name={{ inventory_hostname }}
 
-    - name: 'add "dev" in /etc/hosts file'
-      lineinfile: dest=/etc/hosts regexp='192.168.10.16'
+    - name: 'add "test_slave" in /etc/hosts file'
+      lineinfile: dest=/etc/hosts regexp='192.168.10.20'
               line='192.168.10.16   dev'
               state=present
 
-    - name: 'add "build" in /etc/hosts file'
+    - name: 'add "build_master" in /etc/hosts file'
       lineinfile: dest=/etc/hosts regexp='192.168.10.28'
-              line='192.168.10.28   build'
+              line='192.168.10.28   build_master'
               state=present
 
-    - name: 'add "target" in /etc/hosts file'
+    - name: 'add "tartget_slave" in /etc/hosts file'
       lineinfile: dest=/etc/hosts regexp='192.168.10.18'
-              line='192.168.10.18   target'
+              line='192.168.10.18   tartget_slave'
               state=present
 

@@ -1,3 +1,10 @@
 # these python extensions are required for Ansible modules
 httplib2
-http://github.com/diyan/pywinrm/archive/master.zip#egg=pywinrm
+#http://github.com/diyan/pywinrm/archive/master.zip#egg=pywinrm
+pexpect
+pycurl
+requests
+yamllint
+ansible
+ansible-lint
+ConfigParser

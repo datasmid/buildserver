@@ -1,14 +1,6 @@
 location: Appsterdam
 internet: True
 
-features:
-  ant: True
-  maven: True
-  gradle: True
-  mysql: False
-  postgresql: True
-  system_auth: False
-
 mvn_deploy_url: https://dev/artifactory
 mvn_proxy_url: https://dev/nexus
 mvn_master_password: Mvn_Password

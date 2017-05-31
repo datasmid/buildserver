@@ -1,0 +1,5 @@
+[build:children]
+build_master
+
+[build_master]
+localhost connection=local

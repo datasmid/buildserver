@@ -1,0 +1,36 @@
+---
+- name: create ansible service accountr
+  hosts: all
+  become: yes
+
+  tasks:
+  - name: create deployment user
+    user: name=deploy
+        createhome=yes
+        state=present
+    register: newuser
+
+  - name: generate random password for user only on creation
+    shell: /usr/bin/openssl rand -base64 32 | passwd --stdin deploy
+    when: newuser.changed
+
+  - name: create ssh directory
+    file: dest=/home/deploy/.ssh
+          state=directory
+          owner=deploy
+          group=deploy
+          mode=0700
+
+  - name: authorize ssh key
+    copy: src=authorized_users
+          dest=/home/deploy/.ssh/authorized_keys
+          owner=deploy
+          group=deploy
+          mode=0600
+
+  - name: create sudoers.d file
+    copy: src=sudoers/deploy.sudoers
+          dest=/etc/sudoers.d/deploy.sudoers
+          owner=root
+          group=root
+          mode=0440

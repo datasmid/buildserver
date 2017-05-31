@@ -6,12 +6,13 @@ default: all
 .PHONY: help
 help:
 	@echo "General tasks:"
+	@echo "make setup    -install requirements and generate keys"
+	@echo "make mysqlf   -install on centos7"
 	@echo "make  (all)   -builds build target windows virtual machines"
 	@echo "               all: clean setup install deploy"
 	@echo "make test     -test build target win_slave test_slave virtual machines"
 	@echo "-------------------------------------------------------------"
 	@echo "make clean    -Cleanup vm's and  ansible roles"
-	@echo "make setup    -Setup ansible roles and python packages"
 	@echo "make addboxes -Run once to 'vagrant box add' the 2 from ./boxes/"
 	@echo "make install  -Install the virtual machines only"
 	@echo "make build    -Build the application game of life"
@@ -20,12 +21,11 @@ help:
 .PHONY: setup
 setup:
 	@echo Install Ansible galaxy roles and dependent python packages.
-	./galaxy_import.yml
-	@echo Installing galaxy roles
-	chmod 644 ansible.ini
-	ansible-playbook -vv -i ansible.ini -l local trust_me.yml
-	@echo Installing python extensions
-	pip install --upgrade -r requirements.txt
+	./configure
+
+.PHONY: myself
+myself:
+	ansible-playbook -K -i inventories/local -l buildserver provision.yml -vv
 
 .PHONY: addboxes
 addboxes:
@@ -46,7 +46,7 @@ install: setup
 .PHONY: build
 build:
 	@echo Triggers build jobs Jenkins on [build_master].
-	ansible-playbook -vv -i ansible.ini -l build_master build.yml
+	ansible-playbook -vv -l build_master build.yml
 
 .PHONY: cleanroles
 cleanroles:
@@ -77,14 +77,14 @@ clean: cleanroles destroy
 
 .PHONY: deploy
 deploy:
-	ansible-playbook -vv -i ansible.ini -l target deploy.yml
+	ansible-playbook -vv -l target deploy.yml
 
 .PHONY: smoketest
 smoketest:
-	ansible-playbook -vv -i ansible.ini -l build_master:target smoketest.yml
+	ansible-playbook -vv -l build_master:target smoketest.yml
 .PHONY: webtest
 webtest:
-	ansible-playbook -vv -i ansible.ini -l target webtest.yml
+	ansible-playbook -vv -l target webtest.yml
 .PHONY: test
 test: smoketest webtest
 

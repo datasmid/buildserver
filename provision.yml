@@ -1,27 +1,27 @@
 #!/usr/bin/env ansible-playbook
-- name: Build Server
-  hosts: buildserver
+- name: Install Jenkins with other stuff
+  hosts: build_master
   become: yes
 
   roles:
     - { role: ntp, tags: 'ntp' }
-    - { role: epel, tags: 'epel' }
-    - { role: bbaassssiiee.base_cplusplus, tags: 'cplusplus' }
-    - { role: bbaassssiiee.base_java8, tags: 'java8' }
-    - { role: bbaassssiiee.base_python, tags: 'python' }
-    - { role: perl, tags: 'perl' }
     - { role: git, tags: 'git' }
     - { role: ant, tags: 'ant' }
     - { role: maven, tags: 'maven' }
     - { role: gradle, tags: 'gradle' }
-    - { role: postgres, tags: 'postgres' }
+    - { role: perl, tags: 'perl' }
     - { role: ansible, tags: 'ansible' }
+    - { role: httpd, tags: 'httpd' }
     - { role: jenkins, tags: 'jenkins' }
+    - { role: android, tags: 'android' }
+    - { role: ansible, tags: 'ansible' }
+    - { role: docker, tags: 'docker' }
+    - { role: bbaassssiiee.base_postgres, tags: 'postgres' }
+    - { role: bbaassssiiee.artifactory, tags: 'artifactory' } # for built stuff
+    - { role: bbaassssiiee.sonar, tags: 'sonar' }
     - { role: httpd, tags: 'httpd' }
 #   - { role: hullufred.nexus, tags: 'nexus' } # symlink issue
-    - { role: bbaassssiiee.artifactory, tags: 'artifactory' } # for built stuff
 #   - { role: ansible-selenium-role, tags: 'ansible-selenium-role' }
-    - { role: bbaassssiiee.sonar, tags: 'sonar' }
 
   tasks:
     - include: tasks/settings.yml
@@ -51,7 +51,7 @@
 
   roles:
     - bbaassssiiee.base_java8
-#    - ansible-selenium-role
+    - ansible-selenium-role
     - ansible-jenkins-slave
 
 - name: Windows client
@@ -59,9 +59,9 @@
   remote_user: IEUser
   gather_facts: no
 
-  roles: []
-#  - ansible-oasis
-#  - ferhaty.jenkins-slave
-#  - windows-selenium-role
+  roles:
+    - ansible-oasis
+    - ferhaty.jenkins-slave
+    - windows-selenium-role
 
 

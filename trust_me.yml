@@ -4,51 +4,51 @@
 - name: "trust_me.yml"
   hosts: localhost
   connection: local
-  gather_facts: False
+  gather_facts: True
 
   tasks:
-    - name: 'ensure permissions on directory for our files'
+    - name: 'restrict permissions on directory for our files'
       become: no
       file:
-        name: files
-        state: directory
-        mode: 0700
+        name: "{{ item }}"
+        mode: go-rwx
+        recurse: yes
+      with_items:
+        - files
       tags:
         - ssh
         - ssl
 
-    - name: 'local permissions on vagrant insecure_private_key'
-      become: no
-      file:
-        name: 'files/vagrant.rsa'
-        state: file
-        mode: 0600
-      tags:
-        - ssh
-
     - name: 'generate RootCA key for self-signed Root certificate'
+      when: ansible_os_family == 'Darwin'
       become: no
-      command: "openssl genrsa -out files/RootCA.key 1024 creates=files/RootCA.key"
+      command: "openssl genrsa -out files/private/RootCA.key 1024 creates=files/private/RootCA.key"
       tags:
         - ssl
 
     - name: 'self-sign RootCA key, creates a root certificate'
+      when: ansible_os_family == 'Darwin'
       become: no
-      command: "openssl req -x509 -new -nodes -key files/RootCA.key -days 1024 -out files/RootCA.pem -subj '/C=NL/ST=Amsterdam/L=Schiphol/O=AirportControl/CN=AirportControl Root CA' creates=files/RootCA.pem"
+      command: "openssl req -x509 -new -nodes -key files/private/RootCA.key -days 1024 -out files/certs/RootCA.pem -subj '/C=NL/ST=Amsterdam/L=Schiphol/O=AirportControl/CN=AirportControl Root CA' creates=files/certs/RootCA.pem"
       register: rootca
       tags:
         - ssl
 
     - name: 'convert PEM to DER for servers'
+      when: rootca.changed
       become: no
-      command: "openssl x509 -in files/RootCA.pem -outform der -out files/RootCA.cer creates=files/RootCA.cer"
+      command: "openssl x509 -in files/certs/RootCA.pem -outform der -out files/certs/RootCA.cer creates=files/certs/RootCA.cer"
       tags:
         - ssl
 
+    - name: 'sign dev CSRs'
+      local_action: shell /bin/bash --login -c 'openssl x509 -req -in {{ item }} -CA files/certs/RootCA.pem -CAkey files/private/RootCA.key -CAcreateserial -out files/certs/{{ item }}.cer -days 365'
+      with_fileglob: files/certrequests
+
     - name: 'import RootCA in OSX system trust'
-      become: yes
       when: rootca.changed and ansible_os_family == 'Darwin'
-      command: security add-trusted-cert -d -r trustRoot -k "/Library/Keychains/System.keychain" "files/RootCA.cer"
+      become: yes
+      command: security add-trusted-cert -d -r trustRoot -k "/Library/Keychains/System.keychain" "files/certs/RootCA.cer"
       tags:
         - ssl
         - skip_ok

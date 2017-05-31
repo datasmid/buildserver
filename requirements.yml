@@ -1,11 +1,27 @@
 ---
 
-- src: bbaassssiiee.artifactory
-- src: bbaassssiiee.sonar
-
-- src: bbaassssiiee.base_epel
-  name: epel
+- src: bbaassssiiee.base_postgres
   version: v0.1.0
+
+- src: bbaassssiiee.artifactory
+  version: v1.0.1
+
+- src: bbaassssiiee.sonar
+  version: v0.1.0
+
+- src: https://github.com/bbaassssiiee/ansible-selenium-role.git
+  path: ./roles/
+
+- src: https://github.com/bbaassssiiee/windows-selenium-role.git
+  path: ./roles/
+
+# Setup Windows machine as a Jenkins slave
+- src: https://github.com/ferhaty/ferhaty.jenkins-slave.git
+  path: ./roles/
+
+# For unix use a separate role
+- src: https://github.com/bbaassssiiee/ansible-jenkins-slave.git
+  path: ./roles
 
 - src: bbaassssiiee.base_ntp
   name: ntp
@@ -16,19 +32,19 @@
   version: v0.1.1
 
 - src: bbaassssiiee.base_java8
-  version: v0.1.1
+  version: v0.1.3
 
 - src: bbaassssiiee.base_ant
   name: ant
-  version: v0.1.1
+  version: v0.1.6
 
 - src: bbaassssiiee.base_maven
   name: maven
-  version: v0.1.1
+  version: v0.1.3
 
 - src: bbaassssiiee.base_gradle
   name: gradle
-  version: v0.1.1
+  version: v0.1.2
 
 - src: bbaassssiiee.base_perl
   name: perl
@@ -40,13 +56,14 @@
 
 - src: bbaassssiiee.base_ansible
   name: ansible
-  version: v0.1.1
+  version: v0.1.2
+
+- src: bbaassssiiee.base_android
+  name: android
+  version: v0.1.0
 
 - src: bbaassssiiee.base_docker
   name: docker
   version: v0.1.2
 
-- src: bbaassssiiee.base_postgres
-  name: postgres
-  version: v0.1.0
 

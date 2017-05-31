@@ -12,7 +12,7 @@
 - name: 'install/update plugins'
   become: yes
   command: java -jar {{jenkins_cli}} -s http://localhost:{{jenkins_http}}/jenkins install-plugin {{ item }}
-  when: plugins_installed.changed and plugins_installed.stdout.find('{{ item }}') == -1
+  when: plugins_installed.changed and plugins_installed.stdout.find('item') == -1
   with_items: "{{ plugins }}"
   notify:
     - 'restart jenkins'

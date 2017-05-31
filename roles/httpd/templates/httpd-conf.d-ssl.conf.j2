@@ -1,18 +1,18 @@
 #
 # This is the Apache server configuration file providing SSL support.
 # It contains the configuration directives to instruct the server how to
-# serve pages over an https connection. For detailing information about these 
+# serve pages over an https connection. For detailing information about these
 # directives see <URL:http://httpd.apache.org/docs/2.2/mod/mod_ssl.html>
-# 
+#
 # Do NOT simply read the instructions in here without understanding
 # what they do.  They're here only as hints or reminders.  If you are unsure
-# consult the online docs. You have been warned.  
+# consult the online docs. You have been warned.
 #
 
 LoadModule ssl_module modules/mod_ssl.so
 
 #
-# When we also provide SSL we have to listen to the 
+# When we also provide SSL we have to listen to the
 # the HTTPS port in addition.
 #
 Listen 443
@@ -60,7 +60,7 @@ SSLCipherSuite ALL:!ADH:!EXPORT:!SSLv2:RC4+RSA:+HIGH:+MEDIUM:+LOW
 # the certificate is encrypted, then you will be prompted for a
 # pass phrase.  Note that a kill -HUP will prompt again.  A new
 # certificate can be generated using the genkey(1) command.
-SSLCertificateFile /etc/pki/tls/certs/{{inventory_hostname}}.crt
+SSLCertificateFile /etc/pki/tls/certs/{{inventory_hostname}}.cer
 
 #   Server Private Key:
 #   If the key is not combined with the certificate, use this
@@ -133,7 +133,7 @@ SSLCertificateKeyFile /etc/pki/tls/private/{{inventory_hostname}}.key
 #     and no other module can change it.
 #   o OptRenegotiate:
 #     This enables optimized SSL connection renegotiation handling when SSL
-#     directives are used in per-directory context. 
+#     directives are used in per-directory context.
 #SSLOptions +FakeBasicAuth +ExportCertData +StrictRequire
 
 <Files ~ "\.(cgi|shtml|phtml|php3?)$">
@@ -153,4 +153,4 @@ SetEnvIf User-Agent ".*MSIE.*" \
 CustomLog logs/ssl_request_log \
           "%t %h %{SSL_PROTOCOL}x %{SSL_CIPHER}x \"%r\" %b"
 
-</VirtualHost>   
+</VirtualHost>

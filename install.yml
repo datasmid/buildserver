@@ -1,0 +1,27 @@
+#!/usr/bin/env ansible-playbook
+# provision linux buildserver on localhost
+
+
+- hosts: local
+  become: yes
+  tasks:
+  - name: say hi to buildserver
+    debug:
+      msg: "{{ inventory_hostname }} "
+    tags: test
+
+- hosts: local
+  become: yes
+  roles:
+    - { role: server, tags: 'server' }
+    - { role: ntp, tags: 'ntp' }
+    - { role: git, tags: 'git' }
+    - { role: java8, tags: 'java8' }
+    - { role: ant, tags: 'ant' }
+    - { role: maven, tags: 'maven' }
+    - { role: gradle, tags: 'gradle' }
+    - { role: perl, tags: 'perl' }
+    - { role: apache, tags: 'apache' }
+    - { role: jenkins, tags: 'jenkins' }
+    - { role: ansible, tags: 'ansible' }
+    - { role: docker, tags: 'docker' }

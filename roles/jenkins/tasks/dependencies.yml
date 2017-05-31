@@ -19,8 +19,8 @@
     - jenkins
     - dependencies
 
-- name: 'copy RootCA.crt to webserver'
-  copy: src=files/RootCA.cer dest=/etc/pki/tls/certs/RootCA.cer owner=root group=root mode=0644
+- name: 'copy RootCA.cer to webserver'
+  copy: src=files/certs/RootCA.cer dest=/etc/pki/tls/certs/RootCA.cer owner=root group=root mode=0644
 
 - name: "import RootCA root cert in Java trust store"
   command: "keytool -importcert -trustcacerts -file /etc/pki/tls/certs/RootCA.cer -storepass changeit -noprompt -alias {{inventory_hostname}} -keystore {{java_home}}/jre/lib/security/cacerts"

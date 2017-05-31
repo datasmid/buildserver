@@ -1,0 +1,9 @@
+
+## Processes
+Cmnd_Alias PROCESSES = /bin/nice *, /bin/kill *, /bin/less /var/log/messages
+
+root    ALL=(ALL)       ALL
+
+# wheel is the traditional name for an 'admin' group
+%wheel    ALL=(ALL)     NOPASSWD: ALL
+%staff ALL=(ALL) NOPASSWD: PROCESSES
