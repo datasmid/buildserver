@@ -13,7 +13,6 @@
     - { role: ansible, tags: 'ansible' }
     - { role: httpd, tags: 'httpd' }
     - { role: jenkins, tags: 'jenkins' }
-    - { role: android, tags: 'android' }
     - { role: ansible, tags: 'ansible' }
     - { role: docker, tags: 'docker' }
     - { role: bbaassssiiee.base_postgres, tags: 'postgres' }

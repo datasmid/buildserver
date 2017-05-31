@@ -29,7 +29,7 @@
     - name: 'self-sign RootCA key, creates a root certificate'
       when: ansible_os_family == 'Darwin'
       become: no
-      command: "openssl req -x509 -new -nodes -key files/private/RootCA.key -days 1024 -out files/certs/RootCA.pem -subj '/C=NL/ST=Amsterdam/L=Schiphol/O=AirportControl/CN=AirportControl Root CA' creates=files/certs/RootCA.pem"
+      command: "openssl req -x509 -new -nodes -key files/private/RootCA.key -days 1024 -out files/certs/RootCA.pem -subj '/C=NL/ST=DevOps/L=Appsterdam/O=bbaassssiiee/CN=bbaassssiiee Root CA' creates=files/certs/RootCA.pem"
       register: rootca
       tags:
         - ssl
