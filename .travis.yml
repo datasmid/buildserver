@@ -11,13 +11,13 @@ install:
   - pip install ansible==$ANSIBLE_VERSION
 
   # Install dependencies.
-  - make setup
   - ansible-playbook galaxy_import.yml -vv
+  - pip install -r requirements.txt
 
 script:
   - ansible --version
   - ansible-playbook --syntax-check provision.yml
   - ansible-playbook --list-hosts provision.yml
-#  - ansible-playbook -i travis.ini --check provision.yml
+  - ansible-playbook install.yml
   - chmod 700 files
   - chmod 600 files/vagrant.rsa
