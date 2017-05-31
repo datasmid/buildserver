@@ -4,30 +4,30 @@
   yum: name=ca-certificates state=latest
   tags:
     - httpd
-    - https
+    - ssl
 - name: 'copy RootCA.cer to webserver'
   copy: src=files/certs/RootCA.cer dest=/var/www/html/RootCA.cer owner=apache group=apache mode=0644
   tags:
     - httpd
-    - https
+    - ssl
 
 - name: 'generate buildserver key'
   command: "openssl genrsa -out /etc/pki/tls/private/{{inventory_hostname}}.key 1024 creates=/etc/pki/tls/private/{{inventory_hostname}}.key"
   tags:
     - httpd
-    - https
+    - ssl
 
 - name: 'generate certificate signing request'
   command: "openssl req -new -key /etc/pki/tls/private/{{inventory_hostname}}.key -out {{inventory_hostname}}.csr -subj '/C=AA/ST=NN/L=Ansible/O=localhost/CN={{inventory_hostname}}'"
   tags:
     - httpd
-    - https
+    - ssl
 
 - name: 'fetch certficate signing request'
   fetch: src={{inventory_hostname}}.csr dest=files/certrequests/{{inventory_hostname}}.csr flat=yes
   tags:
     - httpd
-    - https
+    - ssl
 
 - name: 'CA-sign buildserver key in a way to avoid https://github.com/mitchellh/vagrant/issues/2646'
   become: no
@@ -36,7 +36,7 @@
     creates: "files/certs/{{inventory_hostname}}.cer"
   tags:
     - httpd
-    - https
+    - ssl
 
 - name: 'concatenate dh_parameters.txt to certificate'
   become: no
@@ -45,13 +45,13 @@
     - restart httpd
   tags:
     - httpd
-    - https
+    - ssl
 
 - name: 'copy certificate to webserver'
   copy: src=files/certs/{{inventory_hostname}}.cer dest=/etc/pki/tls/certs/{{inventory_hostname}}.cer
   tags:
     - httpd
-    - https
+    - ssl
 
 
 - name: "copy RootCA root cert"
@@ -63,10 +63,10 @@
   command: update-ca-trust force-enable
   tags:
     - httpd
-    - https
+    - ssl
 
 - name: "import RootCA root cert into Linux ca-trust"
   command: update-ca-trust extract
   tags:
     - httpd
-    - https
+    - ssl
