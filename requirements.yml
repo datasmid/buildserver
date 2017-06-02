@@ -31,7 +31,6 @@
   version: v0.1.1
 
 - src: bbaassssiiee.base_mysql
-  name: ntp
   version: v0.1.2
 
 - src: bbaassssiiee.base_git

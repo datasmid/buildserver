@@ -27,7 +27,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.ssh.forward_agent = false
   config.ssh.insert_key = false
-
+  config.vm.provision "shell", inline: "ifup enp0s8", run: "always"
   # Timeouts
   config.vm.boot_timeout = 900
   config.vm.graceful_halt_timeout=30
@@ -52,7 +52,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         ansible.playbook = "provision.yml"
           ansible.inventory_path = "inventories/vagrant"
           ansible.limit = "build_master"
-          ansible.verbose = 'vv'
+          ansible.verbose = 'v'
           ansible.limit = "build_master"
         end
       end
@@ -64,13 +64,20 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     blue.vm.box_url = "https://atlas.hashicorp.com/redesign/centos7"
     blue.vm.network "private_network", ip: "192.168.10.23", :netmask => "255.255.255.0",  auto_config: true
     blue.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2223, auto_correct: false
-    blue.vm.network :forwarded_port, guest:8000, host:8000
 
     blue.vm.provider "virtualbox" do |vb|
       vb.customize ["modifyvm", :id, "--memory", "#$MEMSIZE", "--natnet1", "172.16.1/24"]
       vb.gui = false
       vb.name = "test"
     end
+    if which('ansible-playbook')
+      blue.vm.provision "ansible" do |ansible|
+        ansible.playbook = "ansible/provision.yml"
+          ansible.inventory_path = "inventories/vagrant"
+          ansible.verbose = 'v'
+          ansible.limit = "blue"
+        end
+      end
   end
 
   config.vm.define :red, autostart: false do |red|
@@ -78,7 +85,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     red.vm.box_url = "https://atlas.hashicorp.com/redesign/centos7"
     red.vm.network "private_network", ip: "192.168.10.24", :netmask => "255.255.255.0",  auto_config: true
     red.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2224, auto_correct: false
-    red.vm.network :forwarded_port, guest:8000, host:8000
     red.vm.provider "virtualbox" do |vb|
       vb.customize ["modifyvm", :id, "--memory", "#$MEMSIZE", "--natnet1", "172.16.1/24"]
       vb.gui = false
@@ -88,7 +94,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       red.vm.provision "ansible" do |ansible|
         ansible.playbook = "ansible/provision.yml"
           ansible.inventory_path = "inventories/vagrant"
-          ansible.verbose = 'vv'
+          ansible.verbose = 'v'
           ansible.limit = "red"
         end
       end
@@ -106,16 +112,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       vb.gui = false
       vb.name = "green"
     end
-    # If ansible is in your path it will provision from your HOST machine
-    # If ansible is not found in the path it will be instaled in the VM and provisioned from there
-    if which('ansible-playbook')
-      green.vm.provision "ansible" do |ansible|
-        ansible.playbook = "ansible/provision.yml"
-          ansible.inventory_path = "inventories/vagrant"
-          ansible.verbose = 'vv'
-          ansible.limit = "green"
-        end
-      end
   end
 
   config.vm.define :win_slave, autostart: false do |win_slave|
