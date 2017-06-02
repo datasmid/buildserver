@@ -36,7 +36,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # build_master
   config.vm.define :build_master, autostart: true do |build_master|
     build_master.vm.box = "redesign/centos7"
-    build_master.vm.box_url = "https://atlas.hashicorp.com/centos/7"
+    build_master.vm.box_url = "https://atlas.hashicorp.com/redesign/centos7"
     build_master.vm.box_check_update = false
     build_master.vm.synced_folder ".", "/vagrant", id: "vagrant-root"
     build_master.vm.network "private_network", ip: "192.168.10.28", :netmask => "255.255.255.0",  auto_config: true
@@ -60,8 +60,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # testserver: tests the target above
   config.vm.define :blue, autostart: false do |blue|
-    blue.vm.box = "centos/7"
-    blue.vm.box_url = "https://atlas.hashicorp.com/centos/7"
+    blue.vm.box = "redesign/centos7"
+    blue.vm.box_url = "https://atlas.hashicorp.com/redesign/centos7"
     blue.vm.network "private_network", ip: "192.168.10.23", :netmask => "255.255.255.0",  auto_config: true
     blue.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2223, auto_correct: false
     blue.vm.network :forwarded_port, guest:8000, host:8000
@@ -74,8 +74,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.define :red, autostart: false do |red|
-    red.vm.box = "centos/7"
-    red.vm.box_url = "https://atlas.hashicorp.com/centos/7"
+    red.vm.box = "redesign/centos7"
+    red.vm.box_url = "https://atlas.hashicorp.com/redesign/centos7"
     red.vm.network "private_network", ip: "192.168.10.24", :netmask => "255.255.255.0",  auto_config: true
     red.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2224, auto_correct: false
     red.vm.network :forwarded_port, guest:8000, host:8000
@@ -95,8 +95,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.define :green, autostart: false do |green|
-    green.vm.box = "centos/7"
-    green.vm.box_url = "https://atlas.hashicorp.com/centos/7"
+    green.vm.box = "redesign/centos7"
+    green.vm.box_url = "https://atlas.hashicorp.com/redesign/centos7"
     green.vm.box_check_update = true
     green.vm.network "private_network", ip: "192.168.10.25", :netmask => "255.255.255.0",  auto_config: true
     green.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2225, auto_correct: false

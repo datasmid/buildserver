@@ -18,6 +18,3 @@ script:
   - ansible --version
   - ansible-playbook --syntax-check provision.yml
   - ansible-playbook --list-hosts provision.yml
-  - ansible-playbook install.yml
-  - chmod 700 files
-  - chmod 600 files/vagrant.rsa

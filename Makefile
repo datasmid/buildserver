@@ -28,11 +28,12 @@ addboxes:
 	vagrant box add -f -name win_slave boxes/windows.box
 
 .PHONY: install
-install: setup
+install:
 	@echo Bring up 2 virtual machines:** 'build_master' the CI server, and 'red'.
-	vagrant up --no-provision build_master red
-	@echo **Run the provisioner**
-	ansible-playbook -l build_master:red provision.yml
+	vagrant up --no-provision build_master
+	vagrant provision build_master
+	vagrant up --no-provision red
+	vagrant provision red
 
 .PHONY: build
 build:
@@ -41,15 +42,8 @@ build:
 
 .PHONY: cleanroles
 cleanroles:
-	rm -rf roles/base_*
-	rm -rf roles/bbaassssiiee.*
-	rm -rf roles/ansible-oasis
-	rm -rf roles/ansible-nexus
-	rm -rf roles/hudecof.tomcat
-	rm -rf roles/ansible-selenium-role
-	rm -rf roles/windows-selenium-role
-	rm -rf roles/ferhaty.jenkins-slave
-	rm -rf roles/ansible-jenkins-slave
+	rm -rf galaxy_roles/base_*
+	rm -rf galaxy_roles/bbaassssiiee.*
 
 .PHONY: destroy
 destroy:
