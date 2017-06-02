@@ -31,7 +31,7 @@
     - ssl
 
 - name: 'generate buildserver key'
-  command: "openssl genrsa -out /etc/pki/tls/private/{{inventory_hostname}}.key 1024 creates=/etc/pki/tls/private/{{inventory_hostname}}.key"
+  command: "openssl genrsa -out /etc/pki/tls/private/{{inventory_hostname}}.key 1024"
   tags:
     - httpd
     - ssl
@@ -51,14 +51,15 @@
 - name: 'CA-sign buildserver key in a way to avoid https://github.com/mitchellh/vagrant/issues/2646'
   become: no
   local_action: shell /bin/bash --login -c 'openssl x509 -req -in files/certrequests/{{inventory_hostname}}.csr -CA files/certs/RootCA.pem -CAkey files/private/RootCA.key -CAcreateserial -out files/certs/{{inventory_hostname}}.cer -days 1800'
-  args:
-    creates: "files/certs/{{inventory_hostname}}.cer"
+  register: signed
+  changed_when: signed.changed
   tags:
     - httpd
     - ssl
 
 - name: 'concatenate dh_parameters.txt to certificate'
   become: no
+  when: signed.changed
   local_action: "shell cat files/dh_parameters.txt >> files/certs/{{inventory_hostname}}.cer"
   notify:
     - restart httpd
