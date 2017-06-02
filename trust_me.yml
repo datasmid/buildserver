@@ -1,4 +1,4 @@
-#!/usr/bin/env ansible-playbook --ask-become-pass
+#!/usr/bin/env ansible-playbook
 # Establish self-signed certificate authority for components
 
 - name: "trust_me.yml"
@@ -42,13 +42,7 @@
         - ssl
 
     - name: 'sign dev CSRs'
+      become: no
       local_action: shell /bin/bash --login -c 'openssl x509 -req -in {{ item }} -CA files/certs/RootCA.pem -CAkey files/private/RootCA.key -CAcreateserial -out files/certs/{{ item }}.cer -days 365'
       with_fileglob: files/certrequests
 
-    - name: 'import RootCA in OSX system trust'
-      when: rootca.changed and ansible_os_family == 'Darwin'
-      become: yes
-      command: security add-trusted-cert -d -r trustRoot -k "/Library/Keychains/System.keychain" "files/certs/RootCA.cer"
-      tags:
-        - ssl
-        - skip_ok

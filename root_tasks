@@ -1,6 +1,6 @@
 #!/bin/bash -e
 # Usage: sudo ./configure
-# prepare machine for use of Ansible
+# prepare machine for use of buildserver
 
 if [ "`uname`" == "Linux" ]
 then
@@ -14,5 +14,5 @@ if [ "`uname`" == "Darwin" ]
 then
     # Create root ca, you need to become root:
     echo 'Mac privileges needed to import root certificate'
-    ./trust_me.yml
+    security add-trusted-cert -d -r trustRoot -k "/Library/Keychains/System.keychain" "files/certs/RootCA.cer"
 fi
