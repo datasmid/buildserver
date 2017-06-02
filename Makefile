@@ -21,7 +21,8 @@ help:
 .PHONY: setup
 setup:
 	@echo Install Ansible galaxy roles and dependent python packages.
-	./configure
+	pip install -r requirements.txt
+	ansible-playbook -c local galaxy_import.yml
 
 .PHONY: myself
 myself:

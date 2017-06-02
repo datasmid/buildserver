@@ -1,16 +1,17 @@
 [vagrant:children]
 build
-dtap
+slaves
 windows
 
 [build]
-build_master ansible_ssh_host=192.168.10.28
+build_master ansible_ssh_host=192.168.10.28 ansible_user=vagrant ansible_ssh_private_key_file=files/vagrant.rsa
 
-[dtap]
-target ansible_ssh_host=192.168.10.18
-test_slave ansible_ssh_host=192.168.10.20
+[slaves]
+blue ansible_ssh_host=192.168.10.18
+green ansible_ssh_host=192.168.10.20
+red ansible_ssh_host=192.168.10.20
 
-[vagrant:vars]
+[slaves:vars]
 ansible_user=vagrant
 ansible_ssh_private_key_file=files/vagrant.rsa
 
