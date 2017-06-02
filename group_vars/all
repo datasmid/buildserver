@@ -1,19 +1,27 @@
 location: Appsterdam
 internet: True
 
-mvn_deploy_url: https://dev/artifactory
-mvn_proxy_url: https://dev/nexus
+jenkins_port: 8080
+artifactory_port: 8081
+nexus_port: 8082
+sonar_port: 9000
+grid_port: 4444
+
+mvn_deploy_url: https://build_master/artifactory
+mvn_proxy_url: https://build_master/nexus
 mvn_master_password: Mvn_Password
 
-pg_ip: 192.168.10.16        # The IP address of the primary or master database
+# Select one or the other
+artifactory_database: mysql
+
+# artifactory_database: postgresql
+base_postgres_mip: 192.168.10.23     # The IP address of the primary or master database
+base_postgres_sip: 192.168.10.24     # The IP address of the secondary postgres box
 base_postgres_user: 'dba'            # This is your user
 base_postgres_pass: '0r@cl3'         # This is your password
-pg_subnet: 192.168.10.0/24 
+
 proxy_env:
   dummy: value
-
-# Swarm agents rely on broadcasts, might not be available on your network.
-swarm_master: "https://{{ hostvars['dev']['ansible_ssh_host'] }}/jenkins"
 
 # Selenium
 hub: 'http://dev:4444/grid/register'

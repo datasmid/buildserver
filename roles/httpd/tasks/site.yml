@@ -1,11 +1,21 @@
 ---
 - name: 'create directories'
-  file: dest=/var/www/html/rw_common/themes/ideal/images state=directory owner=apache mode=0750
+  file:
+    dest: '/var/www/html/rw_common/themes/ideal/images'
+    state: directory
+    owner: root
+    group: apache
+    mode: 0750
   tags:
     - httpd
 
 - name: 'create website home page'
-  copy: src={{item}} dest=/var/www/html/{{item}} owner=apache mode=0640
+  copy:
+    src: "{{item}}"
+    dest: "/var/www/html/{{item}}"
+    owner: root
+    group: apache
+    mode: 0640
   with_items:
     - index.html
     - sitemap.xml
@@ -13,7 +23,12 @@
     - httpd
 
 - name: 'copy website style sheets'
-  copy: src=rw_common/themes/ideal/{{item}} dest=/var/www/html/rw_common/themes/ideal/{{item}} owner=apache mode=0640
+  copy:
+    src: "rw_common/themes/ideal/{{item}}"
+    dest: "/var/www/html/rw_common/themes/ideal/{{item}}"
+    owner: root
+    group: apache
+    mode: 0640
   with_items:
     - consolidated-handheld-0.css
     - consolidated-print-0.css
@@ -23,7 +38,12 @@
     - httpd
 
 - name: 'copy website graphics'
-  copy: src=rw_common/themes/ideal/images/{{item}} dest=/var/www/html/rw_common/themes/ideal/images/{{item}} owner=apache mode=0640
+  copy:
+    src: "rw_common/themes/ideal/images/{{item}}"
+    dest: "/var/www/html/rw_common/themes/ideal/images/{{item}}"
+    owner: root
+    group: apache
+    mode: 0640
   with_items:
     - footer_bg.png
     - header_bg.png

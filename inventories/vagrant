@@ -4,12 +4,12 @@ slaves
 windows
 
 [build]
-build_master ansible_ssh_host=192.168.10.28 ansible_user=vagrant ansible_ssh_private_key_file=files/vagrant.rsa
+build_master ansible_ssh_host=192.168.10.28 mysql_server=true
 
 [slaves]
-blue ansible_ssh_host=192.168.10.18
-green ansible_ssh_host=192.168.10.20
-red ansible_ssh_host=192.168.10.20
+blue ansible_ssh_host=192.168.10.23
+red ansible_ssh_host=192.168.10.24
+green ansible_ssh_host=192.168.10.25
 
 [slaves:vars]
 ansible_user=vagrant

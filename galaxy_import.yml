@@ -10,4 +10,4 @@
 
   tasks:
     - name: 'install roles from galaxy'
-      command: ansible-galaxy install -p ./roles_galaxy --force --role-file requirements.yml
+      command: ansible-galaxy install -p ./galaxy_roles --force --role-file requirements.yml

@@ -4,27 +4,27 @@ ProxyVia Off
 ProxyPreserveHost On
 
 # TODO: ajp
-ProxyPass /jenkins http://localhost:8080/jenkins nocanon
-ProxyPassReverse /jenkins/ http://localhost:8080/jenkins/
-ProxyPassReverse  /jenkins/  http://{{inventory_hostname}}:8080/jenkins/
+ProxyPass /jenkins http://localhost:{{ jenkins_port }}/jenkins nocanon
+ProxyPassReverse /jenkins/ http://localhost:{{ jenkins_port }}/jenkins/
+ProxyPassReverse  /jenkins/  http://{{inventory_hostname}}:{{ jenkins_port }}/jenkins/
 ProxyPassReverseCookiePath /jenkins /jenkins
 
-ProxyPass /artifactory http://localhost:8081/artifactory
-ProxyPassreverse /artifactory http://localhost:8081/artifactory
-ProxyPassReverse  /artifactory  http://{{inventory_hostname}}:8081/artifactory
+ProxyPass /artifactory http://localhost:{{ artifactory_port }}/artifactory
+ProxyPassreverse /artifactory http://localhost:{{ artifactory_port }}/artifactory
+ProxyPassReverse  /artifactory  http://{{inventory_hostname}}:{{ artifactory_port }}/artifactory
 
-ProxyPass /nexus http://localhost:8082/nexus
-ProxyPassreverse /nexus http://localhost:8082/nexus
-ProxyPassReverse  /nexus  http://{{inventory_hostname}}:8082/nexus/
+ProxyPass /nexus http://localhost:{{ nexus_port }}/nexus
+ProxyPassreverse /nexus http://localhost:{{ nexus_port }}/nexus
+ProxyPassReverse  /nexus  http://{{inventory_hostname}}:{{ nexus_port }}/nexus/
 ProxyPassReverseCookiePath /nexus /nexus
 
 ProxyPass /sonar http://localhost:9000/sonar
 ProxyPassreverse /sonar http://localhost:9000/sonar
 ProxyPassReverse  /sonar  http://{{inventory_hostname}}:9000/sonar
 
-ProxyPass /grid http://localhost:4444/grid
-ProxyPassreverse /grid http://localhost:4444/grid
-ProxyPassReverse  /grid  http://{{inventory_hostname}}:4444/grid
+ProxyPass /grid http://localhost:{{ grid_port }}/grid
+ProxyPassreverse /grid http://localhost:{{ grid_port }}/grid
+ProxyPassReverse  /grid  http://{{inventory_hostname}}:{{ grid_port }}/grid
 
 RequestHeader set X-Forwarded-Proto "https"
 RequestHeader set X-Forwarded-Port "443"

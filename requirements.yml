@@ -7,7 +7,10 @@
   version: v1.0.2
 
 - src: bbaassssiiee.sonar
-  version: v0.1.0
+  version: v0.1.2
+
+- src: https://github.com/jhinrichsen/ansible-nexus.git
+  name: jhinrichsen.nexus
 
 - src: https://github.com/bbaassssiiee/ansible-selenium-role.git
   path: ./roles/
@@ -26,6 +29,10 @@
 - src: bbaassssiiee.base_ntp
   name: ntp
   version: v0.1.1
+
+- src: bbaassssiiee.base_mysql
+  name: ntp
+  version: v0.1.2
 
 - src: bbaassssiiee.base_git
   name: git

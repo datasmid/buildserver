@@ -1,22 +1,17 @@
 VAGRANT_DEFAULT_PROVIDER=virtualbox
 export ANSIBLE_SSH_ARGS='-o ControlMaster=no'
-default: all
+default: help
 
 
 .PHONY: help
 help:
-	@echo "General tasks:"
-	@echo "make setup    -install requirements and generate keys"
-	@echo "make mysqlf   -install on centos7"
-	@echo "make  (all)   -builds build target windows virtual machines"
-	@echo "               all: clean setup install deploy"
-	@echo "make test     -test build target win_slave test_slave virtual machines"
-	@echo "-------------------------------------------------------------"
-	@echo "make clean    -Cleanup vm's and  ansible roles"
-	@echo "make addboxes -Run once to 'vagrant box add' the 2 from ./boxes/"
-	@echo "make install  -Install the virtual machines only"
-	@echo "make build    -Build the application game of life"
-	@echo "make deploy   -Deploy the application game of life to target"
+	@echo "Beginner tasks:"
+	@echo "make setup         -install requirements and generate keys"
+	@echo "make mysqlf        -install on centos7"
+	@echo "make install       -Install two virtual machines only"
+#	@echo "make build         -Build the application game of life"
+#	@echo "make deploy        -Deploy the application game of life to target"
+	@echo "make cleanroles    -Cleanup vm's and  ansible roles"
 
 .PHONY: setup
 setup:
@@ -34,15 +29,10 @@ addboxes:
 
 .PHONY: install
 install: setup
-	@echo Bring up 2 virtual machines:** 'build_master' the CI server, and 'target'.
-	vagrant up --no-provision build_master target
+	@echo Bring up 2 virtual machines:** 'build_master' the CI server, and 'red'.
+	vagrant up --no-provision build_master red
 	@echo **Run the provisioner**
-	ansible-playbook -l build_master:target provision.yml
-	@echo **Install Docker on target too**
-	ansible-playbook -l target provision.yml
-	@echo **Bring up the windows 7 VM, and provision it:**
-	vagrant up --no-provision win_slave
-	ansible-playbook -l win_slave provision.yml
+	ansible-playbook -l build_master:red provision.yml
 
 .PHONY: build
 build:
@@ -63,14 +53,17 @@ cleanroles:
 
 .PHONY: destroy
 destroy:
+	@echo halt virtual machines
 	vagrant halt build_master
-	vagrant halt target
-	vagrant halt test_slave
+	vagrant halt red
+	vagrant halt blue
+	vagrant halt green
 	vagrant halt win_slave
-	@echo Destroys virtual images
+	@echo Destroys virtual machines
 	vagrant destroy -f build_master
-	vagrant destroy -f target
-	vagrant destroy -f test_slave
+	vagrant destroy -f red
+	vagrant destroy -f blue
+	vagrant destroy -f green
 	vagrant destroy -f win_slave
 
 .PHONY: clean

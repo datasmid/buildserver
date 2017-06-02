@@ -7,4 +7,5 @@ requests
 yamllint
 ansible
 ansible-lint
+molecule
 ConfigParser

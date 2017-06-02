@@ -13,54 +13,28 @@
     - { role: ansible, tags: 'ansible' }
     - { role: httpd, tags: 'httpd' }
     - { role: jenkins, tags: 'jenkins' }
-    - { role: ansible, tags: 'ansible' }
-    - { role: docker, tags: 'docker' }
-    - { role: bbaassssiiee.base_postgres, tags: 'postgres' }
+    - { role: jhinrichsen.nexus, tags: 'nexus' }  # as proxy
     - { role: bbaassssiiee.artifactory, tags: 'artifactory' } # for built stuff
     - { role: bbaassssiiee.sonar, tags: 'sonar' }
-    - { role: httpd, tags: 'httpd' }
-#   - { role: hullufred.nexus, tags: 'nexus' } # symlink issue
-#   - { role: ansible-selenium-role, tags: 'ansible-selenium-role' }
+    - { role: docker, tags: 'docker' }
 
   tasks:
     - include: tasks/settings.yml
 
-- name: system under test
-  hosts: target
-  remote_user: vagrant
+- name: docker slaves
+  hosts: slaves
   become: yes
-  vars:
-    homedir: "{{ lookup('env','HOME') }}"
 
   roles:
-    - common
-    - ntp
-    - bbaassssiiee.base_java8
-    - docker
-#   - base_tomcat
+    - { role: common, tags: 'common' }
+    - { role: ntp, tags: 'ntp' }
+    - { role: docker, tags: 'docker' }
 
-#  tasks:
-#    - include: tasks/tomcat_settings.yml
-
-- name: test system
-  hosts: test_slave
-  remote_user: vagrant
-  become: yes
-  gather_facts: yes
-
-  roles:
-    - bbaassssiiee.base_java8
-    - ansible-selenium-role
-    - ansible-jenkins-slave
-
-- name: Windows client
-  hosts: win_slave
-  remote_user: IEUser
-  gather_facts: no
-
-  roles:
-    - ansible-oasis
-    - ferhaty.jenkins-slave
-    - windows-selenium-role
-
-
+#- name: Windows client
+#  hosts: win_slave
+#  gather_facts: no
+#
+# roles:
+#    - ansible-oasis
+#    - ferhaty.jenkins-slave
+#    - windows-selenium-role

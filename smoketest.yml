@@ -10,17 +10,22 @@
   - name: 'verify tcp listening socket for Apache'
     wait_for: port=443 timeout=20 delay=1
 
+  - name: 'verify tcp listening socket for MySQL'
+    wait_for: port=3306 timeout=30
+    ignore_errors: yes
+
   - name: 'verify tcp listening socket for Postgres'
     wait_for: port=5432 timeout=30
+    ignore_errors: yes
 
   - name: 'verify tcp listening socket for Jenkins'
-    wait_for: port=8080 timeout=30
+    wait_for: port={{ jenkins_port }} timeout=30
 
   - name: 'verify tcp listening socket for Artifactory'
-    wait_for: port=8081 timeout=30
+    wait_for: port={{ artifactory_port }} timeout=30
 
   - name: 'verify tcp listening socket for Sonar'
-    wait_for: port=9000 timeout=10
+    wait_for: port={{ sonar_port }} timeout=10
     ignore_errors: yes
 
   - name: 'verify https connectivity to Jenkins'
@@ -29,7 +34,7 @@
 
   - name: 'verify https connectivity to Artifactory'
     become: no
-    local_action: uri url=https://build/artifactory/webapp/#/artifacts/browse/tree/General/ext-release-local 
+    local_action: uri url=https://build/artifactory/webapp/#/artifacts/browse/tree/General/ext-release-local
                   status_code=200 validate_certs=no
 
   - name: 'verify https connectivity to Jenkins'

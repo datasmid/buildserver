@@ -5,8 +5,27 @@
   tags:
     - httpd
     - ssl
+
 - name: 'copy RootCA.cer to webserver'
   copy: src=files/certs/RootCA.cer dest=/var/www/html/RootCA.cer owner=apache group=apache mode=0644
+  tags:
+    - httpd
+    - ssl
+
+- name: "copy RootCA root cert"
+  command: cp /var/www/html/RootCA.cer /etc/pki/ca-trust/source/anchors creates=/etc/pki/ca-trust/source/anchors
+  tags:
+    - httpd
+    - ssl
+
+- name: "enable ca-trust"
+  command: update-ca-trust force-enable
+  tags:
+    - httpd
+    - ssl
+
+- name: "import RootCA root cert into Linux ca-trust"
+  command: update-ca-trust extract
   tags:
     - httpd
     - ssl
@@ -54,19 +73,3 @@
     - ssl
 
 
-- name: "copy RootCA root cert"
-  command: cp /var/www/html/RootCA.cer /etc/pki/ca-trust/source/anchors creates=/etc/pki/ca-trust/source/anchors
-  tags:
-    - httpd
-
-- name: "enable ca-trust"
-  command: update-ca-trust force-enable
-  tags:
-    - httpd
-    - ssl
-
-- name: "import RootCA root cert into Linux ca-trust"
-  command: update-ca-trust extract
-  tags:
-    - httpd
-    - ssl
