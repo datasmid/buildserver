@@ -38,19 +38,19 @@
   version: v0.1.1
 
 - src: bbaassssiiee.base_java8
-  version: v0.1.3
+  version: v0.1.5
 
 - src: bbaassssiiee.base_ant
   name: ant
-  version: v0.1.6
+  version: v0.1.8
 
 - src: bbaassssiiee.base_maven
   name: maven
-  version: v0.1.3
+  version: v0.1.5
 
 - src: bbaassssiiee.base_gradle
   name: gradle
-  version: v0.1.2
+  version: v0.1.5
 
 - src: bbaassssiiee.base_perl
   name: perl
@@ -70,6 +70,6 @@
 
 - src: bbaassssiiee.base_docker
   name: docker
-  version: v0.1.2
+  version: v0.1.4
 
 
