@@ -2,7 +2,6 @@
 
 jenkins_port: 8080
 artifactory_port: 8081
-nexus_port: 8082
 sonar_port: 9000
 grid_port: 4444
 

@@ -19,9 +19,7 @@ slaveAgentPort: 8079
 base_postgres_user: dba
 base_postgres_pass: dba_pass
 base_postgres_net: samenet
-nexus_version: 'latest'
 
-input_nexus_password: admin123
 input_artifactory_password: password
 artifactory_version: "4.9.0"
 artifactory_database: postgres

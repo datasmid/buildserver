@@ -6,9 +6,6 @@
         - icedtea-netx-common
         - git
 
-    - name: 'verify presence of Nexus'
-      get_url: url=https://dev/nexus validate_certs=no dest=/tmp/nexus
-
     - name: 'download CA root cert'
       get_url: url=https://dev/buildserverCA.cer dest=/tmp/buildserverCA.cer validate_certs=no
 

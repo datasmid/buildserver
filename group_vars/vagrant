@@ -5,7 +5,7 @@ proxy_env:
   dummy: value
 
 mvn_deploy_url: https://build_master/artifactory
-mvn_proxy_url: https://build_master/nexus
+mvn_proxy_url: "{{ lookup('ENV','http_proxy') }}"
 mvn_master_password: Mvn_Password
 
 # Select one or the other

@@ -123,13 +123,3 @@ Increase log level:
 
 Vagrant: export VAGRANT_LOG=info
 Ansible: see ansible.cfg file
-
-
-
-The last test of getting the war file from dev may fail.
-This may be related to the minimal amount of memory.
-
-1 Jenkins is not finished bulding at that point in time.
-2 Sometimes the build fails, it cannot contact nexus, first open a web page to nexus then try a
-  rebuild in Jenkins and wait for a green light for the build.
-3 Then manually run the last line of the deploy step from the Makefile.
