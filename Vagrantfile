@@ -36,7 +36,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # build_master
   config.vm.define :build_master, autostart: true do |build_master|
     build_master.vm.box = "redesign/centos7"
-    build_master.vm.box_url = "https://atlas.hashicorp.com/redesign/centos7"
     build_master.vm.box_check_update = false
     build_master.vm.synced_folder ".", "/vagrant", id: "vagrant-root"
     build_master.vm.network "private_network", ip: "192.168.10.28", :netmask => "255.255.255.0",  auto_config: true
@@ -58,65 +57,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       end
   end
 
-  # testserver: tests the target above
-  config.vm.define :blue, autostart: false do |blue|
-    blue.vm.box = "redesign/centos7"
-    blue.vm.box_url = "https://atlas.hashicorp.com/redesign/centos7"
-    blue.vm.network "private_network", ip: "192.168.10.23", :netmask => "255.255.255.0",  auto_config: true
-    blue.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2223, auto_correct: false
-
-    blue.vm.provider "virtualbox" do |vb|
-      vb.customize ["modifyvm", :id, "--memory", "#$MEMSIZE", "--natnet1", "172.16.1/24"]
-      vb.gui = false
-      vb.name = "test"
-    end
-    if which('ansible-playbook')
-      blue.vm.provision "ansible" do |ansible|
-        ansible.playbook = "ansible/provision.yml"
-          ansible.inventory_path = "inventories/vagrant"
-          ansible.verbose = 'v'
-          ansible.limit = "blue"
-        end
-      end
-  end
-
-  config.vm.define :red, autostart: false do |red|
-    red.vm.box = "redesign/centos7"
-    red.vm.box_url = "https://atlas.hashicorp.com/redesign/centos7"
-    red.vm.network "private_network", ip: "192.168.10.24", :netmask => "255.255.255.0",  auto_config: true
-    red.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2224, auto_correct: false
-    red.vm.provider "virtualbox" do |vb|
-      vb.customize ["modifyvm", :id, "--memory", "#$MEMSIZE", "--natnet1", "172.16.1/24"]
-      vb.gui = false
-      vb.name = "red"
-    end
-    if which('ansible-playbook')
-      red.vm.provision "ansible" do |ansible|
-        ansible.playbook = "ansible/provision.yml"
-          ansible.inventory_path = "inventories/vagrant"
-          ansible.verbose = 'v'
-          ansible.limit = "red"
-        end
-      end
-  end
-
-  config.vm.define :green, autostart: false do |green|
-    green.vm.box = "redesign/centos7"
-    green.vm.box_url = "https://atlas.hashicorp.com/redesign/centos7"
-    green.vm.box_check_update = true
-    green.vm.network "private_network", ip: "192.168.10.25", :netmask => "255.255.255.0",  auto_config: true
-    green.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2225, auto_correct: false
-
-    green.vm.provider "virtualbox" do |vb|
-      vb.customize ["modifyvm", :id, "--memory", "#$MEMSIZE", "--natnet1", "172.16.1/24"]
-      vb.gui = false
-      vb.name = "green"
-    end
-  end
-
   config.vm.define :win_slave, autostart: false do |win_slave|
     win_slave.vm.box = "ferhaty/win7ie10winrm"
-    win_slave.vm.box_url = "https://atlas.hashicorp.com/ferhaty/boxes/win7ie10winrm"
     win_slave.vm.guest = :windows
     win_slave.vm.communicator = "winrm"
     win_slave.winrm.username = 'vagrant'
