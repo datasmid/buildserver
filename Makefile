@@ -7,16 +7,17 @@ default: help
 help:
 	@echo "Beginner tasks:"
 	@echo "make setup         -install requirements and generate keys"
-	@echo "make mysqlf        -install on centos7"
-	@echo "make install       -Install two virtual machines only"
-#	@echo "make build         -Build the application game of life"
+	@echo "make myself        -install on centos7"
+	@echo "make vagrant       -Install two virtual machines only"
+	@echo "make build         -Build the application game of life"
 #	@echo "make deploy        -Deploy the application game of life to target"
 	@echo "make cleanroles    -Cleanup vm's and  ansible roles"
 
 .PHONY: setup
 setup:
 	@echo Install Ansible galaxy roles and dependent python packages.
-	pip install -r requirements.txt
+	rm -rf galaxy_roles
+#	pip install -r requirements.txt
 	ansible-playbook -c local galaxy_import.yml
 
 .PHONY: myself
@@ -27,13 +28,11 @@ myself:
 addboxes:
 	vagrant box add -f -name win_slave boxes/windows.box
 
-.PHONY: install
-install:
-	@echo Bring up 2 virtual machines:** 'build_master' the CI server, and 'red'.
+.PHONY: vagrant
+vagrant:
+	@echo Bring up vagrant VM:** 'build_master' the CI server
 	vagrant up --no-provision build_master
 	vagrant provision build_master
-	vagrant up --no-provision red
-	vagrant provision red
 
 .PHONY: build
 build:
@@ -42,22 +41,15 @@ build:
 
 .PHONY: cleanroles
 cleanroles:
-	rm -rf galaxy_roles/base_*
-	rm -rf galaxy_roles/bbaassssiiee.*
+	rm -rf galaxy_roles
 
 .PHONY: destroy
 destroy:
 	@echo halt virtual machines
 	vagrant halt build_master
-	vagrant halt red
-	vagrant halt blue
-	vagrant halt green
 	vagrant halt win_slave
 	@echo Destroys virtual machines
 	vagrant destroy -f build_master
-	vagrant destroy -f red
-	vagrant destroy -f blue
-	vagrant destroy -f green
 	vagrant destroy -f win_slave
 
 .PHONY: clean
@@ -95,7 +87,3 @@ boxes/windows.box:
 
 .PHONY: boxes
 boxes: boxes/build.box boxes/target.box boxes/test.box boxes/windows.box
-
-
-
-
