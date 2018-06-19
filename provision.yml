@@ -4,31 +4,23 @@
   become: yes
 
   roles:
-    - { role: ntp, tags: 'ntp' }
-    - { role: git, tags: 'git' }
-    - { role: ant, tags: 'ant' }
-    - { role: maven, tags: 'maven' }
-    - { role: gradle, tags: 'gradle' }
-    - { role: perl, tags: 'perl' }
-    - { role: ansible, tags: 'ansible' }
-    - { role: httpd, tags: 'httpd' }
-    - { role: jenkins, tags: 'jenkins' }
-    - { role: jhinrichsen.nexus, tags: 'nexus' }  # as proxy
     - { role: bbaassssiiee.artifactory, tags: 'artifactory' } # for built stuff
     - { role: bbaassssiiee.sonar, tags: 'sonar' }
-    - { role: docker, tags: 'docker' }
+    - {role: dockpack.base_perl, tags: 'perl'}
+    - {role: dockpack.base_git, tags: 'git'}
+    - {role: dockpack.base_java8, tags: 'java8'}
+    - {role: dockpack.base_ant, tags: 'ant'}
+    - {role: dockpack.base_maven, tags: 'maven'}
+    - {role: dockpack.base_gradle, tags: 'gradle'}
+    - {role: dockpack.base_docker, tags: 'docker'}
+    - {role: dockpack.base_goss, tags: 'goss'}
+#    - {role: dockpack.base_python, tags: 'python'}
+#    - { role: ansible, tags: 'ansible' }
+    - { role: httpd, tags: 'httpd' }
+    - { role: jenkins, tags: 'jenkins' }
 
   tasks:
     - include: tasks/settings.yml
-
-- name: docker slaves
-  hosts: slaves
-  become: yes
-
-  roles:
-    - { role: common, tags: 'common' }
-    - { role: ntp, tags: 'ntp' }
-    - { role: docker, tags: 'docker' }
 
 #- name: Windows client
 #  hosts: win_slave

@@ -1,75 +1,79 @@
 ---
 
-- src: bbaassssiiee.base_postgres
-  version: v0.1.0
+- src: https://github.com/dockpack/base_epel.git
+  name: dockpack.base_epel
+  version: master
 
-- src: bbaassssiiee.artifactory
-  version: v1.0.2
+- src: https://github.com/dockpack/base_common.git
+  name: dockpack.base_common
+  version: master
 
-- src: bbaassssiiee.sonar
-  version: v0.1.2
+- src: https://github.com/dockpack/base_cplusplus.git
+  name: dockpack.base_cplusplus
+  version:  master
 
-- src: https://github.com/jhinrichsen/ansible-nexus.git
-  name: jhinrichsen.nexus
+- src: https://github.com/dockpack/base_docker.git
+  name: dockpack.base_docker
+  version: master
+
+- src: https://github.com/dockpack/base_git.git
+  name: dockpack.base_git
+  version: master
+
+- src: https://github.com/dockpack/base_goss.git
+  name: dockpack.base_goss
+  version: master
+
+- src: https://github.com/dockpack/base_java8.git
+  name: dockpack.base_java8
+  version: master
+
+- src: https://github.com/dockpack/base_ant.git
+  name: dockpack.base_ant
+  version: master
+
+- src: https://github.com/dockpack/base_gradle.git
+  name: dockpack.base_gradle
+  version: master
+
+- src: https://github.com/dockpack/base_nodejs.git
+  name: dockpack.base_nodejs
+  version: master
+
+- src: https://github.com/dockpack/base_perl.git
+  name: dockpack.base_perl
+  version: master
+
+- src: https://github.com/dockpack/base_maven.git
+  name: dockpack.base_maven
+  version: master
+
+- src: https://github.com/dockpack/base_python.git
+  name: dockpack.base_python
+  version: master
+
+- src: https://github.com/bbaassssiiee/base_postgres.git
+  name: bbaassssiiee.base_postgres
+  version: master
+
+- src: https://github.com/bbaassssiiee/artifactory.git
+  name: bbaassssiiee.artifactory
+  version: v1.1.1
+
+- src: https://github.com/bbaassssiiee/sonar.git
+  name: bbaassssiiee.sonar
+  version: v0.1.4
 
 - src: https://github.com/bbaassssiiee/ansible-selenium-role.git
-  path: ./roles/
 
 - src: https://github.com/bbaassssiiee/windows-selenium-role.git
-  path: ./roles/
 
 # Setup Windows machine as a Jenkins slave
 - src: https://github.com/ferhaty/ferhaty.jenkins-slave.git
-  path: ./roles/
 
 # For unix use a separate role
 - src: https://github.com/bbaassssiiee/ansible-jenkins-slave.git
-  path: ./roles
 
-- src: bbaassssiiee.base_ntp
-  name: ntp
-  version: v0.1.1
-
-- src: bbaassssiiee.base_mysql
-  version: v0.1.2
-
-- src: bbaassssiiee.base_git
-  name: git
-  version: v0.1.1
-
-- src: bbaassssiiee.base_java8
-  version: v0.1.5
-
-- src: bbaassssiiee.base_ant
-  name: ant
-  version: v0.1.8
-
-- src: bbaassssiiee.base_maven
-  name: maven
-  version: v0.1.5
-
-- src: bbaassssiiee.base_gradle
-  name: gradle
-  version: v0.1.5
-
-- src: bbaassssiiee.base_perl
-  name: perl
-  version: v0.1.2
-
-- src: bbaassssiiee.base_erlang
-  name: erlang
-  version: v0.1.1
-
-- src: bbaassssiiee.base_ansible
-  name: ansible
-  version: v0.1.2
-
-- src: bbaassssiiee.base_android
-  name: android
-  version: v0.1.0
-
-- src: bbaassssiiee.base_docker
-  name: docker
-  version: v0.1.4
-
-
+#- src: https://github.com/bbaassssiiee/base_ansible.git
+#  name: bbaassssiiee.base_ansible
+#  version: master
