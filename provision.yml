@@ -5,7 +5,7 @@
 
   roles:
     - { role: bbaassssiiee.artifactory, tags: 'artifactory' } # for built stuff
-    - { role: bbaassssiiee.sonar, tags: 'sonar' }
+#    - { role: bbaassssiiee.sonar, tags: 'sonar' }
     - {role: dockpack.base_perl, tags: 'perl'}
     - {role: dockpack.base_git, tags: 'git'}
     - {role: dockpack.base_java8, tags: 'java8'}
