@@ -19,6 +19,7 @@ setup:
 	rm -rf galaxy_roles
 #	pip install -r requirements.txt
 	ansible-playbook -c local galaxy_import.yml
+	./trust_me.yml
 
 .PHONY: myself
 myself:
