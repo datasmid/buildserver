@@ -13,7 +13,7 @@
     - ssl
 
 - name: "copy RootCA root cert"
-  command: cp /var/www/html/RootCA.cer /etc/pki/ca-trust/source/anchors creates=/etc/pki/ca-trust/source/anchors
+  command: cp /var/www/html/RootCA.cer /etc/pki/ca-trust/source/anchors creates=/etc/pki/ca-trust/source
   tags:
     - httpd
     - ssl
