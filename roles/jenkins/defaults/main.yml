@@ -1,6 +1,6 @@
 ---
 
-java_home: /usr/java/default/
+java_home: "{{ java8_home }}"
 
 proxy_env:
   dummy: value
