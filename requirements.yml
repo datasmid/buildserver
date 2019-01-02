@@ -52,6 +52,9 @@
   name: dockpack.base_python
   version: master
 
+- src: https://github.com/dockpack/base_utils.git
+  name: dockpack.base_utils
+
 - src: https://github.com/bbaassssiiee/base_postgres.git
   name: bbaassssiiee.base_postgres
   version: master
@@ -73,7 +76,3 @@
 
 # For unix use a separate role
 - src: https://github.com/bbaassssiiee/ansible-jenkins-slave.git
-
-#- src: https://github.com/bbaassssiiee/base_ansible.git
-#  name: bbaassssiiee.base_ansible
-#  version: master
