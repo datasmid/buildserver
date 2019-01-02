@@ -86,7 +86,7 @@ Paste this into ~/.ssh/config (change home path!)
   IdentityFile /home/roland/.vagrant.d/insecure_private_key
   IdentitiesOnly yes
   LogLevel FATAL
-</pre>  
+</pre>
 
 
 
@@ -102,7 +102,7 @@ Paste this into ~/.ssh/config (change home path!)
 
   You can increase memory in virtualbox later when needed, but if you have more RAM
   increasing may speed up the build process.
-  Suggested value: 2048 on a 8G system.
+  Suggested value: 8192 on a 16G+ system.
 
 4 Run make interactive or **make.sh** (logs to a file).
   ```Shell

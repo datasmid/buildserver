@@ -5,6 +5,11 @@ artifactory_port: 8081
 sonar_port: 9000
 grid_port: 4444
 
+features:
+  mysql: False
+  postgresql: True
+  custom_postgres: False
+  custom_mysql: False
 
 # Selenium
 hub: 'http://dev:4444/grid/register'
