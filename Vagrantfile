@@ -27,14 +27,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.ssh.forward_agent = false
   config.ssh.insert_key = false
-  config.vm.provision "shell", inline: "ifup enp0s8", run: "always"
+  config.vm.provision "shell", inline: "ifup eth1", run: "always"
   # Timeouts
   config.vm.boot_timeout = 900
   config.vm.graceful_halt_timeout=30
   config.vm.synced_folder ".", "/vagrant", id: "vagrant-root"
 
   # build_master
-  config.vm.define :build_master, autostart: true do |build_master|
+  config.vm.define :build_master, primary: true, autostart: true do |build_master|
     build_master.vm.box = "redesign/centos7"
     build_master.vm.box_check_update = false
     build_master.vm.synced_folder ".", "/vagrant", id: "vagrant-root"
@@ -46,36 +46,35 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       vb.gui = false
       vb.name = "build_master"
     end
-    if which('ansible-playbook')
-      build_master.vm.provision "ansible" do |ansible|
-        ansible.playbook = "provision.yml"
-          ansible.inventory_path = "inventories/vagrant"
-          ansible.limit = "build_master"
-          ansible.verbose = 'v'
-          ansible.limit = "build_master"
-        end
+      build_master.vm.provision "ansible_local" do |ansible|
+        ansible.playbook = "/vagrant/provision.yml"
+        ansible.compatibility_mode = "2.0"
+        ansible.galaxy_role_file = "requirements.yml"
+        ansible.galaxy_roles_path = "galaxy_roles"
+        ansible.limit = "build_master"
+        ansible.verbose = 'vv'
       end
   end
 
-  config.vm.define :win_slave, autostart: false do |win_slave|
-    win_slave.vm.box = "ferhaty/win7ie10winrm"
-    win_slave.vm.guest = :windows
-    win_slave.vm.communicator = "winrm"
-    win_slave.winrm.username = 'vagrant'
-    win_slave.winrm.password = 'vagrant'
-    win_slave.vm.box_check_update = true
-    win_slave.vm.network :private_network, ip: "192.168.10.26"
-    win_slave.vm.network :forwarded_port, guest:8000, host:8000
-    win_slave.vm.network :forwarded_port, guest: 3389, host: 3389, id: "rdp", auto_correct: true
-    win_slave.vm.provider "virtualbox" do |vb|
-      vb.gui = false
-      vb.name = "win_slave"
-      vb.customize [
-           "modifyvm", :id,
-           "--memory", "#$MEMSIZE",
-           "--natnet1", "172.16.1/24",
-      ]
-    end
+   config.vm.define :win_slave, autostart: false do |win_slave|
+     win_slave.vm.box = "ferhaty/win7ie10winrm"
+     win_slave.vm.guest = :windows
+     win_slave.vm.communicator = "winrm"
+     win_slave.winrm.username = 'vagrant'
+     win_slave.winrm.password = 'vagrant'
+     win_slave.vm.box_check_update = true
+     win_slave.vm.network :private_network, ip: "192.168.10.26"
+     win_slave.vm.network :forwarded_port, guest:8000, host:8000
+     win_slave.vm.network :forwarded_port, guest: 3389, host: 3389, id: "rdp", auto_correct: true
+     win_slave.vm.provider "virtualbox" do |vb|
+       vb.gui = false
+       vb.name = "win_slave"
+       vb.customize [
+            "modifyvm", :id,
+            "--memory", "#$MEMSIZE",
+            "--natnet1", "172.16.1/24",
+       ]
+     end
 
-  end
+   end
 end

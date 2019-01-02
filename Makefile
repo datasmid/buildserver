@@ -23,7 +23,7 @@ setup:
 
 .PHONY: myself
 myself:
-	ansible-playbook -K -i inventories/local -l buildserver provision.yml -vv
+	ansible-playbook -K -i inventories/local -l build provision.yml -vv
 
 .PHONY: addboxes
 addboxes:
