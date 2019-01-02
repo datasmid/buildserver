@@ -30,7 +30,7 @@
 
 - src: https://github.com/dockpack/base_ant.git
   name: dockpack.base_ant
-  version: master
+  version: develop
 
 - src: https://github.com/dockpack/base_gradle.git
   name: dockpack.base_gradle
