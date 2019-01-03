@@ -1,19 +1,20 @@
+---
 # Jenkins service operations
-- name: 'safestart jenkins'
+- name: "safestart jenkins"
   become: yes
-  command: java -jar {{jenkins_cli}} -s http://localhost:8080 safe-restart
+  command: java -jar {{ jenkins_cli }} -s http://localhost:8080 safe-restart
 
-- name: 'start jenkins'
+- name: "start jenkins"
   become: yes
   service: name=jenkins state=started
   tags:
     - init
 
-- name: 'restart jenkins'
+- name: "restart jenkins"
   become: yes
   service: name=jenkins state=restarted
 
-- name: '(re-)assign service start/stop order'
+- name: "(re-)assign service start/stop order"
   become: yes
   command: chkconfig jenkins reset
   tags:

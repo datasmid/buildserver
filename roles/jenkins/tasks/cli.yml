@@ -2,20 +2,27 @@
 
 - name: "starting jenkins"
   become: yes
-  service: name=jenkins state=started enabled=yes
+  service:
+    name: jenkins
+    state: started
+    enabled: yes
   tags:
     - jenkins
 
 - name: "create jenkins CLI destination directory"
   become: yes
-  file: path={{ jenkins_data }} state=directory
+  file:
+    path: "{{ jenkins_data }}"
+    state: directory
   tags:
     - jenkins
     - cli
 
 # if jenkins is installed or updated, wait for pulling the jenkins CLI
 - name: "wait one minute for jenkins to warm up."
-  wait_for: port={{jenkins_http}} delay=60
+  wait_for:
+    port: "{{ jenkins_http }}"
+    delay: 60
   retries: 5
   tags:
     - jenkins
@@ -25,7 +32,11 @@
 - name: "get jenkins CLI"
   become: yes
   environment: '{{ proxy_env }}'
-  get_url: url="http://127.0.0.1:{{jenkins_http}}/jenkins/jnlpJars/jenkins-cli.jar" dest={{jenkins_cli}} mode=0440 timeout=300
+  get_url:
+    url: "http://127.0.0.1:{{ jenkins_http }}/jenkins/jnlpJars/jenkins-cli.jar"
+    dest: "{{ jenkins_cli }}"
+    mode: 0440
+    timeout: 300
   retries: 50
   delay: 10
   tags:
@@ -36,9 +47,12 @@
 - name: "get jenkins updates"
   become: yes
   environment: '{{ proxy_env }}'
-  get_url: url=http://updates.jenkins-ci.org/update-center.json dest={{ jenkins_data }}/updates_jenkins.json
-            thirsty=yes mode=0440
-            timeout=300
+  get_url:
+    url: http://updates.jenkins-ci.org/update-center.json
+    dest: "{{ jenkins_data }}/updates_jenkins.json"
+    thirsty: yes
+    mode: 0440
+    timeout: 300
   retries: 30
   delay: 10
   register: jenkins_updates
@@ -49,7 +63,9 @@
 # jenkins update-center
 - name: "update-center jenkins"
   become: yes
-  shell: "cat {{ jenkins_data }}/updates_jenkins.json | sed '1d;$d' | curl -k -X POST -H 'Accept: application/json' -d @- http://127.0.0.1:{{jenkins_http}}/jenkins/updateCenter/byId/default/postBack"
+  shell: "cat {{ jenkins_data }}/updates_jenkins.json | sed '1d;$d' \
+          | curl -k -X POST -H 'Accept: application/json' \
+          -d @- http://127.0.0.1:{{ jenkins_http }}/jenkins/updateCenter/byId/default/postBack"
   when: jenkins_updates.changed
   notify:
     - 'start jenkins'
