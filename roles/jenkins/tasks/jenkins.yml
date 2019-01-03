@@ -1,32 +1,63 @@
 ---
 
 - name: 'Create jenkins with a 2048-bit SSH key for automation'
-  user: name=jenkins home=/var/lib/jenkins generate_ssh_key=yes ssh_key_passphrase={{jenkins_phrase}} ssh_key_bits=2048
+  user:
+    name: jenkins
+    home: /var/lib/jenkins
+    system: yes
+    generate_ssh_key: yes
+    ssh_key_passphrase:  "{{ jenkins_phrase }}"
+    ssh_key_bits: 2048
   tags:
     - jenkins
 
 - name: 'make sure jenkins_data directory exists'
-  file: path={{jenkins_data}} recurse=yes owner=jenkins group=jenkins state=directory
+  file:
+    path: "{{ jenkins_data }}"
+    recurse: yes
+    owner: jenkins
+    group: jenkins
+    state: directory
   tags:
     - jenkins
 
 - name: 'make sure jenkins_data directory exists'
-  file: path=/var/cache/jenkins recurse=yes owner=jenkins group=jenkins state=directory
+  file:
+    path: var/cache/jenkins
+    recurse: yes
+    owner: jenkins
+    group: jenkins
+    state: directory
   tags:
     - jenkins
 
 - name: 'make sure jenkins_data directory exists'
-  file: path=/var/log/jenkins recurse=yes owner=jenkins group=jenkins state=directory
+  file:
+    path: /var/log/jenkins
+    recurse: yes
+    owner: jenkins
+    group: jenkins
+    state: directory
   tags:
     - jenkins
 
 - name: 'make sure jenkins_tools directory exists'
-  file: path={{jenkins_tools}} owner=jenkins group=jenkins mode=0755 state=directory
+  file:
+    path: "{{ jenkins_tools }}"
+    owner: jenkins
+    group: jenkins
+    mode: 0755
+    state: directory
   tags:
     - jenkins
 
 - name: 'copy /etc/sysconfig/jenkins file to set the jenkins_data directory'
-  template: src=jenkins.j2 dest=/etc/sysconfig/jenkins owner=root group=root mode=0644
+  template:
+    src: jenkins.j2
+    dest: /etc/sysconfig/jenkins
+    owner: root
+    group: root
+    mode: 0644
   when: ansible_os_family == "RedHat"
   notify: 'restart jenkins'
   tags:
@@ -39,13 +70,17 @@
 #    - jenkins
 
 #- name: 'allow jenkins to check passwords'
-#  file: path=/etc/shadow mode=0640
+#  file:
+#    path: /etc/shadow
+#    mode: 0640
 #  when: ansible_os_family == "RedHat" and features.system_auth
 #  tags:
 #    - jenkins
 
 - name: 'restart jenkins on reboot'
-  service: name=jenkins enabled=yes
+  service:
+    name: jenkins
+    enabled: yes
   tags:
     - init
     - config
