@@ -6,13 +6,17 @@
 
 - name: "start jenkins"
   become: yes
-  service: name=jenkins state=started
+  service:
+    name: jenkins
+    state: started
   tags:
     - init
 
 - name: "restart jenkins"
   become: yes
-  service: name=jenkins state=restarted
+  service:
+    name: jenkins
+    state: restarted
 
 - name: "(re-)assign service start/stop order"
   become: yes
