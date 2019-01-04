@@ -76,3 +76,7 @@
 
 # For unix use a separate role
 - src: https://github.com/bbaassssiiee/ansible-jenkins-slave.git
+
+- src: https://github.com/jdauphant/ansible-role-nginx.git
+  name: jdauphant.nginx
+
