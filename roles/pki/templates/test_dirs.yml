@@ -1,0 +1,15 @@
+file:
+  /etc/pki/tls/certs:
+    exists: true
+    mode: "0755"
+    owner: root
+    group: root
+    filetype: directory
+    contains: []
+  /etc/pki/tls/private:
+    exists: true
+    mode: "0755"
+    owner: root
+    group: root
+    filetype: directory
+    contains: []

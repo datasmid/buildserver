@@ -1,0 +1,17 @@
+# file: roles/pki/meta/main.yml
+---
+galaxy_info:
+  author: Ferhat Yildiz
+  license: MIT
+  min_ansible_version: 2.3
+  platforms:
+    - name: EL
+      versions:
+        - 7
+  categories:
+    - pki
+    - certificates
+    - ssl
+    - tls
+    - security
+dependencies: []

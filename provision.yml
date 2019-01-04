@@ -21,7 +21,8 @@
   hosts: build
   become: 'True'
   roles:
-    - {role: httpd, tags: 'httpd'}
+    - {role: pki, tags: 'pki'}
+    - {role: jdauphant.nginx, tags: 'nginx'}
     - { role: bbaassssiiee.artifactory, tags: 'artifactory' } # for built stuff
 #    - { role: bbaassssiiee.sonar, tags: 'sonar' }
 #    - {role: dockpack.base_perl, tags: 'perl'}
