@@ -1,0 +1,106 @@
+---
+# tasks file for pki
+
+- name: copy goss tests template
+  template:
+    src: "{{ item }}"
+    dest: /root/test_tls.yml
+  with_items:
+    - test_dirs.yml
+
+- name: ensure openssl is installed
+  yum:
+    name: openssl
+    state: present
+  tags:
+    - ssl
+
+- name: make sure ca-certificates is latest
+  yum:
+    name: ca-certificates
+    state: latest
+  tags:
+    - skip_ansible_lint
+    - patches
+
+- name: verify if root certificate is trusted
+  shell: openssl x509 -noout -subject < /etc/pki/tls/certs/ca-bundle.trust.crt | grep "{{ pki_ca }}"
+  ignore_errors: yes
+  register: root_ca_present
+  changed_when: no
+
+- name: copy root certificate to server
+  copy:
+    src: "{{ pki_files_dir }}/ca-certificates/{{ pki_cacert_filename }}"
+    dest: /etc/pki/ca-trust/source/anchors/root_ca.pem
+  when: root_ca_present.rc != 0
+
+- name: remove the legacy marker file
+  file:
+    path: /etc/pki/ca-trust/source/ca-bundle.legacy.crt
+    state: absent
+
+- name: enable ca-trust
+  command: update-ca-trust force-enable
+  when: root_ca_present.rc != 0
+
+- name: import root certificate into Linux ca-trust
+  command: update-ca-trust extract
+  when: root_ca_present.rc != 0
+
+- name: verify if internal root certificate is present
+  shell: openssl x509 -noout -subject < /etc/pki/tls/certs/ca-bundle.trust.crt | grep "{{ pki_ca }}"
+  changed_when: no
+
+- name: copy server.p12
+  copy:
+    src: "private/{{ inventory_hostname }}.p12"
+    dest: '/etc/pki/tls/private/server.p12'
+    mode: 0644
+  notify: reload nginx
+
+- name: decrypt server certificate
+  when: ansible_virtualization_type != "docker"
+  environment:
+    P12_PASSWORD: "{{ p12_password | default('p12_password') }}"
+  shell: 'openssl pkcs12 \
+            -in /etc/pki/tls/private/server.p12 \
+            -nodes -nokeys \
+            -passin env:P12_PASSWORD > /etc/pki/tls/certs/tmp.cer'
+  changed_when: yes
+
+- name: decrypt server key
+  when: ansible_virtualization_type != "docker"
+  environment:
+    P12_PASSWORD: "{{ p12_password | default('p12_password') }}"
+  shell: 'openssl pkcs12 \
+            -in /etc/pki/tls/private/server.p12 \
+            -nodes -nocerts \
+            -passin env:P12_PASSWORD > /etc/pki/tls/private/tmp.key'
+  changed_when: yes
+
+- name: validate moludus of certificate to moludus of key
+  shell: '(openssl x509 -noout -modulus -in /etc/pki/tls/certs/tmp.cer | openssl md5 ; \
+          openssl rsa -noout -modulus -in /etc/pki/tls/private/tmp.key | openssl md5) | \
+          uniq | wc -l'
+  changed_when: no
+  register: checksums
+  tags:
+    - ssl_verify
+
+- name: stop when cerificate and key do not match
+  fail:
+    msg: cerificate and key do not match
+  when: checksums.stdout|int != 1
+
+- name: copy key for nginx
+  command: cp /etc/pki/tls/private/tmp.key /etc/pki/tls/private/server.key
+  changed_when: yes
+
+- name: copy certificate for nginx
+  command: cp /etc/pki/tls/certs/tmp.cer /etc/pki/tls/certs/server.cer
+  changed_when: yes
+
+- name: set selinux permissions for tls dir
+  command: "chcon -Rt svirt_sandbox_file_t /etc/pki/tls"
+  changed_when: yes

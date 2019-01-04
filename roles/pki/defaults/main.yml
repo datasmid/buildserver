@@ -1,0 +1,25 @@
+---
+# defaults file for pki
+
+pki_dir: /etc/pki
+pki_ca: internal_ca
+pki_cacert_filename: "{{ pki_ca }}.cer"
+pki_cert_name: "{{ inventory_hostname }}"
+pki_files_dir: files/
+
+pki_files:
+  - {
+    name: "{{ pki_cert_name }}.cer",
+    source: "{{ pki_files_dir }}/certs",
+    dest: "{{ pki_dir }}/tls/certs"
+  }
+  - {
+    name: "{{ pki_cert_name }}.key",
+    source: "{{ pki_files_dir }}/private",
+    dest: "{{ pki_dir }}/tls/private"
+  }
+#  - {
+#    name: "{{ pki_cacert_filename }}",
+#    source: "{{ pki_files_dir }}/certs",
+#    dest: "{{ pki_dir }}/tls/certs"
+#  }
