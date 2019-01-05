@@ -82,8 +82,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
-  config.vm.define :test, autostart: false do |ubuntu|
-    ubuntu.vm.box = "ubuntu14"
+  config.vm.define :ubuntu, autostart: false do |ubuntu|
+    ubuntu.vm.box = "xenial"
+    ubuntu.vbguest.auto_update = true
+    ubuntu.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: false
+    ubuntu.vm.box_url = "https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-vagrant.box"
     ubuntu.vm.network "private_network", ip: "192.168.10.20", :netmask => "255.255.255.0",  auto_config: true
     ubuntu.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2220, auto_correct: true
     ubuntu.vm.network :forwarded_port, guest:8000, host:8000
@@ -93,8 +96,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
     ubuntu.vm.provider "virtualbox" do |vb|
       vb.customize ["modifyvm", :id, "--memory", "#$MEMSIZE", "--natnet1", "172.16.1/24"]
-      vb.gui = true
-      vb.name = "ubuntu"
+      vb.gui = false
+      vb.name = "xenial"
     end
   end
 

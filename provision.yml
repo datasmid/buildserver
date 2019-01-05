@@ -16,12 +16,19 @@
   become: True
 
   roles:
+    - {role: motd, tags: 'motd'}
     - {role: dockpack.base_utils, tags: 'utils'}
-    - {role: dockpack.base_docker, tags: 'docker'}
+
+- name: Install docker
+  hosts: build_master
+  become: True
+
+  roles:
     - {role: dockpack.base_goss, tags: 'goss'}
+    - {role: dockpack.base_docker, tags: 'docker'}
 
 - name: Install build tools
-  hosts: build_master
+  hosts: build_master:ubuntu
   become: True
   roles:
 
