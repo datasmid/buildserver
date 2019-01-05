@@ -10,4 +10,5 @@ pki
 .gradle
 plugins/callbacks/profile_tasks.pyc
 plugins/callbacks/human_log.pyc
+ubuntu-xenial-16.04-cloudimg-console.log
 log
