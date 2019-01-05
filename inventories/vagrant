@@ -1,17 +1,18 @@
 [vagrant:children]
 build
-slaves
+deployment
 windows
 
 [build]
-build_master ansible_ssh_host=192.168.10.28 mysql_server=true
+build_master ansible_ssh_host=192.168.10.28
 
-[slaves]
-blue ansible_ssh_host=192.168.10.23
-red ansible_ssh_host=192.168.10.24
-green ansible_ssh_host=192.168.10.25
+[deployment]
+centos6 ansible_ssh_host=192.168.10.16
+centos7 ansible_ssh_host=192.168.10.17
+rhel7 ansible_ssh_host=192.168.10.18
+ubuntu ansible_ssh_host=192.168.10.20
 
-[slaves:vars]
+[deployment:vars]
 ansible_user=vagrant
 ansible_ssh_private_key_file=files/vagrant.rsa
 

@@ -27,11 +27,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.ssh.forward_agent = false
   config.ssh.insert_key = false
-  config.vm.provision "shell", inline: "ifup eth1", run: "always"
   # Timeouts
   config.vm.boot_timeout = 900
   config.vm.graceful_halt_timeout=30
-  config.vm.synced_folder ".", "/vagrant", id: "vagrant-root"
 
   # build_master
   config.vm.define :build_master, primary: true, autostart: true do |build_master|
@@ -41,6 +39,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     build_master.vm.network "private_network", ip: "192.168.10.28", :netmask => "255.255.255.0",  auto_config: true
     build_master.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2228, auto_correct: false
 #    build_master.vm.network "forwarded_port", guest: 443, host: 8443, auto_correct: true
+    build_master.vm.provision "shell", inline: "ifup eth1", run: "always"
     build_master.vm.provider "virtualbox" do |vb|
       vb.customize ["modifyvm", :id, "--memory", "4096", "--natnet1", "172.16.1/24"]
       vb.gui = false
@@ -54,6 +53,49 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         ansible.limit = "build_master"
         ansible.verbose = 'vv'
       end
+  end
+
+  config.vm.define :centos6, autostart: false do |centos6|
+    centos6.vm.box = "dockpack/centos6"
+    centos6.vm.box_check_update = false
+    centos6.vbguest.auto_update = false
+    centos6.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: true
+    centos6.vm.network "private_network", ip: "192.168.10.16", :netmask => "255.255.255.0",  auto_config: true
+    centos6.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2216, auto_correct: false
+    centos6.vm.provider "virtualbox" do |vb|
+      vb.customize ["modifyvm", :id, "--memory", "4096", "--natnet1", "172.16.1/24"]
+      vb.gui = false
+      vb.name = "centos6"
+    end
+  end
+
+  config.vm.define :rhel7, autostart: false do |rhel7|
+    rhel7.vm.box = "redesign/rhel7"
+    rhel7.vm.box_check_update = false
+    rhel7.vm.synced_folder ".", "/vagrant", id: "vagrant-root"
+    rhel7.vm.network "private_network", ip: "192.168.10.18", :netmask => "255.255.255.0",  auto_config: true
+    rhel7.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2218, auto_correct: false
+    rhel7.vm.provider "virtualbox" do |vb|
+      vb.customize ["modifyvm", :id, "--memory", "4096", "--natnet1", "172.16.1/24"]
+      vb.gui = false
+      vb.name = "rhel7"
+    end
+  end
+
+  config.vm.define :test, autostart: false do |ubuntu|
+    ubuntu.vm.box = "ubuntu14"
+    ubuntu.vm.network "private_network", ip: "192.168.10.20", :netmask => "255.255.255.0",  auto_config: true
+    ubuntu.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2220, auto_correct: true
+    ubuntu.vm.network :forwarded_port, guest:8000, host:8000
+    ubuntu.vm.provider "vmware_fusion" do |vmware|
+      vmware.vmx["memsize"] = "#$MEMSIZE"
+      vmware.vmx["numvcpus"] = "2"
+    end
+    ubuntu.vm.provider "virtualbox" do |vb|
+      vb.customize ["modifyvm", :id, "--memory", "#$MEMSIZE", "--natnet1", "172.16.1/24"]
+      vb.gui = true
+      vb.name = "ubuntu"
+    end
   end
 
    config.vm.define :win_slave, autostart: false do |win_slave|
@@ -75,6 +117,5 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
             "--natnet1", "172.16.1/24",
        ]
      end
-
    end
 end
