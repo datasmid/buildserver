@@ -7,4 +7,3 @@
 
   roles:
     - ansible-jenkins-slave
-

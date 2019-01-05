@@ -10,7 +10,7 @@
 
 - src: https://github.com/dockpack/base_cplusplus.git
   name: dockpack.base_cplusplus
-  version:  master
+  version: master
 
 - src: https://github.com/dockpack/base_docker.git
   name: dockpack.base_docker

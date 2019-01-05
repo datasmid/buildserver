@@ -1,7 +1,7 @@
 #!/usr/bin/env ansible-playbook
 - name: Install Jenkins
   hosts: build_master
-  become: 'True'
+  become: True
 
   roles:
     - {role: motd, tags: 'motd'}
@@ -13,16 +13,16 @@
 
 - name: Install utilities
   hosts: all
-  become: 'True'
+  become: True
 
   roles:
-  - {role: dockpack.base_utils, tags: 'utils'}
-  - {role: dockpack.base_docker, tags: 'docker'}
-  - {role: dockpack.base_goss, tags: 'goss'}
+    - {role: dockpack.base_utils, tags: 'utils'}
+    - {role: dockpack.base_docker, tags: 'docker'}
+    - {role: dockpack.base_goss, tags: 'goss'}
 
 - name: Install build tools
   hosts: build_master
-  become: 'True'
+  become: True
   roles:
 
     - {role: dockpack.base_ant, tags: 'ant'}

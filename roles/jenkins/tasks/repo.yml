@@ -22,8 +22,8 @@
     url: "{{ jenkins_repo_key }}"
     dest: /tmp/jk
   tags:
-  - jenkins
-  - repo
+    - jenkins
+    - repo
 
 - name: 'authorize jenkins_repo for local rpm installs'
   command: rpm --import /tmp/jk
