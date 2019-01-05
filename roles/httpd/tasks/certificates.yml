@@ -6,14 +6,14 @@
     - httpd
     - ssl
 
-- name: 'copy RootCA.cer to webserver'
-  copy: src=files/certs/RootCA.cer dest=/var/www/html/RootCA.cer owner=apache group=apache mode=0644
+- name: 'copy internal_ca.cer to webserver'
+  copy: src=files/ca-certificates/internal_ca.cer dest=/var/www/html/internal_ca.cer owner=apache group=apache mode=0644
   tags:
     - httpd
     - ssl
 
-- name: "copy RootCA root cert"
-  command: cp /var/www/html/RootCA.cer /etc/pki/ca-trust/source/anchors creates=/etc/pki/ca-trust/source
+- name: "copy internal_ca root cert"
+  command: cp /var/www/html/internal_ca.cer /etc/pki/ca-trust/source/anchors creates=/etc/pki/ca-trust/source
   tags:
     - httpd
     - ssl
@@ -24,7 +24,7 @@
     - httpd
     - ssl
 
-- name: "import RootCA root cert into Linux ca-trust"
+- name: "import internal_ca root cert into Linux ca-trust"
   command: update-ca-trust extract
   tags:
     - httpd
@@ -50,11 +50,12 @@
 
 - name: 'CA-sign buildserver key in a way to avoid https://github.com/mitchellh/vagrant/issues/2646'
   become: no
-  local_action: shell /bin/bash --login -c 'openssl x509 -req -in files/certrequests/{{inventory_hostname}}.csr -CA files/certs/RootCA.pem -CAkey files/private/RootCA.key -CAcreateserial -out files/certs/{{inventory_hostname}}.cer -days 1800'
+  local_action: shell /bin/bash --login -c 'openssl x509 -req -in files/certrequests/{{inventory_hostname}}.csr -CA files/certs/internal_ca.pem -CAkey files/private/internal_ca.key -CAcreateserial -out files/certs/{{inventory_hostname}}.cer -days 1800'
   register: signed
   changed_when: signed.changed
   tags:
     - httpd
+    - skip_ansible_lint
     - ssl
 
 - name: 'concatenate dh_parameters.txt to certificate'
@@ -72,5 +73,3 @@
   tags:
     - httpd
     - ssl
-
-

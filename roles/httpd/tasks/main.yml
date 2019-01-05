@@ -7,4 +7,3 @@
 
 # Configure certificates
 - include: certificates.yml
-

@@ -25,7 +25,7 @@ plugins:
 #  - 'gradle'           # build tool
 # - 'jacoco'           # test coverage
 #  - 'jira'             # Atlassian Jira API
-  - 'jobConfigHistory' # save changes in job configuration
+  - 'jobConfigHistory'  # save changes in job configuration
 # - 'm2release'
 #  - 'parameterized-trigger'
 #  - 'pmd'              #
@@ -49,8 +49,8 @@ jenkins_home: "/var/lib/jenkins"
 jenkins_http: 8080
 jenkins_tools: "{{jenkins_data}}/tools"
 jenkins_https: ""
-jenkins_cli: '{{ jenkins_data }}/jenkins-cli.jar' # Jenkins CLI executable
-updates_dest: '{{ jenkins_data }}/updates_jenkins.json' # Jenkins updates
+jenkins_cli: '{{ jenkins_data }}/jenkins-cli.jar'  # Jenkins CLI executable
+updates_dest: '{{ jenkins_data }}/updates_jenkins.json'  # Jenkins updates
 jenkins_repo: "jenkins.repo"
 jenkins_repo_key: "{{jenkins_base_url}}/jenkins-ci.org.key"
 jenkins_phrase: "ask_devops"

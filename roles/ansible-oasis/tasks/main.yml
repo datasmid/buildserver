@@ -26,4 +26,3 @@
 
 - name: run powershell script to install Ansible
   script: cygwin_ansible.ps1
-

@@ -8,6 +8,7 @@
   register: installed
   retries: 3
   tags:
+    - skip_ansible_lint
     - jenkins
     - dependencies
     - update

@@ -2,8 +2,8 @@
 - name: yum install packages for apache
   action: yum name={{ item }} state=installed
   with_items:
-      - httpd
-      - mod_ssl
+    - httpd
+    - mod_ssl
   tags:
     - httpd
 
@@ -104,4 +104,3 @@
     immediate: yes
   tags:
     - httpd
-

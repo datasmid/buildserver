@@ -26,7 +26,7 @@
 
     - name: unlock central authorized_keys files for writing
       shell: chattr -i /etc/ssh/authorized_keys/*
-      changed_when: no # it is a toggle
+      changed_when: no  # it is a toggle
       ignore_errors: yes
       tags:
         - migrate
@@ -91,7 +91,7 @@
       user:
         name: "{{ item.username }}"
         uid: "{{ item.uid }}"
-        non_unique: yes # for cleaning up inconsistent uids
+        non_unique: yes  # for cleaning up inconsistent uids
         shell: "{{ item.shell }}"
         state: present
       with_items:
@@ -111,7 +111,7 @@
         group: "{{item.group}}"
       with_items: "{{ staff }}"
       tags:
-      - groups
+        - groups
 
     - name: remove user private groups#
       group:
@@ -135,7 +135,7 @@
 
     - name: lock central authorized_keys files for writing
       shell: chattr +i /etc/ssh/authorized_keys/*
-      changed_when: no # it is a toggle
+      changed_when: no  # it is a toggle
       tags:
         - joiners
         - leavers

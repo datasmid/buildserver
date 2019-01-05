@@ -1,25 +1,25 @@
 ---
-  - name: start firewalld
-    service: name=firewalld state=restarted enabled=yes
-    tags:
-      - firewalld
+- name: start firewalld
+  service: name=firewalld state=restarted enabled=yes
+  tags:
+    - firewalld
 
-  - name: firewalld configuration http
-    firewalld: service=http permanent=true state=enabled immediate=yes
-    tags:
-      - firewalld
+- name: firewalld configuration http
+  firewalld: service=http permanent=true state=enabled immediate=yes
+  tags:
+    - firewalld
 
-  - name: firewalld configuration https
-    firewalld: service=https permanent=true state=enabled immediate=yes
-    tags:
-      - firewalld
+- name: firewalld configuration https
+  firewalld: service=https permanent=true state=enabled immediate=yes
+  tags:
+    - firewalld
 
-  - name: firewalld configuration slaveagent
-    firewalld: port={{ slaveAgentPort }}/tcp permanent=true state=enabled immediate=yes
-    tags:
-      - firewalld
+- name: firewalld configuration slaveagent
+  firewalld: port={{ slaveAgentPort }}/tcp permanent=true state=enabled immediate=yes
+  tags:
+    - firewalld
 
-  - name: firewalld configuration seleniumHubPort
-    firewalld: port={{ seleniumHubPort }}/tcp permanent=true state=enabled immediate=yes
-    tags:
-      - firewalld
+- name: firewalld configuration seleniumHubPort
+  firewalld: port={{ seleniumHubPort }}/tcp permanent=true state=enabled immediate=yes
+  tags:
+    - firewalld

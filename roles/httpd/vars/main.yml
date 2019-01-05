@@ -1,4 +1,2 @@
 ---
 homedir: "{{ lookup('env','HOME') }}"
-
-
