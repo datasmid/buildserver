@@ -4,6 +4,7 @@
   become: 'True'
 
   roles:
+    - {role: motd, tags: 'motd'}
     - {role: dockpack.base_git, tags: 'git'}
     - {role: dockpack.base_java8, tags: 'java8'}
     - {role: jenkins, tags: 'jenkins'}
