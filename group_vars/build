@@ -34,6 +34,12 @@ yum_packages:
    - unzip
    - ansible # so you can use it as a control host too
    - acpid
+   - sshpass
+   - rpm-build
+   - rpmdevtools
+   - rpmlint
+   - yum-utils
+   - createrepo
 
 jenkins_data: "/opt/jenkins"
 
