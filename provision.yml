@@ -1,12 +1,14 @@
 #!/usr/bin/env ansible-playbook
 - name: Install Jenkins
-  hosts: all
+  hosts: build_master
   become: 'True'
 
   roles:
     - {role: dockpack.base_git, tags: 'git'}
     - {role: dockpack.base_java8, tags: 'java8'}
     - {role: jenkins, tags: 'jenkins'}
+    - {role: pki, tags: 'pki'}
+    - {role: jdauphant.nginx, tags: 'nginx'}
 
 - name: Install utilities
   hosts: all
@@ -18,29 +20,25 @@
   - {role: dockpack.base_goss, tags: 'goss'}
 
 - name: Install build tools
-  hosts: build
+  hosts: build_master
   become: 'True'
   roles:
-    - {role: pki, tags: 'pki'}
-    - {role: jdauphant.nginx, tags: 'nginx'}
-    - { role: bbaassssiiee.artifactory, tags: 'artifactory' } # for built stuff
-#    - { role: bbaassssiiee.sonar, tags: 'sonar' }
-#    - {role: dockpack.base_perl, tags: 'perl'}
 
     - {role: dockpack.base_ant, tags: 'ant'}
     - {role: dockpack.base_maven, tags: 'maven'}
     - {role: dockpack.base_gradle, tags: 'gradle'}
-    - {role: dockpack.base_docker, tags: 'docker'}
 #    - {role: dockpack.base_python, tags: 'python'}
 #    - { role: ansible, tags: 'ansible' }
+#    - { role: bbaassssiiee.sonar, tags: 'sonar' }
+#    - { role: bbaassssiiee.artifactory, tags: 'artifactory' } # for built stuff
   tasks:
     - include: tasks/settings.yml
 
-#- name: Windows client
-#  hosts: win_slave
-#  gather_facts: no
-#
-# roles:
-#    - ansible-oasis
-#    - ferhaty.jenkins-slave
-#    - windows-selenium-role
+- name: Windows client
+  hosts: win_slave
+  gather_facts: no
+
+  roles:
+#   - ansible-oasis
+    - ferhaty.jenkins-slave
+    - windows-selenium-role

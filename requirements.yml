@@ -46,7 +46,7 @@
 
 - src: https://github.com/dockpack/base_maven.git
   name: dockpack.base_maven
-  version: master
+  version: develop
 
 - src: https://github.com/dockpack/base_python.git
   name: dockpack.base_python
@@ -55,8 +55,8 @@
 - src: https://github.com/dockpack/base_utils.git
   name: dockpack.base_utils
 
-- src: https://github.com/bbaassssiiee/base_postgres.git
-  name: bbaassssiiee.base_postgres
+- src: https://github.com/dockpack/base_postgres.git
+  name: dockpack.base_postgres
   version: master
 
 - src: https://github.com/bbaassssiiee/artifactory.git
@@ -79,4 +79,4 @@
 
 - src: https://github.com/jdauphant/ansible-role-nginx.git
   name: jdauphant.nginx
-
+  version: v2.8.1
