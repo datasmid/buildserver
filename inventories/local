@@ -2,4 +2,4 @@
 build_master
 
 [build_master]
-localhost connection=local
+build_master ansible_host=localhost ansible_connection=local

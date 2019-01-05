@@ -7,6 +7,7 @@ pki
 .rnd
 .DS_Store
 .idea
+.gradle
 plugins/callbacks/profile_tasks.pyc
 plugins/callbacks/human_log.pyc
 log
