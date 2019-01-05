@@ -11,9 +11,11 @@
 - name: ensure openssl is installed
   yum:
     name: openssl
-    state: present
+    state: latest
   tags:
+    - skip_ansible_lint
     - ssl
+    - update
 
 - name: make sure ca-certificates is latest
   yum:
@@ -22,6 +24,7 @@
   tags:
     - skip_ansible_lint
     - patches
+    - update
 
 - name: verify if root certificate is trusted
   shell: openssl x509 -noout -subject < /etc/pki/tls/certs/ca-bundle.trust.crt | grep "{{ pki_ca }}"

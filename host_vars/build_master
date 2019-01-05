@@ -1,5 +1,5 @@
 ---
-my_scope: build
+my_scope: build_master
 
 rhel7cis_httpd: true
 
@@ -17,7 +17,7 @@ rhel7cis_section9: true
 http_port: 80
 https_port: 443
 slaveAgentPort: 8079
-
+sel_role: hub
 vault_postgres_user: dba
 vault_postgres_pass: dba_pass
 base_postgres_net: samenet
@@ -34,12 +34,6 @@ yum_packages:
    - unzip
    - ansible # so you can use it as a control host too
    - acpid
-   - sshpass
-   - rpm-build
-   - rpmdevtools
-   - rpmlint
-   - yum-utils
-   - createrepo
 
 jenkins_data: "/opt/jenkins"
 

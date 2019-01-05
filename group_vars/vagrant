@@ -1,3 +1,5 @@
+---
+my_scope: vagrant
 location: Appsterdam
 
 internet: True

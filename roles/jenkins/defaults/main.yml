@@ -55,15 +55,8 @@ jenkins_repo: "jenkins.repo"
 jenkins_repo_key: "{{jenkins_base_url}}/jenkins-ci.org.key"
 jenkins_phrase: "ask_devops"
 
-rpm_dependencies:
-  - 'jenkins'
-  - 'unzip'
-#  - 'sshpass'
-#  - 'rpm-build'
-#  - 'rpmdevtools'
-#  - 'rpmlint'
-#  - 'yum-utils'
-#  - 'createrepo'
+rpms_to_update:
+  - jenkins
 
 jenkins_configs:
   - 'config.xml'
