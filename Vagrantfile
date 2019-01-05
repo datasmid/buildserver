@@ -41,7 +41,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 #    build_master.vm.network "forwarded_port", guest: 443, host: 8443, auto_correct: true
     build_master.vm.provision "shell", inline: "ifup eth1", run: "always"
     build_master.vm.provider "virtualbox" do |vb|
-      vb.customize ["modifyvm", :id, "--memory", "4096", "--natnet1", "172.16.1/24"]
+      vb.customize ["modifyvm", :id, "--memory", "8192", "--natnet1", "172.16.1/24"]
       vb.gui = false
       vb.name = "build_master"
     end
@@ -63,9 +63,23 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     centos6.vm.network "private_network", ip: "192.168.10.16", :netmask => "255.255.255.0",  auto_config: true
     centos6.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2216, auto_correct: false
     centos6.vm.provider "virtualbox" do |vb|
-      vb.customize ["modifyvm", :id, "--memory", "4096", "--natnet1", "172.16.1/24"]
+      vb.customize ["modifyvm", :id, "--memory", "512", "--natnet1", "172.16.1/24"]
       vb.gui = false
       vb.name = "centos6"
+    end
+  end
+
+  config.vm.define :centos7, autostart: false do |centos7|
+    centos7.vm.box = "redesign/centos7"
+    centos7.vm.box_check_update = false
+    centos7.vbguest.auto_update = false
+    centos7.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: true
+    centos7.vm.network "private_network", ip: "192.168.10.17", :netmask => "255.255.255.0",  auto_config: true
+    centos7.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2217, auto_correct: false
+    centos7.vm.provider "virtualbox" do |vb|
+      vb.customize ["modifyvm", :id, "--memory", "2048", "--natnet1", "172.16.1/24"]
+      vb.gui = false
+      vb.name = "centos7"
     end
   end
 
@@ -76,31 +90,49 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     rhel7.vm.network "private_network", ip: "192.168.10.18", :netmask => "255.255.255.0",  auto_config: true
     rhel7.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2218, auto_correct: false
     rhel7.vm.provider "virtualbox" do |vb|
-      vb.customize ["modifyvm", :id, "--memory", "4096", "--natnet1", "172.16.1/24"]
+      vb.customize ["modifyvm", :id, "--memory", "2048", "--natnet1", "172.16.1/24"]
       vb.gui = false
       vb.name = "rhel7"
     end
   end
 
-  config.vm.define :ubuntu, autostart: false do |ubuntu|
-    ubuntu.vm.box = "xenial"
-    ubuntu.vbguest.auto_update = true
-    ubuntu.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: false
-    ubuntu.vm.box_url = "https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-vagrant.box"
-    ubuntu.vm.network "private_network", ip: "192.168.10.20", :netmask => "255.255.255.0",  auto_config: true
-    ubuntu.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2220, auto_correct: true
-    ubuntu.vm.network :forwarded_port, guest:8000, host:8000
-    ubuntu.vm.provider "vmware_fusion" do |vmware|
-      vmware.vmx["memsize"] = "#$MEMSIZE"
+  config.vm.define :trusty, autostart: false do |trusty|
+    trusty.vm.box = "trusty"
+    trusty.vbguest.auto_update = true
+    trusty.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: false
+    trusty.vm.box_url = "https://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box"
+    trusty.vm.network "private_network", ip: "192.168.10.19", :netmask => "255.255.255.0",  auto_config: true
+    trusty.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2219, auto_correct: true
+    trusty.vm.network :forwarded_port, guest:8000, host:8000
+    trusty.vm.provider "vmware_fusion" do |vmware|
+      vmware.vmx["memsize"] = "2048"
       vmware.vmx["numvcpus"] = "2"
     end
-    ubuntu.vm.provider "virtualbox" do |vb|
-      vb.customize ["modifyvm", :id, "--memory", "#$MEMSIZE", "--natnet1", "172.16.1/24"]
+    trusty.vm.provider "virtualbox" do |vb|
+      vb.customize ["modifyvm", :id, "--memory", "2048", "--natnet1", "172.16.1/24"]
+      vb.gui = false
+      vb.name = "trusty"
+    end
+  end
+
+  config.vm.define :xenial, autostart: false do |xenial|
+    xenial.vm.box = "xenial"
+    xenial.vbguest.auto_update = true
+    xenial.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: false
+    xenial.vm.box_url = "https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-vagrant.box"
+    xenial.vm.network "private_network", ip: "192.168.10.20", :netmask => "255.255.255.0",  auto_config: true
+    xenial.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2220, auto_correct: true
+    xenial.vm.network :forwarded_port, guest:8000, host:8000
+    xenial.vm.provider "vmware_fusion" do |vmware|
+      vmware.vmx["memsize"] = "2048"
+      vmware.vmx["numvcpus"] = "2"
+    end
+    xenial.vm.provider "virtualbox" do |vb|
+      vb.customize ["modifyvm", :id, "--memory", "2048", "--natnet1", "172.16.1/24"]
       vb.gui = false
       vb.name = "xenial"
     end
   end
-
    config.vm.define :win_slave, autostart: false do |win_slave|
      win_slave.vm.box = "ferhaty/win7ie10winrm"
      win_slave.vm.guest = :windows
