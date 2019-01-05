@@ -25,23 +25,8 @@ On Windows
 
 On Mac
 ----------------------
-Install/Upgrade **XCode** from the AppStore.
- **HomeBrew**,
- **Caskroom**,
  **VirtualBox**,
  **Vagrant**,
- **Ansible**
-
- It is easiest to install homebrew first, from **[brew.sh](http://brew.sh)**, then:
-
-    brew install --upgrade python
-    brew install --upgrade ansible
-    brew install caskroom/cask/brew-cask
-    brew cask install --upgrade virtualbox
-    brew cask install --upgrade vagrant
-
-Note that it is custom nowadays on mac to change ownership for /usr/local, so you don't need sudo.
-
 
 On RedHat/Fedora/Centos Linux:
 ------------------------------
@@ -57,37 +42,43 @@ Quickstart
 You need access to the internet (i.e. `nslookup mirrorlist.centos.org` should work)
 
 **Add these hostnames** to /etc/hosts or to \WINDOWS\SYSTEM32\drivers\etc\hosts
+    192.168.10.28 build_master.test build_master
 
-    192.168.10.16 dev
-    192.168.10.18 target
-    192.168.10.28 lab
-    192.168.10.36 nolio
+    192.168.10.16 centos6
+    192.168.10.17 centos7
+    192.168.10.18 rhel7
+    192.168.10.19 trusty
+    192.168.10.20 xenial
     192.168.10.40 windows
 
 **Fork & clone this repo:**
 
     git clone https://github.com/bbaassssiiee/buildserver
     cd buildserver
-    make install
+    vagrant up
 
-**Bring up 2 virtual machines:** 'dev' the CI server, and 'target' the Tomcat server
+**Bring up additional virtual machines:**
 
-    vagrant up --no-provision
+    vagrant up centos7
+    vagrant up centos6
+    vagrant up rhel7
 
 **Run the provisioner**
 
-    ansible-playbook -l dev:target provision.yml
+    vagrant ssh
+    cd /vagrant
+    ./provision.yml -i inventories/vagrant -
 
 **Install Docker on target too**
 
-    ansible-playbook -l target playbook.yml
+    ansible-playbook -l centos7 playbook.yml
 
 **Bring up the windows 7 VM, and provision it:**
 
     vagrant up --no-provision windows
     ansible-playbook -l windows provision.yml
 
-**Connect to the buildserver** at the host-only address [http://192.168.10.16](http://192.168.10.16) (you can set that address in the Vagrantfile)
+**Connect to the buildserver** at the host-only address [http://192.168.10.28](http://192.168.10.28) (you can set that address in the Vagrantfile)
 
 development
 ===============

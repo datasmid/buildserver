@@ -1,22 +1,45 @@
     - name: 'set hostname'
-      hostname: name={{ inventory_hostname }}
+      hostname:
+        name: "{{ inventory_hostname }}"
 
     - name: 'add "build_master" in /etc/hosts file'
-      lineinfile: dest=/etc/hosts regexp='192.168.10.28'
-              line='192.168.10.28   build_master'
-              state=present
+      lineinfile:
+        dest: /etc/hosts
+        regexp: 192.168.10.28
+        line: '192.168.10.28   build_master'
+        state: present
 
-    - name: 'add "blue" in /etc/hosts file'
-      lineinfile: dest=/etc/hosts regexp='192.168.10.23'
-              line='192.168.10.23   blue'
-              state=present
+    - name: 'add "centos6" in /etc/hosts file'
+      lineinfile:
+        dest: /etc/hosts
+        regexp: '192.168.10.16'
+        line: '192.168.10.16   centos6'
+        state: present
 
-    - name: 'add "red" in /etc/hosts file'
-      lineinfile: dest=/etc/hosts regexp='192.168.10.24'
-              line='192.168.10.23   red'
-              state=present
+    - name: 'add "centos7" in /etc/hosts file'
+      lineinfile:
+        dest: /etc/hosts
+        regexp: '192.168.10.17'
+        line: '192.168.10.17   centos7'
+        state: present
 
-    - name: 'add "green" in /etc/hosts file'
-      lineinfile: dest=/etc/hosts regexp='192.168.10.25'
-              line='192.168.10.25   green'
-              state=present
+    - name: 'add "rhel7" in /etc/hosts file'
+      lineinfile:
+        dest: /etc/hosts
+        regexp: '192.168.10.18'
+        line: '192.168.10.18   rhel7'
+        state: present
+
+    - name: 'add "trusty" in /etc/hosts file'
+      lineinfile:
+        dest: /etc/hosts
+        regexp: '192.168.10.19'
+        line: '192.168.10.19   trusty'
+        state: present
+
+    - name: 'add "xenial" in /etc/hosts file'
+      lineinfile:
+        dest: /etc/hosts
+        regexp: '192.168.10.20'
+        line: '192.168.10.20   xenial'
+        state: present

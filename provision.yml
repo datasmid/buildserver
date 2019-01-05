@@ -1,32 +1,25 @@
 #!/usr/bin/env ansible-playbook
-- name: Install Jenkins
-  hosts: build_master
-  become: True
-
-  roles:
-    - {role: motd, tags: 'motd'}
-    - {role: dockpack.base_git, tags: 'git'}
-    - {role: dockpack.base_java8, tags: 'java8'}
-    - {role: jenkins, tags: 'jenkins'}
-    - {role: pki, tags: 'pki'}
-    - {role: jdauphant.nginx, tags: 'nginx'}
 
 - name: Install utilities
   hosts: all
   become: True
 
+  pre_tasks:
+    - include: tasks/settings.yml
   roles:
     - {role: motd, tags: 'motd'}
     - {role: dockpack.base_utils, tags: 'utils'}
 
-- name: Install docker
+- name: Install Jenkins
   hosts: build_master
   become: True
 
   roles:
-    - {role: dockpack.base_goss, tags: 'goss'}
-    - {role: dockpack.base_docker, tags: 'docker'}
-
+    - {role: dockpack.base_git, tags: 'git'}
+    - {role: dockpack.base_java8, tags: 'java8'}
+    - {role: jenkins, tags: 'jenkins'}
+    - {role: pki, tags: 'pki'}
+    - {role: jdauphant.nginx, tags: 'nginx'}
 - name: Install build tools
   hosts: build_master:ubuntu
   become: True
@@ -39,8 +32,15 @@
 #    - { role: ansible, tags: 'ansible' }
 #    - { role: bbaassssiiee.sonar, tags: 'sonar' }
 #    - { role: bbaassssiiee.artifactory, tags: 'artifactory' } # for built stuff
-  tasks:
-    - include: tasks/settings.yml
+
+
+- name: Install docker
+  hosts: build_master
+  become: True
+
+  roles:
+    - {role: dockpack.base_goss, tags: 'goss'}
+    - {role: dockpack.base_docker, tags: 'docker'}
 
 - name: Windows client
   hosts: win_slave
