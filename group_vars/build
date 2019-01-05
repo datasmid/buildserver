@@ -16,8 +16,8 @@ http_port: 80
 https_port: 443
 slaveAgentPort: 8079
 
-base_postgres_user: dba
-base_postgres_pass: dba_pass
+vault_postgres_user: dba
+vault_postgres_pass: dba_pass
 base_postgres_net: samenet
 
 input_artifactory_password: password
