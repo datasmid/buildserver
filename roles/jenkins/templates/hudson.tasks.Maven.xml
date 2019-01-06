@@ -1,0 +1,10 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<hudson.tasks.Maven_-DescriptorImpl>
+  <installations>
+    <hudson.tasks.Maven_-MavenInstallation>
+      <name>{{ ansible_local.maven.maven.maven_name|default('maven') }}</name>
+      <home>{{ ansible_local.maven.maven.maven_home|default('/usr/bin/mvn') }}</home>
+      <properties/>
+    </hudson.tasks.Maven_-MavenInstallation>
+  </installations>
+</hudson.tasks.Maven_-DescriptorImpl>

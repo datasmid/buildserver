@@ -84,3 +84,37 @@ development
 ===============
 Please use the github issue tracker. Feature requests, bug reports, etc, should all be opened as GitHub tickets.
 Pull-requests should not contain any merges or merge-conflicts. In general for each change fork the repository, make changes, and submit a specific pull-request.
+
+dockpack roles
+==============
+
+DOCKPACK roles store local facts to use:
+```
+"ansible_local": {
+            "ant": {
+                "ant": {
+                    "ant_base": "/opt",
+                    "ant_home": "/opt/apache-ant-1.10.5",
+                    "ant_name": "apache-ant-1.10.5"
+                }
+            },
+            "gradle": {
+                "gradle": {
+                    "gradle_home": "/opt/gradle-4.10.2",
+                    "gradle_name": "gradle-4.10.2"
+                }
+            },
+            "java8": {
+                "java8": {
+                    "java8_home": "/usr/lib/jvm/java",
+                    "java8_name": "Java8"
+                }
+            },
+            "maven": {
+                "maven": {
+                    "maven_home": "/opt/maven/apache-maven-3.5.4",
+                    "maven_name": "apache-maven-3.5.4"
+                }
+            }
+        }
+```

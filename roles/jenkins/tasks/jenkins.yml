@@ -21,7 +21,7 @@
   tags:
     - jenkins
 
-- name: 'make sure jenkins_data directory exists'
+- name: 'make sure jenkins_cache directory exists'
   file:
     path: var/cache/jenkins
     recurse: yes
@@ -31,7 +31,7 @@
   tags:
     - jenkins
 
-- name: 'make sure jenkins_data directory exists'
+- name: 'make sure jenkins_log directory exists'
   file:
     path: /var/log/jenkins
     recurse: yes

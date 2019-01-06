@@ -1,10 +1,16 @@
 ---
+- name: 'reload local facts'
+  setup:
+  tags:
+    - config
+
 - name: 'check presence of config file'
   stat:
     path: "{{ jenkins_data }}/config.xml"
   register: configured
   tags:
     - jenkins
+    - config
 
 - name: 'create jenkins config files'
   template:
@@ -14,7 +20,8 @@
     group: jenkins
     mode: 0600
   with_items: "{{ jenkins_configs }}"
-#  when: not configured.stat.exists
+  ignore_errors: yes  # some vars/tools might not exist
+  #when: not configured.stat.exists
   tags:
     - jenkins
     - config
@@ -52,6 +59,7 @@
     - jenkins
     - config
 
+## accesses Google for styling fonts
 - name: 'copy theme file'
   copy:
     src: jenkins-material-theme.css

@@ -8,12 +8,12 @@
     </activeProfiles>
     <mirrors>
         <mirror>
-            <id>repo-snapshot</id>
+            <id>nexus-snapshot</id>
             <mirrorOf>snapshots</mirrorOf>
             <url>{{ mvn_proxy_url }}/content/groups/public-snapshots</url>
         </mirror>
         <mirror>
-            <id>repo</id>
+            <id>nexus</id>
             <mirrorOf>*,!snapshots</mirrorOf>
             <url>{{ mvn_proxy_url }}/content/groups/public</url>
         </mirror>
@@ -21,7 +21,7 @@
     <localRepository>/home/jenkins/repository/</localRepository>
     <profiles>
         <profile>
-            <id>repo</id>
+            <id>nexus</id>
             <pluginRepositories>
                 <pluginRepository>
                     <id>snapshots</id>
@@ -88,6 +88,11 @@
 		</profile>
     </profiles>
     <servers>
+        <server>
+            <id>nexus</id>
+            <username>admin</username>
+            <password>{{ mvn_nexus_password.stdout }}</password>
+        </server>
         <server>
             <id>artifactory</id>
             <username>admin</username>
