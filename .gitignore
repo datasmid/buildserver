@@ -4,6 +4,7 @@ roles_galaxy/*
 galaxy_roles/*
 files/*
 pki
+.venv
 .rnd
 .DS_Store
 .idea

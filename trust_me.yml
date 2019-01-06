@@ -55,6 +55,7 @@
       with_inventory_hostnames: all:!localhost:!win_slave
       no_log: no
       changed_when: no
+      ignore_errors: yes
       tags:
         - openssl
 
@@ -69,6 +70,8 @@
                 -out files/ca-certificates/{{ item }}.cer \
                 -days 365'"
       with_inventory_hostnames: all:!localhost:win_slave
+      ignore_errors: yes
+      no_log: yes
       tags:
         - openssl
         - test
@@ -87,6 +90,8 @@
                 -inkey files/private/{{ item }}.key \
                 -in files/ca-certificates/{{ item }}.cer'"
       with_inventory_hostnames: all:!localhost:!win_slave
+      ignore_errors: yes
+      no_log: yes
       tags:
         - openssl
 
