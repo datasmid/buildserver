@@ -1,6 +1,6 @@
 #!/usr/bin/env ansible-playbook
 
-- name: Install docker
+- name: Install docker on target too
   hosts: centos7
   become: True
 

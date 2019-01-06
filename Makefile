@@ -13,32 +13,32 @@ help:
 	@echo "make roles         -install requirements"
 	@echo "make trust         -generate keys"
 	@echo "make myself        -install locally on centos7"
-	@echo "make vagrant       -Install build_master on vagrant virtual machine"
-	@echo "make build         -Build the application game of life"
+	@echo "make vagrant       -Install 2 vagrant virtual machines"
+	@echo "make install       -Build the build_master from a Mac, and install docker on centos7
 #	@echo "make deploy        -Deploy the application game of life to target"
 	@echo "make cleanroles    -Cleanup vm's and  ansible roles"
 
 .venv:
+	@echo Install python virtualenv.
 	which virtualenv || echo "please install python2 virtualenv, or run 'vagrant up'"
 	virtualenv .venv
 	( . .venv/bin/activate && pip install --upgrade --ignore-installed -r requirements.txt )
 
-.PHONY: roles
-roles: .venv
-	@echo Install Ansible galaxy roles and dependent python packages.
-	rm -rf galaxy_roles
+galaxy_roles: .venv
+	@echo Install Ansible galaxy roles.
 	( . .venv/bin/activate && ansible-playbook -c local galaxy_import.yml )
 
-.PHONY: trust
-trust: .venv
-	@(. .venv/bin/activate || echo "run 'make install' first" )
+files/ca-certificates/internal_ca.cer: .venv
 	@( . .venv/bin/activate && ./trust_me.yml )
 
 .PHONY: setup
-setup: roles trust
+setup: galaxy_roles files/ca-certificates/internal_ca.cer
 
-.PHONY: install
-install: setup vagrant
+install: .venv galaxy_roles files/ca-certificates/internal_ca.cer .vagrant
+	vagrant up --no-provision centos7
+	( . .venv/bin/activate && ansible-playbook -l centos7 playbook.yml -vv ) || /usr/bin/true
+	vagrant up --no-provision build_master
+	vagrant provision build_master
 
 .PHONY: myself
 myself: .venv
@@ -50,6 +50,11 @@ addboxes:
 
 .PHONY: vagrant
 vagrant:
+	@echo Bring up vagrant VM:** 'build_master' the CI server
+	vagrant up --no-provision build_master centos7
+	vagrant provision build_master
+
+.vagrant:
 	@echo Bring up vagrant VM:** 'build_master' the CI server
 	vagrant up --no-provision build_master
 	vagrant provision build_master
