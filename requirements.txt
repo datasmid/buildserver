@@ -4,8 +4,9 @@ httplib2
 pexpect
 pycurl
 requests
-yamllint
+yamllint==1.11.1
+six==1.11.0
 ansible
-ansible-lint
+ansible-lint==3.4.23
 molecule
 ConfigParser
