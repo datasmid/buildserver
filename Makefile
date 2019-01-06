@@ -10,9 +10,10 @@ default: help
 .PHONY: help
 help:
 	@echo "Beginner tasks:"
-	@echo "make setup         -install requirements and generate keys"
-	@echo "make myself        -install on centos7"
-	@echo "make vagrant       -Install two virtual machines only"
+	@echo "make roles         -install requirements"
+	@echo "make trust         -generate keys"
+	@echo "make myself        -install locally on centos7"
+	@echo "make vagrant       -Install build_master on vagrant virtual machine"
 	@echo "make build         -Build the application game of life"
 #	@echo "make deploy        -Deploy the application game of life to target"
 	@echo "make cleanroles    -Cleanup vm's and  ansible roles"
@@ -35,6 +36,9 @@ trust: .venv
 
 .PHONY: setup
 setup: roles trust
+
+.PHONY: install
+install: setup vagrant
 
 .PHONY: myself
 myself: .venv
@@ -61,7 +65,7 @@ cleanroles:
 
 .PHONY: destroy
 destroy:
-	@echo halt virtual machines
+	@echo halt virtual machine
 	vagrant halt build_master
 	vagrant halt win_slave
 	@echo Destroys virtual machines
