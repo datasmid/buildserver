@@ -11,6 +11,7 @@
 
 - name: Run configuration
   include: config.yml
+  tags: config
 
 - name: Install jenkins command line tools
   include: cli.yml
@@ -21,5 +22,10 @@
 #- name: enable passwords
 #  include: security.yml
 
-#- name: Test jenkins
-#  include: test.yml
+- name: Test jenkins
+  include: test.yml
+
+- name: Install demo game-of-life
+  include: demo.yml
+  tags:
+    - demo

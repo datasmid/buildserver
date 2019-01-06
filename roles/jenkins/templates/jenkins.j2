@@ -35,7 +35,7 @@ JENKINS_USER="jenkins"
 #
 # Options to pass to java when running Jenkins.
 #
-JENKINS_JAVA_OPTIONS="-Djava.awt.headless=true -Djava.io.tmpdir={{jenkins_data}}/tmp -XX:+HeapDumpOnOutOfMemoryError"
+JENKINS_JAVA_OPTIONS="{% if proxy_host is defined %}-Dhttp.nonProxyHosts=\"{{ jvm_no_proxy }}\" -Dhttps.nonProxyHosts=\"{{ jvm_no_proxy }}\" -Dhttps.proxyHost={{ proxy_host }} -Dhttps.proxyPort={{ proxy_port }} -Dhttp.proxyHost={{ proxy_host }} -Dhttp.proxyPort={{ proxy_port }} {% endif %}-Djava.awt.headless=true -Djava.io.tmpdir={{ jenkins_data }}/tmp -XX:+HeapDumpOnOutOfMemoryError -server -XX:+AlwaysPreTouch -Xms2g -Xmx6g -Xloggc:$JENKINS_HOME/gc-%t.log -XX:NumberOfGCLogFiles=5 -XX:+UseGCLogFileRotation -XX:GCLogFileSize=20m -XX:+PrintGC -XX:+PrintGCDateStamps -XX:+PrintGCDetails -XX:+PrintHeapAtGC -XX:+PrintGCCause -XX:+PrintTenuringDistribution -XX:+PrintReferenceGC -XX:+PrintAdaptiveSizePolicy -XX:+UseG1GC -XX:+ExplicitGCInvokesConcurrent -XX:+ParallelRefProcEnabled -XX:+UseStringDeduplication -XX:+UnlockExperimentalVMOptions -XX:G1NewSizePercent=20 -XX:+UnlockDiagnosticVMOptions -XX:G1SummarizeRSetStatsPeriod=1"
 
 ## Type:        integer(0:65535)
 ## Default:     8080

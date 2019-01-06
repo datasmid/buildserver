@@ -10,6 +10,17 @@
     - jenkins
     - security
 
+- name: restrict jenkins_data directory
+  file:
+    path: "{{ jenkins_data }}"
+    owner: jenkins
+    group: jenkins
+    mode: go-rwx
+    state: directory
+    recurse: yes
+  tags:
+    - security
+
 - name: 'restart Jenkins once more'
   debug:
     msg: "restart jenkins"

@@ -34,14 +34,14 @@
   <builders>
     <hudson.tasks.Maven>
       <targets>clean install</targets>
-      <mavenName>{{maven_name}}</mavenName>
+      <mavenName>apache-maven-3.5.4</mavenName>
       <usePrivateRepository>false</usePrivateRepository>
       <settings class="jenkins.mvn.DefaultSettingsProvider"/>
       <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
     </hudson.tasks.Maven>
     <hudson.tasks.Maven>
       <targets>javadoc:javadoc checkstyle:checkstyle pmd:pmd findbugs:findbugs</targets>
-      <mavenName>{{maven_name}}</mavenName>
+      <mavenName>apache-maven-3.5.4</mavenName>
       <usePrivateRepository>false</usePrivateRepository>
       <settings class="jenkins.mvn.DefaultSettingsProvider"/>
       <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
