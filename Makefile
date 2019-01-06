@@ -1,5 +1,9 @@
 VAGRANT_DEFAULT_PROVIDER=virtualbox
 export ANSIBLE_SSH_ARGS='-o ControlMaster=no'
+export PYCURL_SSL_LIBRARY=openssl
+export LDFLAGS=-L/usr/local/opt/openssl/lib
+export CPPFLAGS=-I/usr/local/opt/openssl/include
+
 default: help
 
 
@@ -13,17 +17,28 @@ help:
 #	@echo "make deploy        -Deploy the application game of life to target"
 	@echo "make cleanroles    -Cleanup vm's and  ansible roles"
 
-.PHONY: setup
-setup:
+.venv:
+	which virtualenv || echo "please install python2 virtualenv, or run 'vagrant up'"
+	virtualenv .venv
+	( . .venv/bin/activate && pip install --upgrade --ignore-installed -r requirements.txt )
+
+.PHONY: roles
+roles: .venv
 	@echo Install Ansible galaxy roles and dependent python packages.
 	rm -rf galaxy_roles
-#	pip install -r requirements.txt
-	ansible-playbook -c local galaxy_import.yml
-	./trust_me.yml
+	( . .venv/bin/activate && ansible-playbook -c local galaxy_import.yml )
+
+.PHONY: trust
+trust: .venv
+	@(. .venv/bin/activate || echo "run 'make install' first" )
+	@( . .venv/bin/activate && ./trust_me.yml )
+
+.PHONY: setup
+setup: roles trust
 
 .PHONY: myself
-myself:
-	ansible-playbook -b -K -i inventories/local -l build provision.yml -vv
+myself: .venv
+	( . .venv/bin/activate && ansible-playbook -b -K -i inventories/local -l build provision.yml -vv )
 
 .PHONY: addboxes
 addboxes:
@@ -38,7 +53,7 @@ vagrant:
 .PHONY: build
 build:
 	@echo Triggers build jobs Jenkins on [build_master].
-	ansible-playbook -vv -l build_master build.yml
+	( . .venv/bin/activate && ansible-playbook -vv -l build_master build.yml )
 
 .PHONY: cleanroles
 cleanroles:
@@ -58,14 +73,14 @@ clean: cleanroles destroy
 
 .PHONY: deploy
 deploy:
-	ansible-playbook -vv -l target deploy.yml
+	( . .venv/bin/activate && ansible-playbook -vv -l target deploy.yml )
 
 .PHONY: smoketest
 smoketest:
-	ansible-playbook -vv -l build_master:target smoketest.yml
+	( . .venv/bin/activate && ansible-playbook -vv -l build_master:target smoketest.yml )
 .PHONY: webtest
 webtest:
-	ansible-playbook -vv -l target webtest.yml
+	( . .venv/bin/activate && ansible-playbook -vv -l target webtest.yml )
 .PHONY: test
 test: smoketest webtest
 
