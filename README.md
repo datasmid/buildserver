@@ -1,5 +1,6 @@
 README:
 
+[![Build Status](https://travis-ci.org/bbaassssiiee/buildserver.svg?branch=master)](https://travis-ci.org/bbaassssiiee/buildserver)
 
 Buildserver
 ===========
