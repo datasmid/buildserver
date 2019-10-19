@@ -10,11 +10,11 @@ default: help
 .PHONY: help
 help:
 	@echo "Beginner tasks:"
-	@echo "make roles         -install requirements"
+	@echo "make galaxy_roles  -install requirements"
 	@echo "make trust         -generate keys"
 	@echo "make myself        -install locally on centos7"
 	@echo "make vagrant       -Install 2 vagrant virtual machines"
-	@echo "make install       -Build the build_master from a Mac, and install docker on centos7
+	@echo "make install       -Build the build_master from a Mac, and install docker on centos7"
 #	@echo "make deploy        -Deploy the application game of life to target"
 	@echo "make cleanroles    -Cleanup vm's and  ansible roles"
 
@@ -26,18 +26,23 @@ help:
 
 galaxy_roles: .venv
 	@echo Install Ansible galaxy roles.
+	rm -rf galaxy_roles
 	( . .venv/bin/activate && ansible-playbook -c local galaxy_import.yml )
 
 files/ca-certificates/internal_ca.cer: .venv
 	@( . .venv/bin/activate && ./trust_me.yml )
 
-.PHONY: setup
-setup: galaxy_roles files/ca-certificates/internal_ca.cer
+.PHONY: trust
+trust: files/ca-certificates/internal_ca.cer
 
 install: .venv galaxy_roles files/ca-certificates/internal_ca.cer .vagrant
 	vagrant up --no-provision centos7
 	( . .venv/bin/activate && ansible-playbook -l centos7 playbook.yml -vv ) || /usr/bin/true
 	vagrant up --no-provision build_master
+	vagrant provision build_master
+
+.PHONY: provision
+provision:
 	vagrant provision build_master
 
 .PHONY: myself
