@@ -17,9 +17,12 @@
   with_items:
     - node.sh
     - node.bat
-    - linConfig.json
-    - winConfig.json
-    - macConfig.json
+    - Linux.json
+    - Windows.json
+    - Darwin.json
+    - macChrome.py
+    - macFirefox.py
+    - macSafari.py
 
 - name: create archive
   archive:
