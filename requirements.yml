@@ -8,7 +8,11 @@
   name: dockpack.base_common
   version: master
 
-- src: https://github.com/dockpack/base_cplusplus.git
+- src: https://github.com/dockpack/base_cmake.git
+  name: dockpack.base_cmake
+  version: master
+
+- src: https://github.com/dockpack/base_gcc.git
   name: dockpack.base_cplusplus
   version: master
 
@@ -22,6 +26,10 @@
 
 - src: https://github.com/dockpack/base_goss.git
   name: dockpack.base_goss
+  version: master
+
+- src: https://github.com/dockpack/base_miniconda.git
+  name: dockpack.base_miniconda
   version: master
 
 - src: https://github.com/dockpack/base_java8.git
