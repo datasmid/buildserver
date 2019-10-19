@@ -2,18 +2,19 @@
 
 - name: Install utilities
   hosts: all
-  become: True
+  become: true
 
   pre_tasks:
     - include: tasks/settings.yml
   roles:
     - {role: motd, tags: 'motd'}
+    - {role: dockpack.base_common, tags: 'common'}
     - {role: dockpack.base_utils, tags: 'utils'}
     - {role: dockpack.base_goss, tags: 'goss'}
 
 - name: Install web server
   hosts: build_master
-  become: True
+  become: true
   roles:
     - {role: pki, tags: 'pki'}
     - {role: firewall, tags: 'firewall'}
@@ -21,17 +22,22 @@
 
 - name: Install build tools
   hosts: build_master:ubuntu
-  become: True
+  become: true
+  vars:
+    miniconda_install: true
   roles:
-    - {role: dockpack.base_git, tags: 'git'}
+    - role: dockpack.base_git
+      when: collections_enabled
+    - {role: dockpack.base_cmake, tags: 'cmake'}
     - {role: dockpack.base_java8, tags: 'java8'}
     - {role: dockpack.base_ant, tags: 'ant'}
     - {role: dockpack.base_maven, tags: 'maven'}
     - {role: dockpack.base_gradle, tags: 'gradle'}
+    - {role: dockpack.base_miniconda, tags: 'conda'}
 
 - name: Install Jenkins
   hosts: build_master
-  become: True
+  become: true
 
   roles:
     - {role: jenkins, tags: 'jenkins'}
@@ -42,7 +48,7 @@
 
 - name: Install docker
   hosts: centos7
-  become: True
+  become: true
 
   roles:
     - {role: dockpack.base_docker, tags: 'docker'}
