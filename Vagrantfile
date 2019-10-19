@@ -83,19 +83,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
-  config.vm.define :rhel7, autostart: false do |rhel7|
-    rhel7.vm.box = "redesign/rhel7"
-    rhel7.vm.box_check_update = false
-    rhel7.vm.synced_folder ".", "/vagrant", id: "vagrant-root"
-    rhel7.vm.network "private_network", ip: "192.168.10.18", :netmask => "255.255.255.0",  auto_config: true
-    rhel7.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2218, auto_correct: false
-    rhel7.vm.provider "virtualbox" do |vb|
-      vb.customize ["modifyvm", :id, "--memory", "2048", "--natnet1", "172.16.1/24"]
-      vb.gui = false
-      vb.name = "rhel7"
-    end
-  end
-
   config.vm.define :trusty, autostart: false do |trusty|
     trusty.vm.box = "trusty"
     trusty.vbguest.auto_update = true
@@ -133,24 +120,25 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       vb.name = "xenial"
     end
   end
-   config.vm.define :win_slave, autostart: false do |win_slave|
-     win_slave.vm.box = "ferhaty/win7ie10winrm"
-     win_slave.vm.guest = :windows
-     win_slave.vm.communicator = "winrm"
-     win_slave.winrm.username = 'vagrant'
-     win_slave.winrm.password = 'vagrant'
-     win_slave.vm.box_check_update = true
-     win_slave.vm.network :private_network, ip: "192.168.10.26"
-     win_slave.vm.network :forwarded_port, guest:8000, host:8000
-     win_slave.vm.network :forwarded_port, guest: 3389, host: 3389, id: "rdp", auto_correct: true
-     win_slave.vm.provider "virtualbox" do |vb|
-       vb.gui = false
-       vb.name = "win_slave"
-       vb.customize [
-            "modifyvm", :id,
-            "--memory", "#$MEMSIZE",
-            "--natnet1", "172.16.1/24",
-       ]
-     end
-   end
+
+  config.vm.define :win_slave, autostart: false do |win_slave|
+    win_slave.vm.box = "ferhaty/win7ie10winrm"
+    win_slave.vm.guest = :windows
+    win_slave.vm.communicator = "winrm"
+    win_slave.winrm.username = 'vagrant'
+    win_slave.winrm.password = 'vagrant'
+    win_slave.vm.box_check_update = true
+    win_slave.vm.network :private_network, ip: "192.168.10.26"
+    win_slave.vm.network :forwarded_port, guest:8000, host:8000
+    win_slave.vm.network :forwarded_port, guest: 3389, host: 3389, id: "rdp", auto_correct: true
+    win_slave.vm.provider "virtualbox" do |vb|
+     vb.gui = false
+     vb.name = "win_slave"
+     vb.customize [
+          "modifyvm", :id,
+          "--memory", "#$MEMSIZE",
+          "--natnet1", "172.16.1/24",
+     ]
+    end
+  end
 end
