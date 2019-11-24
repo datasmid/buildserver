@@ -43,6 +43,7 @@ Quickstart
 You need access to the internet (i.e. `nslookup mirrorlist.centos.org` should work)
 
 **Add these hostnames** to /etc/hosts or to \WINDOWS\SYSTEM32\drivers\etc\hosts
+
     192.168.10.28 build_master.test build_master
 
     192.168.10.16 centos6
