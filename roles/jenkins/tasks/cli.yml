@@ -1,42 +1,75 @@
 ---
-- name: "starting jenkins"
-  sudo: yes
-  service: name=jenkins state=started
 
-- name: "create jenkins CLI destination directory: ${jenkins.dest}"
-  sudo: yes
-  file: path={{ jenkins_data }} state=directory
-  
+- name: "starting jenkins"
+  become: yes
+  service:
+    name: jenkins
+    state: started
+    enabled: yes
+  tags:
+    - jenkins
+
+- name: "create jenkins CLI destination directory"
+  become: yes
+  file:
+    path: "{{ jenkins_data }}"
+    state: directory
+  tags:
+    - jenkins
+    - cli
+
 # if jenkins is installed or updated, wait for pulling the jenkins CLI
 - name: "wait one minute for jenkins to warm up."
-  wait_for: port=8080 delay=60
+  wait_for:
+    port: "{{ jenkins_http }}"
+    delay: 60
   retries: 5
-  
-#- name: "wait while starting jenkins"
-#  uri: url="https://localhost:8080/jenkins/jnlpJars/jenkins-cli.jar"
-#       return_content=no timeout=600
-#  retries: 200
-#  delay: 10
-    
-# download jenkins command line tools from localhost
+  tags:
+    - jenkins
+    - cli
+
+# download jenkins command line tools
 - name: "get jenkins CLI"
-  sudo: yes
-  get_url: url="http://localhost:8080/jenkins/jnlpJars/jenkins-cli.jar" dest={{jenkins_cli}} mode=0440
-  retries: 30
+  become: yes
+  environment: '{{ proxy_env }}'
+  get_url:
+    url: "http://127.0.0.1:{{ jenkins_http }}/jenkins/jnlpJars/jenkins-cli.jar"
+    dest: "{{ jenkins_cli }}"
+    mode: 0440
+    timeout: 300
+  retries: 50
   delay: 10
+  tags:
+    - jenkins
+    - cli
 
 # download latest jenkins update file
 - name: "get jenkins updates"
-  sudo: yes
-  get_url: url=http://updates.jenkins-ci.org/update-center.json dest={{ jenkins_data }}/updates_jenkins.json thirsty=yes mode=0440
-  retries: 20
+  become: yes
+  environment: '{{ proxy_env }}'
+  get_url:
+    url: http://updates.jenkins-ci.org/update-center.json
+    dest: "{{ jenkins_data }}/updates_jenkins.json"
+    thirsty: yes
+    mode: 0440
+    timeout: 300
+  retries: 30
   delay: 10
   register: jenkins_updates
+  tags:
+    - jenkins
+    - cli
 
 # jenkins update-center
 - name: "update-center jenkins"
-  sudo: yes
-  shell: "cat {{ jenkins_data }}/updates_jenkins.json | sed '1d;$d' | curl -k -X POST -H 'Accept: application/json' -d @- http://localhost:8080/jenkins/updateCenter/byId/default/postBack"
+  become: yes
+  shell: "cat {{ jenkins_data }}/updates_jenkins.json | sed '1d;$d' \
+          | curl -k -X POST -H 'Accept: application/json' \
+          -d @- http://127.0.0.1:{{ jenkins_http }}/jenkins/updateCenter/byId/default/postBack"
   when: jenkins_updates.changed
   notify:
     - 'start jenkins'
+  tags:
+    - jenkins
+    - cli
+    - skip_ansible_lint

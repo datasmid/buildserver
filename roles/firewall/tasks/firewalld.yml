@@ -1,0 +1,72 @@
+---
+- name: enable network connect for webserver
+  seboolean:
+    name: httpd_can_network_connect
+    persistent: yes
+    state: yes
+  notify: reload nginx
+  tags:
+    - nginx
+    - firewall
+    - security
+
+- name: enable webserver to read its certificate on startup
+  seboolean:
+    name: httpd_read_user_content
+    persistent: yes
+    state: yes
+  notify: reload nginx
+  tags:
+    - nginx
+    - firewall
+    - security
+
+- name: start firewalld
+  service:
+    name: firewalld
+    state: restarted
+    enabled: yes
+  tags:
+    - firewall
+    - security
+    - squid
+    - nginx
+
+- name: firewalld configuration http
+  firewalld:
+    service: http
+    permanent: true
+    state: enabled
+    immediate: yes
+  tags:
+    - firewall
+    - security
+
+- name: firewalld configuration https
+  firewalld:
+    service: https
+    permanent: true
+    state: enabled
+    immediate: yes
+  tags:
+    - firewall
+    - security
+    - nginx
+
+- name: firewalld configuration slaveagent
+  firewalld:
+    port: "{{ slaveAgentPort }}/tcp"
+    permanent: true
+    state: enabled
+    immediate: yes
+  tags:
+    - firewalld
+
+- name: firewalld configuration seleniumHubPort
+  firewalld:
+    port: "{{ seleniumHubPort }}/tcp"
+    permanent: true
+    state: enabled
+    immediate: yes
+  tags:
+    - firewalld

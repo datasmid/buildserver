@@ -1,0 +1,31 @@
+---
+my_scope: vagrant
+location: Appsterdam
+
+internet: True
+proxy_env:
+  dummy: value
+
+mvn_deploy_url: https://build_master/artifactory
+mvn_proxy_url: "{{ lookup('ENV','http_proxy') }}"
+mvn_master_password: Mvn_Password
+
+# Select one or the other
+artifactory_database: mysql
+
+
+mysql_root_password: gibberish
+mysql_users:
+  - name: 'dba'
+    password: '0r@cl3'
+    priv: "*.*:ALL"
+# a 'host' attibute for mysql_users is optional
+
+
+# artifactory_database: postgresql
+base_postgres_mip: 192.168.10.23     # The IP address of the primary or master database
+base_postgres_sip: 192.168.10.24     # The IP address of the secondary postgres box
+base_postgres_user: 'dba'            # This is your user
+base_postgres_pass: '0r@cl3'         # This is your password
+
+

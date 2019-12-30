@@ -1,7 +1,0 @@
----
-
-- name: 'start postgresql-9.3'
-  service: name=postgresql-9.3 state=started
-
-- name: 'restart postgresql-9.3'
-  service: name=postgresql-9.3 state=restarted

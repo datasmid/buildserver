@@ -1,0 +1,67 @@
+---
+my_scope: build
+
+rhel7cis_httpd: true
+
+rhel7cis_notauto: false
+rhel7cis_section1: true
+rhel7cis_section2: true
+rhel7cis_section3: true
+rhel7cis_section4: true
+rhel7cis_section5: true
+rhel7cis_section6: true
+rhel7cis_section7: true
+rhel7cis_section8: true
+rhel7cis_section9: true
+
+http_port: 80
+https_port: 443
+slaveAgentPort: 8079
+
+vault_postgres_user: dba
+vault_postgres_pass: dba_pass
+base_postgres_net: samenet
+
+input_artifactory_password: password
+artifactory_version: "4.9.0"
+artifactory_database: postgres
+
+# packages for systems management
+yum_packages:
+   - libselinux-python
+   - libsemanage-python
+   - python-httplib2
+   - unzip
+   - ansible # so you can use it as a control host too
+   - acpid
+   - sshpass
+   - rpm-build
+   - rpmdevtools
+   - rpmlint
+   - yum-utils
+   - createrepo
+
+jenkins_data: "/data/jenkins"
+
+nginx_sites:
+  default:
+    - listen 80
+    - server_name _
+    - return 301 https://{{ inventory_hostname }}$request_uri
+
+  server:
+    - listen 443 ssl
+    - server_name "{{ inventory_hostname }}"
+    - location /jenkins { proxy_pass http://127.0.0.1:{{ jenkins_port }}/jenkins; }
+    - location /artifactory { proxy_pass http://127.0.0.1:{{ artifactory_port }}/artifactory; }
+    - ssl on
+    - ssl_certificate_key "{{ nginx_key }}"
+    - ssl_certificate "{{ nginx_cer }}"
+    - proxy_set_header Host $host
+    - proxy_set_header X-Real-IP $remote_addr
+    - proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for
+    - proxy_set_header X-Forwarded-Proto $scheme
+    - resolver 8.8.8.8 8.8.4.4 valid=300s
+    - resolver_timeout 5s
+    - client_max_body_size 32M
+

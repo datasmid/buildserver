@@ -1,0 +1,167 @@
+#!/usr/bin/env ansible-playbook
+#  Establish self-signed certificate authority for test components
+#
+
+#  ./trust_me.yml # to use Safari or Chrome with your own CA
+#  To create new certificate requests for local testing:
+#  make clean_certs csr
+
+- name: "trust_me.yml"
+  hosts: localhost
+  connection: local
+  gather_facts: True
+
+  tasks:
+    - name: 'set HOME'
+      set_fact:
+        HOME: "{{ lookup('ENV','HOME') }}"
+      tags:
+        - openssl
+        - osx
+
+    - name: 'set USER'
+      set_fact:
+        USER: "{{ lookup('ENV','USER') }}"
+      tags:
+        - openssl
+        - osx
+
+    - name: 'restrict permissions on directory for our files'
+      become: no
+      file:
+        name: "{{ item }}"
+        mode: go-rwx
+        recurse: yes
+      with_items:
+        - files
+      tags:
+        - openssl
+
+    - name: generate internal_ca key
+      command: openssl genrsa -out files/private/internal_ca.key 2048
+
+    - name: sign private CA key
+      command: "openssl req -x509 \
+                  -new -nodes \
+                  -key files/private/internal_ca.key \
+                  -config files/templates/openssl.cnf \
+                  -extensions ca_extensions \
+                  -days 1024 \
+                  -out files/ca-certificates/internal_ca.cer \
+                  -subj '/CN=internal_ca/O=IT/OU=Development/C=IO'"
+
+    - name: 'check the CSRs'
+      command: "openssl req -text -noout -verify -in files/certrequests/{{ item }}.csr"
+      with_inventory_hostnames: all:!localhost:!win_slave
+      no_log: no
+      changed_when: no
+      ignore_errors: yes
+      tags:
+        - openssl
+
+    - name: 'CA sign the signing requests for test'
+      command: "/bin/bash -c 'openssl x509 -req \
+                -CA files/ca-certificates/internal_ca.cer \
+                -CAkey files/private/internal_ca.key \
+                -CAcreateserial \
+                -extfile files/certrequests/{{ item }}.cnf \
+                -extensions server_cert \
+                -in files/certrequests/{{ item }}.csr \
+                -out files/ca-certificates/{{ item }}.cer \
+                -days 365'"
+      with_inventory_hostnames: all:!localhost:win_slave
+      ignore_errors: yes
+      no_log: yes
+      tags:
+        - openssl
+        - test
+
+    - name: 'append the root cert to the server cert'
+      shell: "cat files/ca-certificates/internal_ca.cer >> files/ca-certificates/{{ item }}.cer"
+      with_inventory_hostnames: all:!localhost:!win_slave
+      changed_when: yes
+      tags:
+        - openssl
+
+    - name: "create p12 stores for testing"
+      command: "/bin/bash -c 'openssl pkcs12 -export \
+                -password pass:{{ p12_password | default('p12_password') }} \
+                -out files/private/{{ item }}.p12 \
+                -inkey files/private/{{ item }}.key \
+                -in files/ca-certificates/{{ item }}.cer'"
+      with_inventory_hostnames: all:!localhost:!win_slave
+      ignore_errors: yes
+      no_log: yes
+      tags:
+        - openssl
+
+    #  The internal_ca can be stale in a new git clone
+    - name: "remove internal_ca from keychain"
+      shell: "security delete-identity -c internal_ca"
+      register: get_local_ca
+      ignore_errors: yes
+      changed_when: no
+      tags:
+        - osx
+
+    - name: "extract public key of internal_ca"
+      become: no
+      command: "openssl rsa -in files/private/internal_ca.key -pubout -out files/pubkeys/internal_ca.pem"
+      tags:
+        - osx
+
+    - name: "create an encrypted store internal_ca.p12"
+      command: "/bin/bash -c 'openssl pkcs12 -export \
+                -password pass:{{ p12_password | default('p12_password') }} \
+                -out files/private/internal_ca.p12 \
+                -inkey files/private/internal_ca.key \
+                -in files/ca-certificates/internal_ca.cer'"
+      tags:
+        - osx
+
+    - name: "import internal_ca.cer in OSX login keychain with the one-time password 'p12_password'"
+      command: "open files/private/internal_ca.p12"
+      tags:
+        - osx
+
+    - name: 'ensure directory for CA config exists'
+      file:
+        path: "{{ HOME }}/Library/Application Support/Certificate Authority/internal_ca"
+        state: directory
+      tags:
+        - osx
+
+    - name: "binary hash of public key of internal_ca"
+      become: no
+      command: "openssl dgst -binary -sha256 -keyform PEM files/pubkeys/internal_ca.pem"
+      register: binary_hash
+      tags:
+        - osx
+
+    - name: 'set issuer_public_key_hash'
+      set_fact:
+        issuer_public_key_hash: "{{ binary_hash.stdout }}"
+      tags:
+        - osx
+
+    - name: 'store CA template in Library/Application Support/Certificate Authority'
+      template:
+        src: 'files/templates/certAuthorityConfig'
+        dest: "{{ HOME }}/Library/Application Support/Certificate Authority/internal_ca/internal_ca.certAuthorityConfig"
+      tags:
+        - osx
+
+    - name: "store files/ca-certificates/internal_ca.cer in Application Support/Certificate Authority"
+      copy:
+        src: "files/ca-certificates/internal_ca.cer"
+        dest: "{{ HOME }}/Library/Application Support/Certificate Authority/internal_ca/internal_ca certificates.pem"
+      tags:
+        - osx
+
+    - name: "removing plaintext keys for test"
+      file:
+        path: "files/private/{{ item }}.key"
+        state: absent
+      with_inventory_hostnames: all:!localhost:!win_slave
+      tags:
+        - openssl

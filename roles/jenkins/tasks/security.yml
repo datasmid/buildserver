@@ -1,0 +1,27 @@
+---
+
+- name: 'enable security'
+  lineinfile:
+    dest: "{{ jenkins_data }}/config.xml"
+    regexp: '^  <useSecurity>false</useSecurity>'
+    line: '  <useSecurity>true</useSecurity>'
+    state: present
+  tags:
+    - jenkins
+    - security
+
+- name: restrict jenkins_data directory
+  file:
+    path: "{{ jenkins_data }}"
+    owner: jenkins
+    group: jenkins
+    mode: go-rwx
+    state: directory
+    recurse: yes
+  tags:
+    - security
+
+- name: 'restart Jenkins once more'
+  debug:
+    msg: "restart jenkins"
+  notify: restart jenkins

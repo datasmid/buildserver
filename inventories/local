@@ -1,0 +1,5 @@
+[build:children]
+build_master
+
+[build_master]
+build_master ansible_host=localhost ansible_connection=local

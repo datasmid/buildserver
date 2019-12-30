@@ -1,30 +1,31 @@
 ---
-# Add jenkins repository
-- include: repo.yml
 
-# Install dependencies (git, svn, etc)
-- include: dependencies.yml
+- name: Add jenkins repository
+  include: repo.yml
 
-# Install build tools
-- include: ant.yml
-- include: maven.yml
-- include: gradle.yml
+- name: Install dependencies (git, svn, etc)
+  include: dependencies.yml
 
-# Install jenkins 
-- include: jenkins.yml
+- name: Install jenkins
+  include: jenkins.yml
 
-# Run configuration
-- include: config.yml
+- name: Run configuration
+  include: config.yml
+  tags: config
 
-# Install jenkins command line tools
-- include: cli.yml
+- name: Install jenkins command line tools
+  include: cli.yml
 
-# Install/update jenkins plugins
-- include: plugins.yml
+- name: Install/update jenkins plugins
+  include: plugins.yml
 
-# Install demo job: game-of-life
-- include: demo.yml
+#- name: enable passwords
+#  include: security.yml
 
+- name: Test jenkins
+  include: test.yml
 
-
-
+- name: Install demo game-of-life
+  include: demo.yml
+  tags:
+    - demo

@@ -1,0 +1,23 @@
+---
+- name: windows
+  hosts: windows
+  remote_user: vagrant
+
+  vars:
+    - iedriver_version: 2.47
+    - iedriver_name: IEDriverServer_Win32_{{iedriver_version}}.0.zip
+    - iedriver_url: http://selenium-release.storage.googleapis.com/{{iedriver_version}}/{{iedriver_name}}
+
+  tasks:
+    - name: create directory for selenium
+      win_file: dest={{selenium_dir}} state=directory owner=IEUser
+
+    - name: download selenium
+      become: no
+      environment: proxy_env
+      win_get_url: url={{download_url}} dest={{selenium_dir}}//selenium-server.jar
+
+    - name: download selenium driver for IE
+      become: no
+      environment: proxy_env
+      win_get_url: url={{iedriver_url}} dest={{selenium_dir}}//{{iedriver_name}}

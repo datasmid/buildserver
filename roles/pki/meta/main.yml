@@ -1,0 +1,18 @@
+# file: roles/pki/meta/main.yml
+---
+galaxy_info:
+  author: Ferhat Yildiz & Bas Meijer
+  description: roll out server.p12 for Nginx TLS
+  license: MIT
+  min_ansible_version: 2.3
+  platforms:
+    - name: EL
+      versions:
+        - 7
+  galaxy_tags:
+    - pki
+    - certificates
+    - ssl
+    - tls
+    - security
+dependencies: []

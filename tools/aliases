@@ -1,0 +1,7 @@
+# SHELL ALIASES
+export ANSIBLE_DIR=..
+alias cda="cd \$ANSIBLE_DIR"
+alias cds="cd \$ANSIBLE_DIR;cd .."
+alias cdi="cd \$ANSIBLE_DIR/inventories"
+alias cdg="cd \$ANSIBLE_DIR/group_vars"
+alias cdr="cd \$ANSIBLE_DIR/roles"

@@ -1,0 +1,28 @@
+[vagrant:children]
+build
+slaves
+windows
+
+[build]
+build_master.test ansible_ssh_host=192.168.10.28
+
+[slaves]
+blue ansible_ssh_host=192.168.10.23
+red ansible_ssh_host=192.168.10.24
+green ansible_ssh_host=192.168.10.25
+
+[slaves:vars]
+ansible_user=vagrant
+ansible_ssh_private_key_file=files/vagrant.rsa
+
+[windows]
+win_slave ansible_ssh_host=192.168.10.41
+
+[windows:vars]
+ansible_ssh_port=5985
+ansible_user=IEuser
+ansible_ssh_pass=Passw0rd!
+ansible_connection=winrm
+
+[local]
+localhost connection=local ansible_python_interpreter=python2

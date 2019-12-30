@@ -1,0 +1,117 @@
+---
+
+java_home: "{{ java8_home }}"
+
+proxy_env:
+  dummy: value
+  #http_proxy: http://proxy:8080
+
+plugins:
+#  - blueocean
+#  - blueocean-rest-impl
+#  - blueocean-pipeline-editor
+#  - blueocean-git-pipeline
+#  - blueocean-config
+#  - blueocean-autofavorite
+#  - blueocean-personalization
+#  - blueocean-rest
+#  - blueocean-i18n
+#  - blueocean-display-url
+#  - blueocean-events
+#  - blueocean-commons
+#  - blueocean-web
+#  - blueocean-pipeline-api-impl
+#  - blueocean-dashboard
+#  - blueocean-jwt
+#  - blueocean-github-pipeline
+  - github-oauth             # Use GitHub
+  - handlebars               # 2 upgrade
+  - momentjs                 # 2 upgrade
+  - pipeline-build-step      # 2 upgrade
+  - pipeline-github-lib      # 2 upgrade
+  - pipeline-milestone-step  # 2 upgrade
+  - pipeline-rest-api        # 2 upgrade
+  - pipeline-stage-view      # 2 upgrade
+  - workflow-aggregator      # 2 upgrade
+  - ansible
+  - ansicolor
+  - analysis-collector
+  - analysis-core    # for findbugs
+#  - artifactory      # connect to build repository
+  - build-timestamp
+  - checkstyle       # source code formatting reports
+  - cobertura
+  - copyartifact
+  - dashboard-view
+  - dry              # dont repeat yourself
+  - findbugs          # common bugs can be squashed
+#  - fortify360
+  - git              # connect to git
+# - github-branch-source
+  - gradle           # build tool
+  - jacoco           # test coverage
+  - jira             # Atlassian Jira API
+  - jobConfigHistory  # save changes in job configuration
+# - m2release
+#  - msbuild     # Plugin for building Microsoft applications
+  - nexus-artifact-uploader
+  - maven-artifact-choicelistprovider
+  - nexus-task-runner
+#  - parameterized-trigger
+  - pmd              #
+  - promoted-builds
+  - repository-connector
+  - release
+  - role-strategy
+#  - saml                     # SSO authentication
+  - selenium
+  - scm-sync-configuration
+  - ssh-slaves
+  - simple-theme-plugin
+#  - sonar            # source code quality
+  - swarm     # Swarm plugin for build slaves
+  - thinBackup       # backup job configurations
+  - timestamper
+  - violations       #
+  - ws-cleanup       # Workspace cleanup
+#  - xcode-plugin # Plugin for building Mac OS X applications
+
+
+jenkins_base_url: 'http://pkg.jenkins-ci.org/redhat'
+jenkins_data: "/home/jenkins"
+jenkins_home: "/var/lib/jenkins"
+jenkins_http: 8080
+jenkins_tools: "{{jenkins_data}}/tools"
+jenkins_https: ""
+jenkins_cli: '{{ jenkins_data }}/jenkins-cli.jar'  # Jenkins CLI executable
+updates_dest: '{{ jenkins_data }}/updates_jenkins.json'  # Jenkins updates
+jenkins_repo: "jenkins.repo"
+jenkins_repo_key: "{{jenkins_base_url}}/jenkins-ci.org.key"
+jenkins_phrase: "ask_devops"
+
+rpms_to_update:
+  - jenkins
+
+jenkins_configs:
+  - 'config.xml'
+  - 'hudson.plugins.git.GitSCM.xml'
+  - 'hudson.plugins.git.GitTool.xml'
+  - 'hudson.plugins.gradle.Gradle.xml'
+  #- 'hudson.scm.CVSSCM.xml'
+  #- 'hudson.scm.SubversionSCM.xml'
+  - 'hudson.tasks.Ant.xml'
+  - 'hudson.tasks.Mailer.xml'
+  - 'hudson.tasks.Maven.xml'
+  - 'hudson.tasks.Shell.xml'
+  - 'hudson.triggers.SCMTrigger.xml'
+  - 'jenkins.model.ArtifactManagerConfiguration.xml'
+  - 'jenkins.model.DownloadSettings.xml'
+  - 'jenkins.model.JenkinsLocationConfiguration.xml'
+  - 'jenkins.mvn.GlobalMavenConfig.xml'
+  - 'jobConfigHistory.xml'
+  - 'nodeMonitors.xml'
+  - 'org.jenkinsci.plugins.gitclient.JGitTool.xml'
+  - 'org.jenkinsci.plugins.ansible.AnsibleInstallation.xml'
+  - 'org.jenkinsci.plugins.gitclient.JGitApacheTool.xml'
+  - 'org.jfrog.hudson.ArtifactoryBuilder.xml'
+  - 'org.codefirst.SimpleThemeDecorator.xml'

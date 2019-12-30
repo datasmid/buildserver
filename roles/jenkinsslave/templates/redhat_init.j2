@@ -1,0 +1,62 @@
+#!/bin/env bash
+#
+# java -jar   "slave-$3"
+
+# chkconfig: 35 66 36
+# description: Jenkins slave
+# pidfile: /var/run/jenkins_slave.pid
+
+. /etc/init.d/functions
+NAME=slave-${HOSTNAME}
+USER="{{ slave_user }}"
+GROUP="{{ slave_group }}"
+JAVA_CMD="/bin/java -Djsse.enableSNIExtension=false -jar"
+
+LOCK_FILE="/var/lock/subsys/jenkins_slave"
+PID_FILE="/var/run/jenkins_slave.pid"
+LOG_FILE="/var/log/jenkins_slave/jenkins_slave.log"
+ERROR_LOG="/var/log/jenkins_slave/error.log"
+REDIRECT="1>>${LOG_FILE} 2>>${ERROR_LOG} &"
+EXEC="${JAVA_CMD}"
+
+JAR_ARGS="-noCertificateCheck  -jnlpUrl {{ jnlp_url }}"
+
+EXEC_REDIRECT="${JAVA_CMD} /home/jenkins/slave.jar ${JAR_ARGS} ${REDIRECT}"
+
+case "$1" in
+    start)
+        if [ ! -f ${LOG_FILE} ]; then
+            mkdir -p -m 644 $(dirname ${LOG_FILE})
+            chown ${USER}:${GROUP} $(dirname ${LOG_FILE})
+            touch ${LOG_FILE}
+            chown ${USER}:${GROUP} ${LOG_FILE}
+        fi
+
+        echo -n "Starting ${NAME}: "
+        daemon --user ${USER} --pidfile ${PID_FILE} ${EXEC_REDIRECT}
+        RETVAL=$?
+        echo
+        if [ ${RETVAL} -eq 0 ]; then
+            touch ${LOCK_FILE}
+            PID="$(pgrep -f "$(echo ${EXEC})")"
+            echo ${PID} > ${PID_FILE}
+        fi
+        ;;
+    status)
+        status -p ${PID_FILE} ${NAME}
+        ;;
+    stop)
+        echo -n "Stopping ${NAME}: "
+        killproc -p ${PID_FILE} ${NAME}
+        RETVAL=$?
+        echo
+        [ $RETVAL = 0 ] && rm -f ${LOCK_FILE} ${PID_FILE}
+        ;;
+    restart)
+        $0 stop
+        $0 start
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|status|restart}"
+        exit 1
+esac

@@ -1,0 +1,9 @@
+---
+
+- name: start slave
+  service: name=slave state=started enabled=yes
+  become: yes
+
+- name: restart slave
+  service: name=slave state=restarted enabled=yes
+  become: yes

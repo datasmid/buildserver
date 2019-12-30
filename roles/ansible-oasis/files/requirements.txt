@@ -1,0 +1,13 @@
+
+ecdsa
+httplib2
+isodate
+Jinja2
+MarkupSafe
+pyaml
+pywinrm
+PyYAML
+Runner
+setuptools
+six
+xmltodict

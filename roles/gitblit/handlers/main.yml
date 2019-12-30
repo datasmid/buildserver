@@ -1,8 +1,0 @@
----
-- name: 'start gitblit'
-  sudo: yes
-  service: name=gitblit state=started
-
-- name: 'restart gitblit'
-  sudo: yes
-  service: name=gitblit state=restarted

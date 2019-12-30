@@ -1,0 +1,40 @@
+  - name: 'install ubuntu stuff'
+    apt: name={{ item }} state=present
+    with_items:
+      - firefox
+      - virtualbox-guest-dkms
+      - icedtea-netx-common
+      - git
+
+  - name: 'download CA root cert'
+    get_url:
+      url: https://dev/internal_ca.cer
+      dest: /tmp/internal_ca.cer
+      validate_certs: no
+
+  - name: 'print red letters if import needed of CA root cert in Java trust store'
+    command: "keytool -list -alias dev -keystore {{java_home}}/jre/lib/security/cacerts -storepass changeit -noprompt"
+    ignore_errors: yes
+    register: devkey
+
+  - name: "import buildserverCA root cert in Java trust store"
+    command: "keytool -importcert -trustcacerts -file /tmp/buildserverCA.cer -storepass changeit -noprompt -alias dev -keystore {{java_home}}/jre/lib/security/cacerts"
+    when: devkey.rc == 1
+
+  - name: 'make sure ~/.m2 directory exists'
+    file: path=/home/vagrant/.m2 owner=vagrant group=vagrant mode=0750 state=directory
+
+  - name: 'create maven settings.xml'
+    template:
+      src: ../roles/jenkins/templates/settings_xml.j2
+      dest: /home/vagrant/.m2/settings.xml
+      owner: "{{ ansible_user }}"
+      group: "{{ ansible_user }}"
+      mode: 0600
+
+  - name: 'checkout buildserver project'
+    become: no
+    git:
+      dest: /home/vagrant/buildserver
+      repo: https://github.com/bbaassssiiee/buildserver.git
+

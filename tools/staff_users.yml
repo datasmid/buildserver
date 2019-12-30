@@ -1,0 +1,204 @@
+#!/usr/bin/env ansible-playbook --ask-vault-pass
+# Usage:
+# ./staff_users.yml -i inventory
+# accepts tags 'joiners', 'leavers', 'config'
+# retrieve pubkey with curl -O https://github.com/<username>.keys
+
+- name: manage staff users
+  hosts: all
+  become: yes
+
+  vars_files:
+    - users.yml
+
+  tasks:
+    - name: create central directory for authorized_keys
+      file:
+        dest: /etc/ssh/authorized_keys
+        state: directory
+        owner: root
+        group: root
+        mode: 0755
+      tags:
+        - migrate
+        - joiners
+        - leavers
+
+    - name: unlock central authorized_keys files for writing
+      shell: chattr -i /etc/ssh/authorized_keys/*
+      changed_when: no  # it is a toggle
+      ignore_errors: yes
+      tags:
+        - migrate
+        - joiners
+        - leavers
+
+    - name: ensure all keys of non_users are removed
+      file:
+        dest: "/etc/ssh/authorized_keys/{{ item }}"
+        state: absent
+      with_items:
+        - "{{ non_users }}"
+      tags:
+        - leavers
+
+    - name: ensure all non_users are removed
+      user:
+        name: "{{ item }}"
+        state: absent
+        remove: yes
+        force: yes
+      with_items:
+        - "{{ non_users }}"
+      tags:
+        - leavers
+
+    - name: copy deploy keys to /etc/ssh/authorized_keys/
+      copy:
+        dest: /etc/ssh/authorized_keys/{{ item }}
+        src: "pubkeys/{{ item }}"
+        owner: "{{ item }}"
+      with_items:
+        - deploy
+        - vagrant
+      ignore_errors: yes
+      tags:
+        - migrate
+
+    - name: create sudoers.d file
+      copy:
+        src: sudoers/staff.sudoers
+        dest: /etc/sudoers.d/staff.sudoers
+        owner: root
+        group: root
+        mode: "0440"
+      tags:
+        - sudo
+
+    - name: create a groups for wheel, staff and build users
+      group:
+        system: yes
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - wheel
+        - staff
+        - build
+      tags:
+        - groups
+
+    - name: ensure the people in staff have an account
+      user:
+        name: "{{ item.username }}"
+        uid: "{{ item.uid }}"
+        non_unique: yes  # for cleaning up inconsistent uids
+        shell: "{{ item.shell }}"
+        state: present
+      with_items:
+        - "{{ staff }}"
+
+    - name: set the primary group for users
+      user:
+        name: "{{item.username}}"
+        group: "{{item.group}}"
+      with_items: "{{ staff }}"
+      tags:
+        - groups
+
+    - name: remove users from all groups except their primary group
+      user:
+        name: "{{item.username}}"
+        group: "{{item.group}}"
+      with_items: "{{ staff }}"
+      tags:
+        - groups
+
+    - name: remove user private groups#
+      group:
+        name: "{{ item.username }}"
+        state: absent
+      with_items: "{{ staff }}"
+      tags:
+        - leavers
+        - groups
+
+    - name: root manages authorized keys for each user
+      copy:
+        dest: /etc/ssh/authorized_keys/{{ item.username }}
+        src: "pubkeys/{{ item.username }}"
+        owner: "{{ item.username }}"
+        mode: 0640
+      when: item.group == 'wheel' or item.group == 'staff'
+      ignore_errors: yes
+      with_items:
+        - "{{ staff }}"
+
+    - name: lock central authorized_keys files for writing
+      shell: chattr +i /etc/ssh/authorized_keys/*
+      changed_when: no  # it is a toggle
+      tags:
+        - joiners
+        - leavers
+
+    - name: enable PubkeyAuthentication in /etc/ssh/sshd_config file
+      lineinfile:
+        dest: /etc/ssh/sshd_config
+        regexp: 'PubkeyAuthentication'
+        line: 'PubkeyAuthentication yes'
+        state: present
+      notify: restart sshd
+
+    - name: 'set AuthorizedKeysFile in /etc/ssh/sshd_config file'
+      lineinfile:
+        dest: /etc/ssh/sshd_config
+        regexp: '^AuthorizedKeysFile'
+        line: 'AuthorizedKeysFile /etc/ssh/authorized_keys/%u'
+        state: present
+      notify: restart sshd
+      tags:
+        - config
+        - migrate
+
+    - name: remove PasswordAuthentication in /etc/ssh/sshd_config file
+      lineinfile:
+        dest: /etc/ssh/sshd_config
+        regexp: '^PasswordAuthentication'
+        line: 'PasswordAuthentication no'
+        state: present
+      notify: restart sshd
+      tags:
+        - config
+
+    - name: ensure users have no authorized_keys in their homedir
+      file:
+        state: absent
+        path: "{{ item }}/.ssh/authorized_keys"
+      with_items:
+        - "{{ staff }}"
+
+    # we use only authorized_keys, this hack is for CIS compliance
+    - name: update the password changed date
+      shell: 'for user in `grep ":x:[0-9]\{4\}" /etc/passwd|cut -d: -f1`; do chage -d today $user; done'
+      tags:
+        - joiners
+        - leavers
+        - config
+
+  handlers:
+    - name: restart sshd
+      debug:
+        msg: "checking sshd first"
+      changed_when: True
+      notify:
+        - check sshd configuration
+        - restart sshd - after config check
+
+    - name: check sshd configuration
+      command: '/usr/sbin/sshd -t'
+      register: sshd_config
+      changed_when: "sshd_config.rc != 0"
+
+    - name: restart sshd - after config check
+      service:
+        name: sshd
+        state: restarted

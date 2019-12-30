@@ -1,21 +1,92 @@
 ---
+- name: 'reload local facts'
+  setup:
+  tags:
+    - config
 
-- name: 'create jenkins M2_HOME'
-  file: state=directory dest={{jenkins_home}}/.m2/ owner=jenkins group=jenkins mode=0700
+- name: 'check presence of config file'
+  stat:
+    path: "{{ jenkins_data }}/config.xml"
+  register: configured
   tags:
+    - jenkins
     - config
-  when: ansible_os_family == "RedHat"
-  
-- name: 'create settings.xml'
-  template: src=settings_xml.j2 dest={{jenkins_home}}/.m2/settings.xml owner=jenkins group=jenkins mode=0600
-  tags:
-    - config
-  when: ansible_os_family == "RedHat"
 
 - name: 'create jenkins config files'
-  template: src={{item}} dest={{jenkins_data}}/{{item}} owner=jenkins group=jenkins mode=0600
-  with_items: jenkins_configs
+  template:
+    src: "{{ item }}"
+    dest: "{{ jenkins_data }}/{{ item }}"
+    owner: jenkins
+    group: jenkins
+    mode: 0600
+  with_items: "{{ jenkins_configs }}"
+  ignore_errors: yes  # some vars/tools might not exist
+  #when: not configured.stat.exists
   tags:
+    - jenkins
     - config
-  when: ansible_os_family == "RedHat"
-  
+
+- name: 'make sure jenkins tmp directory is accessible'
+  file:
+    path: "{{ jenkins_data }}/tmp"
+    owner: jenkins
+    group: jenkins
+    state: directory
+  tags:
+    - jenkins
+    - config
+
+- name: 'make sure jenkins_data directory is accessible'
+  file:
+    path: "{{ jenkins_data }}"
+    recurse: yes
+    owner: jenkins
+    group: jenkins
+    state: directory
+    mode: go+rx
+  tags:
+    - jenkins
+    - config
+
+- name: 'make sure jenkins_tools directory is accessible'
+  file:
+    path: "{{ jenkins_tools }}"
+    recurse: yes
+    owner: jenkins
+    group: jenkins
+    state: directory
+  tags:
+    - jenkins
+    - config
+
+## accesses Google for styling fonts
+- name: 'copy theme file'
+  copy:
+    src: jenkins-material-theme.css
+    dest: "{{ jenkins_data }}"
+    mode: 0644
+  tags:
+    - jenkins
+    - config
+
+- name: 'create deploy script'
+  copy:
+    src: deploy-file.sh
+    dest: /usr/local/bin/deploy-file.sh
+    owner: jenkins
+    group: jenkins
+    mode: 0700
+  tags:
+    - jenkins
+    - promotion
+
+- name: 'create promote script'
+  copy:
+    src: promote-file.sh
+    dest: /usr/local/bin/promote-file.sh
+    owner: jenkins
+    group: jenkins
+    mode: 0700
+  tags:
+    - jenkins
+    - promotion

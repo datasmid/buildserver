@@ -1,0 +1,12 @@
+---
+
+- name: "local_slave.yml"
+  hosts: localhost
+  connection: local
+  become: no
+
+  vars:
+    - swarm_master: "https://{{ hostvars['dev']['ansible_ssh_host'] }}/jenkins"
+
+  roles:
+    - ferhaty.jenkins-slave

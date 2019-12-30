@@ -1,33 +1,76 @@
 ---
-- name: 'make sure rpm_dependencies are installed'
-  yum: name={{item}} state=installed
+
+- name: 'make sure rpms are up to date'
+  yum:
+    name: "{{ rpms_to_update }}"
+    state: latest
   when: ansible_os_family == "RedHat"
   register: installed
   retries: 3
-  with_items: rpm_dependencies
+  tags:
+    - skip_ansible_lint
+    - jenkins
+    - dependencies
+    - update
 
-- name: 'install /etc/profile.d/jdk.sh'
-  template: src=etc-profile-d-jdk-sh.j2 dest=/etc/profile.d/jdk.sh
-          owner=root group=root mode=0644
-          
-- name: "import buildserverCA root cert in Java trust store"
-  command: "keytool -importcert -trustcacerts -file /var/www/html/buildserverCA.cer -storepass changeit -noprompt -alias {{inventory_hostname}} -keystore /usr/lib/jvm/java/jre/lib/security/cacerts"
-  when: ansible_os_family == "RedHat"
-  
-- name: 'install software group "Development tools"'
-  yum: name="@Development tools" state=present
-  retries: 3
-  when: ansible_os_family == "RedHat"
+- name: 'print red letters if import needed of CA root cert in Java trust store'
+  command: "keytool -list -alias internal_ca
+            -keystore {{ java_home }}/jre/lib/security/cacerts -storepass changeit -noprompt"
+  changed_when: no
+  ignore_errors: yes
+  register: devkey
+  tags:
+    - jenkins
+    - dependencies
+
+- name: 'copy RootCA.cer to webserver'
+  copy:
+    src: files/ca-certificates/internal_ca.cer
+    dest: /etc/pki/tls/certs/internal_ca.cer
+    owner: root
+    group: root
+    mode: 0644
+
+- name: "import RootCA root cert in Java trust store"
+  command: "keytool -importcert -trustcacerts -file /etc/pki/tls/certs/internal_ca.cer
+            -storepass changeit -noprompt -alias internal_ca
+            -keystore {{ java_home }}/jre/lib/security/cacerts"
+  when: devkey.rc == 1
+  tags:
+    - jenkins
+    - dependencies
 
 - name: 'make sure jenkins_data directory exists'
-  file: path={{jenkins_data}} owner=jenkins group=jenkins state=directory
+  file:
+    path: "{{ jenkins_data }}"
+    owner: jenkins
+    group: jenkins
+    state: directory
+  tags:
+    - jenkins
+    - dependencies
 
 - name: 'make sure jenkins_tools directory exists'
-  file: path={{jenkins_tools}} owner=jenkins group=jenkins mode=0755 state=directory
+  file:
+    path: "{{ jenkins_tools }}"
+    owner: jenkins
+    group: jenkins
+    mode: 0755
+    state: directory
+  tags:
+    - jenkins
+    - dependencies
 
 - name: 'copy /etc/sysconfig/jenkins file to set the jenkins_data directory'
-  template: src=jenkins.j2 dest=/etc/sysconfig/jenkins owner=root group=root mode=0644
+  template:
+    src: jenkins.j2
+    dest: /etc/sysconfig/jenkins
+    owner: root
+    group: root
+    mode: 0644
   when: ansible_os_family == "RedHat"
   notify: 'restart jenkins'
   tags:
+    - jenkins
+    - dependencies
     - config

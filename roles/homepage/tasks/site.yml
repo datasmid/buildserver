@@ -1,0 +1,53 @@
+---
+- name: 'create directories'
+  file:
+    dest: '/usr/share/nginx/html/rw_common/themes/ideal/images'
+    state: directory
+    owner: root
+    group: nginx
+    mode: 0750
+  tags:
+    - httpd
+
+- name: 'create website home page'
+  copy:
+    src: "{{ item }}"
+    dest: "/usr/share/nginx/html/{{ item }}"
+    owner: root
+    group: nginx
+    mode: 0640
+  with_items:
+    - index.html
+    - sitemap.xml
+  tags:
+    - httpd
+
+- name: 'copy website style sheets'
+  copy:
+    src: "rw_common/themes/ideal/{{ item }}"
+    dest: "/usr/share/nginx/html/rw_common/themes/ideal/{{ item }}"
+    owner: root
+    group: nginx
+    mode: 0640
+  with_items:
+    - consolidated-handheld-0.css
+    - consolidated-print-0.css
+    - consolidated-screen-0.css
+    - javascript.js
+  tags:
+    - httpd
+
+- name: 'copy website graphics'
+  copy:
+    src: "rw_common/themes/ideal/images/{{ item }}"
+    dest: "/usr/share/nginx/html/rw_common/themes/ideal/images/{{ item }}"
+    owner: root
+    group: nginx
+    mode: 0640
+  with_items:
+    - footer_bg.png
+    - header_bg.png
+    - sidebar_left_bg.png
+    - sidebar_right_bg.png
+  tags:
+    - httpd

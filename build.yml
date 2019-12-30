@@ -1,0 +1,19 @@
+- name: build application with Jenkins
+  hosts: build
+  remote_user: vagrant
+  become: no
+
+  tasks:
+    - name: 'waiting for listening socket for Jenkins'
+      wait_for: port=8080 timeout=300
+
+    - name: 'waiting for listening socket for Artifactory'
+      wait_for: port=8081 timeout=300
+
+    - name: 'verify https connectivity to Jenkins'
+      uri: url=https://dev/jenkins/ method=GET status_code=200
+
+
+    - name: 'trigger the build'
+      become: yes
+      shell: "java -jar {{jenkins_data}}/jenkins-cli.jar -s https://dev/jenkins/ build game-of-life"

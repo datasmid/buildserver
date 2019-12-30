@@ -1,4 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<hudson.plugins.gradle.Gradle_-DescriptorImpl plugin="gradle@1.24">
-  <installations/>
+<hudson.plugins.gradle.Gradle_-DescriptorImpl plugin="gradle@1.26">
+  <installations>
+    <hudson.plugins.gradle.GradleInstallation>
+      <name>{{ ansible_local.gradle.gradle.gradle_name|default(omit) }}</name>
+      <home>{{ ansible_local.gradle.gradle.gradle_home|default(omit) }}</home>
+      <properties/>
+      <gradleHome>{{ ansible_local.gradle.gradle.gradle_home }}</gradleHome>
+    </hudson.plugins.gradle.GradleInstallation>
+  </installations>
 </hudson.plugins.gradle.Gradle_-DescriptorImpl>

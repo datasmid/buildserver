@@ -1,10 +1,38 @@
 ---
 
 - name: 'get the upstream yum repo file and store in /etc/yum.d'
-  get_url: url={{jenkins_base_url}}/{{jenkins_repo}} dest=/etc/yum.repos.d/{{jenkins_repo}} owner=root group=root mode=0700
+  environment: '{{ proxy_env }}'
+  get_url:
+    url: "{{ jenkins_base_url }}/{{ jenkins_repo }}"
+    dest: "/etc/yum.repos.d/{{ jenkins_repo }}"
+    owner: root
+    group: root
+    mode: 0600
+    timeout: 200
+  retries: 30
+  delay: 10
   when: ansible_os_family == "RedHat"
+  tags:
+    - jenkins
+    - repo
+
+- name: 'get the key for the jenkins repo'
+  environment: '{{ proxy_env }}'
+  get_url:
+    url: "{{ jenkins_repo_key }}"
+    dest: /tmp/jk
+  tags:
+    - jenkins
+    - repo
 
 - name: 'authorize jenkins_repo for local rpm installs'
-  command: rpm --import {{jenkins_repo_key}}
+  command: rpm --import /tmp/jk
+  args:
+    warn: no
   when: ansible_os_family == "RedHat"
-
+  retries: 30
+  delay: 10
+  tags:
+    - jenkins
+    - repo
+    - skip_ansible_lint

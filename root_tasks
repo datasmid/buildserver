@@ -1,0 +1,18 @@
+#!/bin/bash -e
+# Usage: sudo ./configure
+# prepare machine for use of buildserver
+
+if [ "`uname`" == "Linux" ]
+then
+    yum install -y epel-release
+    yum install -y python-pip python-pyasn1 python-crypto python-httplib2 python-cryptography
+    pip install setuptools==33.1.1
+    python -m pip install --upgrade --force pip
+fi
+
+if [ "`uname`" == "Darwin" ]
+then
+    # Create root ca, you need to become root:
+    echo 'Mac privileges needed to import root certificate'
+    security add-trusted-cert -d -r trustRoot -k "/Library/Keychains/System.keychain" "files/certs/RootCA.cer"
+fi

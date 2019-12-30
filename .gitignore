@@ -1,2 +1,13 @@
 .vagrant
+galaxy_roles/*
+files/*
+pki
+.venv
+.rnd
+.DS_Store
 .idea
+.gradle
+plugins/callbacks/profile_tasks.pyc
+plugins/callbacks/human_log.pyc
+ubuntu-xenial-16.04-cloudimg-console.log
+log

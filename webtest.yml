@@ -1,0 +1,29 @@
+---
+- name: Build Server
+  hosts: target
+  user: root
+  gather_facts: no
+  remote_user: vagrant
+  become: yes
+
+  tasks:
+
+  - name: 'verify tcp listening socket for TomCat'
+    wait_for:
+      host: target
+      port: 8080
+      timeout: 5
+
+  - name: 'verify http connectivity to TomCat'
+    become: no
+    delegate_to: localhost
+    uri:
+      url: http://target:8080/
+      status_code: 200
+
+  - name: 'verify http connectivity to App'
+    become: no
+    delegate_to: localhost
+    uri:
+      url: http://target:8080/gameoflife/
+      status_code: 200

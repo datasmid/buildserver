@@ -1,21 +1,27 @@
+---
 # Jenkins service operations
-- name: 'safestart jenkins'
-  sudo: yes
-  command: java -jar {{jenkins_cli}} -s http://localhost:8080 safe-restart
+- name: "safestart jenkins"
+  become: yes
+  command: java -jar {{ jenkins_cli }} -s http://localhost:8080 safe-restart
 
-- name: 'start jenkins'
-  sudo: yes
-  service: name=jenkins state=started
+- name: "start jenkins"
+  become: yes
+  service:
+    name: jenkins
+    state: started
   tags:
     - init
 
-- name: 'restart jenkins'
-  sudo: yes
-  service: name=jenkins state=restarted
- 
-- name: '(re-)assign service start/stop order'
-  sudo: yes
+- name: "restart jenkins"
+  become: yes
+  service:
+    name: jenkins
+    state: restarted
+
+- name: "(re-)assign service start/stop order"
+  become: yes
   command: chkconfig jenkins reset
   tags:
     - config
     - init
+    - skip_ansible_lint
