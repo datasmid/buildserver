@@ -24,6 +24,7 @@
   hosts: build_master
   become: true
   roles:
+    - {role: dockpack.base_git, tags: 'git'}
     - {role: dockpack.base_java8, tags: 'java'}
     - {role: selenium, tags: 'selenium'}
     - {role: dockpack.base_ant, tags: 'ant'}
@@ -43,7 +44,6 @@
     collections_enabled: true
     development_groupinstall: false
   roles:
-    - {role: dockpack.base_git, tags: 'git'}
     - {role: dockpack.base_miniconda, tags: 'conda'}
     - {role: dockpack.base_cmake, tags: 'cmake'}
     - {role: dockpack.base_gcc, tags: 'gcc'}
