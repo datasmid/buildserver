@@ -13,19 +13,20 @@
   include: config.yml
   tags: config
 
+- name: Install demo game-of-life
+  include: demo.yml
+  tags:
+    - demo
+
 - name: Install jenkins command line tools
   include: cli.yml
 
-- name: Install/update jenkins plugins
-  include: plugins.yml
+# Stopped working in 2019
+#- name: Install/update jenkins plugins
+#  include: plugins.yml
 
 #- name: enable passwords
 #  include: security.yml
 
 - name: Test jenkins
   include: test.yml
-
-- name: Install demo game-of-life
-  include: demo.yml
-  tags:
-    - demo
