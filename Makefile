@@ -24,9 +24,9 @@ help:
 	( . .venv/bin/activate && pip3 install --upgrade --ignore-installed -r requirements.txt )
 
 .PHONY: galaxy_roles
-galaxy_roles: .venv
+galaxy_roles:
 	@echo Install Ansible galaxy roles.
-	( . .venv/bin/activate && ansible-galaxy install -p ./galaxy_roles --force --role-file requirements.yml )
+	ansible-galaxy install -p ./galaxy_roles --force --role-file requirements.yml
 
 files/ca-certificates/internal_ca.cer: .venv
 	@( . .venv/bin/activate && ./trust_me.yml )
