@@ -1,25 +1,22 @@
 ---
-my_scope: all
+jenkins_data: "/home/jenkins"
+
+jenkins_admin_username: admin
+jenkins_admin_password: "{{ lookup('env','ADMIN_PW')|default(omit) }}"
 
 jenkins_port: 8080
 artifactory_port: 8081
 sonar_port: 9000
 grid_port: 4444
 
-features:
-  mysql: False
-  postgresql: True
-  custom_postgres: False
-  custom_mysql: False
-
 # Selenium
 hub: 'http://dev:4444/grid/register'
-cur_dir: "{{lookup('pipe','pwd')}}"
+cur_dir: "{{ lookup('pipe','pwd') }}"
 server_version_major: 3.141.59
-server_version: "{{server_version_major}}.0"
-download_server: "http://selenium-release.storage.googleapis.com/{{server_version_major}}"
+server_version: "{{ server_version_major }}.0"
+download_server: "http://selenium-release.storage.googleapis.com/{{ server_version_major }}"
 jar_file: selenium-server-standalone-{{server_version}}.jar
-download_url: "{{download_server}}/{{jar_file}}"
+download_url: "{{ download_server }}/{{jar_file}}"
 
 nginx_official_repo: false
 nginx_logs_dir: /var/log/nginx
