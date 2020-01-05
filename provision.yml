@@ -11,7 +11,6 @@
     - {role: dockpack.base_common, tags: 'common'}
     - {role: dockpack.base_utils, tags: 'utils'}
 
-
 - name: Install web server
   hosts: build_master
   become: true
@@ -21,21 +20,22 @@
     - {role: jdauphant.nginx, tags: 'nginx'}
     - {role: homepage, tags: 'homepage'}
 
-- name: Install Jenkins
+- name: Install buildserver
   hosts: build_master
   become: true
-
   roles:
     - {role: dockpack.base_java8, tags: 'java'}
-    - {role: jenkins, tags: 'jenkins'}
     - {role: selenium, tags: 'selenium'}
-    - {role: dockpack.base_python, tags: 'python'}
+    - {role: dockpack.base_ant, tags: 'ant'}
+    - {role: dockpack.base_maven, tags: 'maven'}
+    - {role: dockpack.base_gradle, tags: 'gradle'}
     - {role: dockpack.base_postgres, tags: 'postgresql'}
     - {role: bbaassssiiee.sonar, tags: 'sonarqube' }
     - {role: bbaassssiiee.artifactory, tags: 'artifactory' } # for built stuff
+    - {role: jenkins, tags: 'jenkins'} # needs java and maven
 
 - name: Install dockpack developer tools
-  hosts: build_master:ubuntu
+  hosts: build
   become: true
   vars:
     miniconda_install: true
@@ -44,9 +44,6 @@
     development_groupinstall: false
   roles:
     - {role: dockpack.base_git, tags: 'git'}
-    - {role: dockpack.base_ant, tags: 'ant'}
-    - {role: dockpack.base_maven, tags: 'maven'}
-    - {role: dockpack.base_gradle, tags: 'gradle'}
     - {role: dockpack.base_miniconda, tags: 'conda'}
     - {role: dockpack.base_cmake, tags: 'cmake'}
     - {role: dockpack.base_gcc, tags: 'gcc'}
