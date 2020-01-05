@@ -88,7 +88,10 @@ updates_dest: '{{ jenkins_data }}/updates_jenkins.json'  # Jenkins updates
 jenkins_repo: "jenkins.repo"
 jenkins_repo_key: "{{jenkins_base_url}}/jenkins-ci.org.key"
 jenkins_phrase: "ask_devops"
-jenkins_admin_password_file: "{{ jenkins_data }}/secrets/initialAdminPassword"
+
+rpms_to_update:
+  - jenkins
+
 jenkins_configs:
   - 'config.xml'
   - 'hudson.plugins.git.GitSCM.xml'

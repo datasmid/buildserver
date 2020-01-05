@@ -1,77 +1,46 @@
 ---
 
-- name: 'unlock jenkins'
-  lineinfile:
-    dest: "{{ jenkins_data }}/config.xml"
-    regexp: '^  <installStateName>NEW</installStateName>'
-    line: '  <installStateName>RUNNING</installStateName>'
-    state: present
-  register: unlock
+- name: 'list plugins'
+  become: yes
+  shell: set -o pipefail && java -jar {{ jenkins_cli }} -s http://localhost:{{ jenkins_http }}/jenkins list-plugins | cut -f 1 -d ' '
+  when: plugins is defined
+  register: plugins_installed
   tags:
+    - jenkins
     - plugins
+    - update
 
-- name: 'restart jenkins'
-  when: unlock.changed
-  service:
-    name: jenkins
-    state: restarted
-    enabled: yes
-  tags:
-    - plugins
-
-- name: 'wait for Jenkins to start'
-  command: "curl -D - --silent --max-time 5 http://localhost:{{ jenkins_http }}/jenkins/cli/"
-  args:
-    warn: false
-  register: result
-  until: (result.stdout.find("403 Forbidden") != -1) or (result.stdout.find("200 OK") != -1) and (result.stdout.find("Please wait while") == -1)
-  retries: 60
-  delay: 5
-  changed_when: false
-  check_mode: false
-  tags:
-    - plugins
-
-- name: 'create update directory'
-  file:
-    path: "{{ jenkins_home }}/updates"
-    state: directory
-    owner: jenkins
-    group: jenkins
-  tags:
-    - plugins
-
-- name: 'download current plugin updates'
-  get_url:
-    url: http://updates.jenkins-ci.org/update-center.json
-    dest: "{{ jenkins_home }}/updates/default.json"
-    owner: jenkins
-    group: jenkins
-    mode: 0440
-  changed_when: false
-  tags:
-    - plugins
-
-- name: 'fix json file'
-  replace:
-    path: "{{ jenkins_home }}/updates/default.json"
-    regexp: "1d;$d"
-  tags:
-    - plugins
-
-- name: 'install plugins using module jenkins_plugin: '
-  jenkins_plugin:
-    name: "{{ item }}"
-    jenkins_home: "{{ jenkins_data }}"
-    force_basic_auth: true
-    url_username: 'admin'
-    url_password: "{{ jenkins_password }}"
-    use_proxy: false
-    state: present
-    url: "http://localhost:{{ jenkins_http }}/jenkins"
-    validate_certs: false
+- name: 'install/update plugins'
+  become: yes
+  command: "java -jar {{ jenkins_cli }} -s http://localhost:{{ jenkins_http }}/jenkins install-plugin {{ item }}"
+  when: plugins_installed.changed and plugins_installed.stdout.find('item') == -1
   with_items: "{{ plugins }}"
-  when: jenkins_password != ""
-  notify: restart jenkins
+  notify:
+    - 'restart jenkins'
   tags:
+    - jenkins
     - plugins
+    - update
+    - skip_ansible_lint
+
+- name: 'list plugins to be updated'
+  become: yes
+  shell: java -jar {{ jenkins_cli }} -s http://localhost:{{ jenkins_http }}/jenkins list-plugins | grep ')$' | cut -f 1 -d ' ' | sed ':a;N;$!ba;s/\n/ /g'
+  changed_when: no
+  register: plugins_updates
+  tags:
+    - skip_ansible_lint
+    - jenkins
+    - update
+    - plugins
+
+- name: 'update plugins'
+  become: yes
+  command: "java -jar {{ jenkins_cli }} -s http://localhost:{{ jenkins_http }}/jenkins install-plugin {{ plugins_updates.stdout }}"
+  when: not plugins_updates.stdout
+  notify:
+    - 'restart jenkins'
+  tags:
+    - jenkins
+    - plugins
+    - update

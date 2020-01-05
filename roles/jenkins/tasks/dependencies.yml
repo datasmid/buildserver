@@ -1,9 +1,9 @@
 ---
 
-- name: 'make sure jenkins rpm is up to date'
+- name: 'make sure rpms are up to date'
   yum:
-    name: jenkins
-    state: present
+    name: "{{ rpms_to_update }}"
+    state: latest
   when: ansible_os_family == "RedHat"
   register: installed
   retries: 3

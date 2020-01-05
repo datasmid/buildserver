@@ -1,23 +1,6 @@
 ---
 
-- name: 'create init scripts directory'
-  file:
-    path: "{{ jenkins_data }}/init.groovy.d"
-    state: directory
-    owner: jenkins
-    group: jenkins
-    mode: 0775
-
-- name: 'configure admin user'
-  template:
-    src: basic-security.groovy.j2
-    dest: "{{ jenkins_data }}/init.groovy.d/basic-security.groovy"
-    owner: jenkins
-    group: jenkins
-    mode: 0775
-  register: jenkins_users_config
-
-- name: 'start jenkins'
+- name: "starting jenkins"
   become: yes
   service:
     name: jenkins
@@ -26,7 +9,7 @@
   tags:
     - jenkins
 
-- name: 'create jenkins CLI destination directory'
+- name: "create jenkins CLI destination directory"
   become: yes
   file:
     path: "{{ jenkins_data }}"
@@ -36,7 +19,7 @@
     - cli
 
 # if jenkins is installed or updated, wait for pulling the jenkins CLI
-- name: 'wait one minute for jenkins to warm up.'
+- name: "wait one minute for jenkins to warm up."
   wait_for:
     port: "{{ jenkins_http }}"
     delay: 60
@@ -45,13 +28,8 @@
     - jenkins
     - cli
 
-- name: 'remove Jenkins security init script'
-  file:
-    path: "{{ jenkins_data }}/init.groovy.d/basic-security.groovy"
-    state: absent
-
 # download jenkins command line tools
-- name: 'get jenkins CLI'
+- name: "get jenkins CLI"
   become: yes
   environment: '{{ proxy_env }}'
   get_url:
@@ -63,11 +41,10 @@
   delay: 10
   tags:
     - jenkins
-    - plugins
     - cli
 
 # download latest jenkins update file
-- name: 'get jenkins updates'
+- name: "get jenkins updates"
   become: yes
   environment: '{{ proxy_env }}'
   get_url:
@@ -84,32 +61,15 @@
     - cli
 
 # jenkins update-center
-- name: 'update-center jenkins'
+- name: "update-center jenkins"
   become: yes
   shell: "cat {{ jenkins_data }}/updates_jenkins.json | sed '1d;$d' \
           | curl -k -X POST -H 'Accept: application/json' \
           -d @- http://127.0.0.1:{{ jenkins_http }}/jenkins/updateCenter/byId/default/postBack"
   when: jenkins_updates.changed
   notify:
-    - 'restart jenkins'
+    - 'start jenkins'
   tags:
     - jenkins
     - cli
     - skip_ansible_lint
-
-- name: 'get Jenkins admin password from file'
-  when: jenkins_admin_password_file != ""
-  slurp:
-    src: "{{ jenkins_admin_password_file }}"
-  register: adminpasswordfile
-  no_log: true
-  tags:
-    - plugins
-
-- name: 'set admin password'
-  set_fact:
-    jenkins_password:  "{{ adminpasswordfile['content'] | b64decode }}"
-  no_log: false
-  tags:
-    - plugins
-
