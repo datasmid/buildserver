@@ -1,75 +1,26 @@
 ---
 
-- src: https://github.com/dockpack/base_epel.git
-  name: dockpack.base_epel
-  version: master
-
-- src: https://github.com/dockpack/base_common.git
-  name: dockpack.base_common
-  version: master
-
-- src: https://github.com/dockpack/base_cmake.git
-  name: dockpack.base_cmake
-  version: master
-
-- src: https://github.com/dockpack/base_gcc.git
-  name: dockpack.base_gcc
-  version: master
-
-- src: https://github.com/dockpack/base_boost.git
-  name: dockpack.base_boost
-  version: master
-
-- src: https://github.com/dockpack/base_docker.git
-  name: dockpack.base_docker
-  version: master
-
-- src: https://github.com/dockpack/base_git.git
-  name: dockpack.base_git
-  version: master
-
-- src: https://github.com/dockpack/base_goss.git
-  name: dockpack.base_goss
-  version: master
-
-- src: https://github.com/dockpack/base_miniconda.git
-  name: dockpack.base_miniconda
-  version: master
-
-- src: https://github.com/dockpack/base_java8.git
-  name: dockpack.base_java8
-  version: master
-
-- src: https://github.com/dockpack/base_ant.git
-  name: dockpack.base_ant
-  version: develop
-
-- src: https://github.com/dockpack/base_gradle.git
-  name: dockpack.base_gradle
-  version: master
-
-- src: https://github.com/dockpack/base_nodejs.git
-  name: dockpack.base_nodejs
-  version: master
-
-- src: https://github.com/dockpack/base_perl.git
-  name: dockpack.base_perl
-  version: master
-
-- src: https://github.com/dockpack/base_maven.git
-  name: dockpack.base_maven
-  version: master
-
-- src: https://github.com/dockpack/base_python.git
-  name: dockpack.base_python
-  version: master
-
-- src: https://github.com/dockpack/base_utils.git
-  name: dockpack.base_utils
-
-- src: https://github.com/dockpack/base_postgres.git
-  name: dockpack.base_postgres
-  version: master
+- src: dockpack.base_ant
+- src: dockpack.base_boost
+- src: dockpack.base_clang
+- src: dockpack.base_cmake
+- src: dockpack.base_common
+- src: dockpack.base_docker
+- src: dockpack.base_epel
+- src: dockpack.base_gcc
+- src: dockpack.base_git
+- src: dockpack.base_goss
+- src: dockpack.base_java8
+- src: dockpack.base_maven
+- src: dockpack.base_miniconda
+- src: dockpack.base_nodejs
+- src: dockpack.base_perl
+- src: dockpack.base_postgres
+- src: dockpack.base_python
+- src: dockpack.base_utils
+- src: dockpack.win_boost
+- src: dockpack.win_buildtools
+- src: dockpack.win_vscode
 
 - src: https://github.com/bbaassssiiee/artifactory.git
   name: bbaassssiiee.artifactory
@@ -89,21 +40,6 @@
 - src: https://github.com/bbaassssiiee/ansible-windows-java.git
   version: master
   name: ansible-windows-java
-
-- src: https://github.com/dockpack/win_boost.git
-  scm: git
-  name: win_boost
-  version: master
-
-- src: https://github.com/dockpack/win_buildtools.git
-  scm: git
-  name: win_buildtools
-  version: master
-
-- src: https://github.com/dockpack/win_vscode.git
-  scm: git
-  name: win_vscode
-  version: master
 
 # For unix use a separate role
 - src: https://github.com/bbaassssiiee/ansible-jenkins-slave.git
