@@ -10,6 +10,7 @@
 - src: dockpack.base_gcc
 - src: dockpack.base_git
 - src: dockpack.base_goss
+- src: dockpack.base_gradle
 - src: dockpack.base_java8
 - src: dockpack.base_maven
 - src: dockpack.base_miniconda
