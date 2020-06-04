@@ -7,6 +7,7 @@
   pre_tasks:
     - include: tasks/settings.yml
   roles:
+    - {role: dockpack.base_clang, tags: 'clang'}
     - {role: motd, tags: 'motd'}
     - {role: dockpack.base_common, tags: 'common'}
     - {role: dockpack.base_utils, tags: 'utils'}
