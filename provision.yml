@@ -7,10 +7,10 @@
   pre_tasks:
     - include: tasks/settings.yml
   roles:
+    - {role: dockpack.base_clang, tags: 'clang'}
     - {role: motd, tags: 'motd'}
     - {role: dockpack.base_common, tags: 'common'}
     - {role: dockpack.base_utils, tags: 'utils'}
-    - {role: dockpack.base_goss, tags: 'goss'}
 
 - name: Install web server
   hosts: build_master
@@ -21,34 +21,35 @@
     - {role: jdauphant.nginx, tags: 'nginx'}
     - {role: homepage, tags: 'homepage'}
 
-- name: Install build tools
-  hosts: build_master:ubuntu
+- name: Install buildserver
+  hosts: build_master
+  become: true
+  roles:
+    - {role: dockpack.base_git, tags: 'git'}
+    - {role: dockpack.base_java8, tags: 'java'}
+    - {role: selenium, tags: 'selenium'}
+    - {role: dockpack.base_ant, tags: 'ant'}
+    - {role: dockpack.base_maven, tags: 'maven'}
+    - {role: dockpack.base_gradle, tags: 'gradle'}
+    - {role: dockpack.base_postgres, tags: 'postgresql'}
+    - {role: bbaassssiiee.sonar, tags: 'sonarqube' }
+    - {role: bbaassssiiee.artifactory, tags: 'artifactory' } # for built stuff
+    - {role: jenkins, tags: 'jenkins'} # needs java and maven
+
+- name: Install dockpack developer tools
+  hosts: build
   become: true
   vars:
     miniconda_install: true
     DTSVER: 8
+    collections_enabled: true
+    development_groupinstall: false
   roles:
-    - role: dockpack.base_git
-      when: collections_enabled
+    - {role: dockpack.base_miniconda, tags: 'conda'}
     - {role: dockpack.base_cmake, tags: 'cmake'}
     - {role: dockpack.base_gcc, tags: 'gcc'}
     - {role: dockpack.base_boost, tags: 'boost'}
-    - {role: dockpack.base_java8, tags: 'java8'}
-    - {role: dockpack.base_ant, tags: 'ant'}
-    - {role: dockpack.base_maven, tags: 'maven'}
-    - {role: dockpack.base_gradle, tags: 'gradle'}
-    - {role: dockpack.base_miniconda, tags: 'conda'}
-
-- name: Install Jenkins
-  hosts: build_master
-  become: true
-
-  roles:
-    - {role: jenkins, tags: 'jenkins'}
-    - {role: selenium, tags: 'selenium'}
-    - {role: dockpack.base_python, tags: 'python'}
-    - { role: bbaassssiiee.sonar, tags: 'sonar' }
-    - { role: bbaassssiiee.artifactory, tags: 'artifactory' } # for built stuff
+    - {role: dockpack.base_goss, tags: 'goss'}
 
 - name: Install docker
   hosts: centos7
